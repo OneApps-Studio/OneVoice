@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+"""Keep OneVoice's iOS string catalog focused and fully translated."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+
+TRANSLATIONS: dict[str, tuple[str, str]] = {
+    "About": ("关于", "このアプリについて"),
+    "About 0.7–1 GB. Wi-Fi recommended. After download it runs entirely offline.": ("约 0.7–1 GB，建议使用 Wi-Fi。下载后可完全离线运行。", "約0.7〜1 GBです。Wi-Fiを推奨します。ダウンロード後は完全にオフラインで動作します。"),
+    "Accurate model": ("高精度模型", "高精度モデル"),
+    "Add Replacement": ("添加替换规则", "置換ルールを追加"),
+    "After download, no network is needed for recognition.": ("下载后，语音识别无需网络。", "ダウンロード後の音声認識にネットワークは不要です。"),
+    "App Language": ("App 语言", "アプリの言語"),
+    "Appearance": ("外观", "外観"),
+    "Apple final": ("Apple 最终结果", "Apple 最終結果"),
+    "Apple live · Qwen accurate final": ("Apple 实时 · Qwen 高精度最终结果", "Apple リアルタイム・Qwen 高精度最終結果"),
+    "Apple live preview": ("Apple 实时预览", "Apple リアルタイムプレビュー"),
+    "Apple On-Device Speech": ("Apple 设备端语音识别", "Apple オンデバイス音声認識"),
+    "Apple on-device recognition": ("Apple 设备端语音识别", "Apple オンデバイス音声認識"),
+    "Apple Speech": ("Apple 语音识别", "Apple 音声認識"),
+    "Apple Speech gives you live text. Download Qwen3-ASR when you want a more accurate offline final pass.": ("Apple 语音识别提供实时文字；需要更准确的离线最终结果时，可下载 Qwen3-ASR。", "Apple音声認識でリアルタイム表示し、より正確なオフライン最終結果が必要な場合はQwen3-ASRをダウンロードできます。"),
+    "Audio and transcripts stay on this device": ("音频和转写内容仅保存在此设备", "音声と文字起こしはこのデバイス内に保存されます"),
+    "Cancel": ("取消", "キャンセル"),
+    "Capture short thoughts or longer voice notes.": ("记录简短想法或较长的语音笔记。", "短いアイデアから長めの音声メモまで記録できます。"),
+    "Clean Blue": ("清透蓝", "クリーンブルー"),
+    "Color theme": ("配色主题", "カラーテーマ"),
+    "Copied and saved": ("已复制并保存", "コピーして保存しました"),
+    "Copy": ("复制", "コピー"),
+    "Copy or share the transcript into any app.": ("将转写结果复制或分享到任意 App。", "文字起こしを任意のアプリにコピーまたは共有できます。"),
+    "Correct names and specialist vocabulary.": ("修正姓名和专业词汇。", "名前や専門用語を正しく置換します。"),
+    "Creating final transcript": ("正在生成最终转写", "最終文字起こしを作成中"),
+    "Crisp, bright, and utility-first.": ("清爽明亮，专注实用。", "明るくシャープで、実用性を重視します。"),
+    "Dark": ("深色", "ダーク"),
+    "Delete": ("删除", "削除"),
+    "Dictionary": ("词典", "辞書"),
+    "Download Model": ("下载模型", "モデルをダウンロード"),
+    "English": ("英语", "英語"),
+    "English (US)": ("英语（美国）", "英語（米国）"),
+    "Example: “one voice” → “OneVoice”. Replacements are applied locally to every final transcript.": ("示例：“one voice” → “OneVoice”。替换规则会在本地应用到每条最终转写。", "例：「one voice」→「OneVoice」。置換はすべての最終文字起こしにローカルで適用されます。"),
+    "Fast feedback with system on-device speech.": ("通过系统设备端语音识别快速获得反馈。", "システムのオンデバイス音声認識ですばやく確認できます。"),
+    "Fast Live, Accurate Final": ("实时快速，最终准确", "リアルタイムは高速、最終結果は高精度"),
+    "Favorite": ("收藏", "お気に入り"),
+    "Finalizing on device…": ("正在设备端完成处理…", "デバイス上で仕上げています…"),
+    "Finish recording": ("结束录音", "録音を終了"),
+    "Fresh Sage": ("鼠尾草绿", "フレッシュセージ"),
+    "Graphite": ("石墨灰", "グラファイト"),
+    "High-accuracy offline final pass": ("高精度离线最终识别", "高精度オフライン最終認識"),
+    "History": ("历史", "履歴"),
+    "Installed": ("已安装", "インストール済み"),
+    "Japanese": ("日语", "日本語"),
+    "Keep searchable voice notes, teach OneVoice your vocabulary, and paste the result anywhere.": ("保存可搜索的语音笔记，教会 OneVoice 你的词汇，并将结果粘贴到任何地方。", "検索できる音声メモを保存し、用語を登録して、結果をどこにでも貼り付けられます。"),
+    "Language": ("识别语言", "認識言語"),
+    "Light": ("浅色", "ライト"),
+    "Listening on this device": ("正在此设备上聆听", "このデバイスで聞き取り中"),
+    "Live": ("实时", "リアルタイム"),
+    "Live engine": ("实时识别引擎", "リアルタイム認識エンジン"),
+    "Live transcript": ("实时转写", "リアルタイム文字起こし"),
+    "Live transcription": ("实时转写", "リアルタイム文字起こし"),
+    "Network access is used only when you explicitly download the optional Qwen model. OneVoice has no account and no analytics SDK.": ("只有在你主动下载可选 Qwen 模型时才会访问网络。OneVoice 无需账号，也不包含分析 SDK。", "ネットワークは任意のQwenモデルを明示的にダウンロードするときだけ使用します。OneVoiceにアカウントや分析SDKはありません。"),
+    "Next": ("下一步", "次へ"),
+    "No account required": ("无需账号", "アカウント不要"),
+    "No custom terms yet": ("还没有自定义词条", "カスタム用語はまだありません"),
+    "No matches": ("没有匹配结果", "一致する結果はありません"),
+    "No voice notes yet": ("还没有语音笔记", "音声メモはまだありません"),
+    "Not installed": ("未安装", "未インストール"),
+    "On-device by design": ("专为设备端处理而设计", "オンデバイスを前提に設計"),
+    "OneVoice needs attention": ("OneVoice 需要你的处理", "OneVoiceの確認が必要です"),
+    "Open the app and start talking.": ("打开 App 即可开始说话。", "アプリを開いて、すぐに話し始められます。"),
+    "Optional": ("可选", "任意"),
+    "Optional 0.6B model for more accurate offline text.": ("可选的 0.6B 模型，可提供更准确的离线文字。", "より正確なオフライン文字起こしを行う任意の0.6Bモデルです。"),
+    "Preparing private recognition…": ("正在准备私密识别…", "プライベート認識を準備中…"),
+    "Privacy": ("隐私", "プライバシー"),
+    "Private · On-device": ("私密 · 设备端处理", "プライベート・オンデバイス"),
+    "Qwen final": ("Qwen 最终结果", "Qwen 最終結果"),
+    "Qwen3-ASR final pass": ("Qwen3-ASR 最终识别", "Qwen3-ASR 最終認識"),
+    "Quiet, focused, and neutral.": ("安静、专注且中性。", "静かで集中しやすいニュートラルな配色です。"),
+    "Ready": ("准备就绪", "準備完了"),
+    "Recognition": ("语音识别", "音声認識"),
+    "Record": ("录音", "録音"),
+    "Record and transcribe on your device. Your audio is never uploaded to a OneVoice server.": ("在设备上录音和转写。你的音频绝不会上传到 OneVoice 服务器。", "録音と文字起こしはデバイス上で行い、音声がOneVoiceのサーバーへアップロードされることはありません。"),
+    "Remove Download": ("移除已下载模型", "ダウンロードを削除"),
+    "Running accurate offline final pass…": ("正在进行高精度离线最终识别…", "高精度オフライン最終認識を実行中…"),
+    "Search transcripts": ("搜索转写内容", "文字起こしを検索"),
+    "Settings": ("设置", "設定"),
+    "Share": ("分享", "共有"),
+    "Show Onboarding Again": ("再次显示使用引导", "オンボーディングをもう一度表示"),
+    "Simplified Chinese": ("简体中文", "簡体字中国語"),
+    "Skip": ("跳过", "スキップ"),
+    "Soft, calm, and close to the OneVoice icon.": ("柔和、平静，与 OneVoice 图标相呼应。", "柔らかく落ち着いた、OneVoiceアイコンに近い配色です。"),
+    "Source Code": ("源代码", "ソースコード"),
+    "Speak, Save, Share": ("说出、保存、分享", "話す、保存する、共有する"),
+    "Speech Recognition permission is required.": ("需要语音识别权限。", "音声認識の許可が必要です。"),
+    "Start": ("开始使用", "始める"),
+    "Start recording": ("开始录音", "録音を開始"),
+    "Start speaking…": ("开始说话…", "話し始めてください…"),
+    "System": ("跟随系统", "システム"),
+    "Tap the microphone and speak naturally.": ("点击麦克风，然后自然说话。", "マイクをタップして自然に話してください。"),
+    "Tap to record": ("点击录音", "タップして録音"),
+    "Teach OneVoice a term": ("教 OneVoice 认识一个词", "OneVoiceに用語を登録"),
+    "Teach your terms": ("教会它你的词汇", "用語を登録"),
+    "Theme & Appearance": ("主题与外观", "テーマと外観"),
+    "Try a different search.": ("尝试其他搜索词。", "別のキーワードで検索してください。"),
+    "Unfavorite": ("取消收藏", "お気に入りを解除"),
+    "Use device language": ("使用设备语言", "デバイスの言語を使用"),
+    "Use for final transcript": ("用于最终转写", "最終文字起こしに使用"),
+    "Use it anywhere": ("在任何地方使用", "どこでも使える"),
+    "Version": ("版本", "バージョン"),
+    "Warm Sand": ("暖砂色", "ウォームサンド"),
+    "Warmer and more editorial.": ("更温暖，更具编辑感。", "より温かく、エディトリアルな配色です。"),
+    "Watch words appear as you speak.": ("说话时即可看到文字实时出现。", "話すそばから文字が表示されます。"),
+    "What OneVoice hears": ("OneVoice 听到的内容", "OneVoiceが聞き取る語句"),
+    "What OneVoice should write": ("OneVoice 应写出的内容", "OneVoiceが出力する語句"),
+    "Works offline": ("离线可用", "オフラインで利用可能"),
+    "Your final transcript is copied automatically, saved to History, and ready to paste anywhere.": ("最终转写会自动复制并保存到历史记录，可随时粘贴到任何地方。", "最終文字起こしは自動でコピーされ、履歴に保存されるため、どこにでも貼り付けられます。"),
+    "Your private transcripts will appear here.": ("你的私密转写会显示在这里。", "プライベートな文字起こしがここに表示されます。"),
+    "Your recordings and history stay on this device.": ("你的录音和历史记录仅保存在此设备。", "録音と履歴はこのデバイス内に保存されます。"),
+    "Your replacements": ("你的替换规则", "置換ルール"),
+    "Your Voice Stays Yours": ("你的声音始终属于你", "あなたの声は、あなたのもの"),
+    "by OneApps.Studio": ("来自 OneApps.Studio", "OneApps.Studio 制作"),
+    "日本語": ("日语", "日本語"),
+    "简体中文": ("简体中文", "簡体字中国語"),
+}
+
+
+def main() -> None:
+    catalog_path = Path(__file__).resolve().parents[1] / "IOSAPP/OneVoice/Localizable.xcstrings"
+    catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+    strings: dict[str, object] = {}
+    for key, (chinese, japanese) in sorted(TRANSLATIONS.items()):
+        strings[key] = {
+            "localizations": {
+                "ja": {"stringUnit": {"state": "translated", "value": japanese}},
+                "zh-Hans": {"stringUnit": {"state": "translated", "value": chinese}},
+            }
+        }
+    catalog["sourceLanguage"] = "en"
+    catalog["strings"] = strings
+    catalog["version"] = "1.0"
+    catalog_path.write_text(
+        json.dumps(catalog, ensure_ascii=False, indent=2, sort_keys=False) + "\n",
+        encoding="utf-8",
+    )
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,40 @@
+# Xcode
+DerivedData/
+IOSAPP/DerivedData/
+*.xcuserstate
+*.xcuserdata/
+*.moved-aside
+*.hmap
+*.ipa
+*.xcarchive
+*.dSYM.zip
+*.dSYM
+
+# SwiftPM and build artifacts
+.build/
+.swiftpm/
+build/
+
+# App Store Connect and signing secrets
+.asc/config.json
+*.p8
+*.cer
+*.csr
+*.mobileprovision
+*.provisionprofile
+*.jks
+*.keystore
+
+# Local environment
+.env
+.env.*
+!.env.example
+.dev.vars
+.DS_Store
+.agents/
+skills-lock.json
+
+# Release output
+.asc/artifacts/
+release/
+*.xcresult

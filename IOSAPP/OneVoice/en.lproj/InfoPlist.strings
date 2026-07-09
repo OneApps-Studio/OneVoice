@@ -1,0 +1,3 @@
+"CFBundleDisplayName" = "OneVoice";
+"NSMicrophoneUsageDescription" = "OneVoice needs microphone access to turn your speech into text locally on this device.";
+"NSSpeechRecognitionUsageDescription" = "OneVoice uses on-device speech recognition to show live transcription while you speak.";
