@@ -230,12 +230,12 @@ final class OneVoiceMacModel {
 
         do {
             guard await MacPermissions.requestMicrophone() else {
-                lastError = "Microphone access is required. Enable OneVoice in System Settings → Privacy & Security → Microphone."
+                lastError = "Microphone access is required. Enable \(OneVoiceMacIdentity.displayName) in System Settings → Privacy & Security → Microphone."
                 return
             }
             try Task.checkCancellation()
             guard await MacPermissions.requestSpeechRecognition() else {
-                lastError = "Speech Recognition access is required. Enable OneVoice in System Settings → Privacy & Security → Speech Recognition."
+                lastError = "Speech Recognition access is required. Enable \(OneVoiceMacIdentity.displayName) in System Settings → Privacy & Security → Speech Recognition."
                 return
             }
             try Task.checkCancellation()
@@ -427,7 +427,7 @@ final class OneVoiceMacModel {
         case .blockedSecureField:
             "Secure fields cannot be filled automatically. The transcript was copied."
         case .blockedUnverifiedTarget:
-            "OneVoice could not verify that the focused field was safe to fill. The transcript was copied."
+            "\(OneVoiceMacIdentity.displayName) could not verify that the focused field was safe to fill. The transcript was copied."
         case let .failed(message):
             "Automatic insertion failed: \(message)"
         case nil:

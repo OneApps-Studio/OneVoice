@@ -29,8 +29,8 @@
     <key>NSHumanReadableCopyright</key>
     <string>Copyright © 2026 One Apps Studio</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>OneVoice needs microphone access to turn your speech into text locally on this Mac.</string>
+    <string>$(PRODUCT_NAME) needs microphone access to turn your speech into text locally on this Mac.</string>
     <key>NSSpeechRecognitionUsageDescription</key>
-    <string>OneVoice uses on-device speech recognition to show live transcription while you speak.</string>
+    <string>$(PRODUCT_NAME) uses on-device speech recognition to show live transcription while you speak.</string>
 </dict>
 </plist>

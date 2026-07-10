@@ -140,9 +140,9 @@ private struct DictionaryView: View {
         VStack(spacing: 0) {
             Form {
                 Section("Add a pronunciation correction") {
-                    TextField("What OneVoice hears", text: $spoken)
+                    TextField("What \(OneVoiceMacIdentity.displayName) hears", text: $spoken)
                         .autocorrectionDisabled()
-                    TextField("What OneVoice should write", text: $written)
+                    TextField("What \(OneVoiceMacIdentity.displayName) should write", text: $written)
                         .autocorrectionDisabled()
                     Button("Add Replacement") {
                         let source = spoken

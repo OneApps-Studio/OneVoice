@@ -24,7 +24,7 @@ struct OneVoiceMacSettingsView: View {
             }
 
             Form {
-                Text("OneVoice processes speech locally. It only connects when you request the optional Qwen model; Apple may separately download and manage on-device speech assets.")
+                Text("\(OneVoiceMacIdentity.displayName) processes speech locally. It only connects when you request the optional Qwen model; Apple may separately download and manage on-device speech assets.")
             }
             .padding(24)
             .tabItem {
