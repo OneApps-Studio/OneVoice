@@ -104,6 +104,8 @@ targets:
         PRODUCT_MODULE_NAME: OneVoiceMac
         PRODUCT_NAME: OneVoice
       configs:
+        Debug:
+          PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice.mac.dev
         Release:
           CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
     entitlements:

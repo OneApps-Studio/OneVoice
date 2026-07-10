@@ -20,8 +20,8 @@ final class SidebarNavigationTests: XCTestCase {
         app.launch()
         try assertSelecting("Dictionary", in: app)
 
-        let source = "onevoice-temporary-spoken"
-        let replacement = "ONEVOICE_TEMP_WRITTEN"
+        let source = "ovtmp"
+        let replacement = "OVTMP"
         let fields = app.textFields
         XCTAssertEqual(fields.count, 2)
 

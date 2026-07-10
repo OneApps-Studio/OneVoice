@@ -836,7 +836,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = studio.oneapps.onevoice.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.oneapps.onevoice.mac.dev;
 				PRODUCT_MODULE_NAME = OneVoiceMac;
 				PRODUCT_NAME = OneVoice;
 				SDKROOT = macosx;
