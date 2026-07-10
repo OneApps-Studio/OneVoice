@@ -4,6 +4,14 @@ OneVoice is a native Swift app for private, offline speech-to-text on macOS and 
 
 On macOS, hold **Fn** to talk or tap **Right Command** to start and stop recording. OneVoice shows a live transcript and inserts the final text into the focused field in most apps. On iPhone, it records voice notes, shows live transcription, and keeps searchable local history.
 
+## Download
+
+- [Download OneVoice 1.0.0 for macOS](https://downloads.oneapps.studio/onevoice/releases/v1.0.0/OneVoice-1.0.0.dmg)
+- [Verify SHA-256](https://downloads.oneapps.studio/onevoice/releases/v1.0.0/OneVoice-1.0.0.sha256)
+- [Release metadata](https://downloads.oneapps.studio/onevoice/latest.json)
+
+The downloadable macOS build is Developer ID signed, notarized by Apple, and distributed as an Apple-silicon DMG.
+
 ## Highlights
 
 - Apple `SpeechAnalyzer` for fast on-device live transcription
@@ -70,6 +78,8 @@ Design/                 app-icon master artwork
 ```
 
 See [docs/architecture.md](docs/architecture.md) and [docs/privacy.md](docs/privacy.md) for implementation details.
+
+Release maintainers should also read [docs/releasing.md](docs/releasing.md).
 
 ## License
 
