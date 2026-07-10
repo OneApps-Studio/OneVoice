@@ -28,7 +28,12 @@ final class OneVoiceMacAppDelegate: NSObject, NSApplicationDelegate {
             let model = OneVoiceMacModel.shared
             await model.launch()
             let defaults = UserDefaults.standard
-            if !defaults.bool(forKey: "didShowInitialWindow") || !model.missingPermissions.isEmpty {
+            #if DEBUG
+            let isUITesting = ProcessInfo.processInfo.arguments.contains("--onevoice-ui-testing")
+            #else
+            let isUITesting = false
+            #endif
+            if isUITesting || !defaults.bool(forKey: "didShowInitialWindow") || !model.missingPermissions.isEmpty {
                 showMainWindow()
                 defaults.set(true, forKey: "didShowInitialWindow")
             }

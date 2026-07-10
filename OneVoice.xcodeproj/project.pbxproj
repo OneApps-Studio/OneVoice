@@ -11,6 +11,7 @@
 		046D5F33D9097833952D3F5F /* OneCardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E5D4376F6651AD368DA05E /* OneCardBackground.swift */; };
 		0768DA19B115F08AC5C34183 /* OneVoiceMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DAC8ACA73728AFBD6AD518 /* OneVoiceMacApp.swift */; };
 		0877A11D769109185529E924 /* OneStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44319613F106557F3095395F /* OneStyle.swift */; };
+		08E8C1F968BE5E8AD11F166E /* SidebarNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95788B1C0E8331127F9BB320 /* SidebarNavigationTests.swift */; };
 		09121320D578FF18E1AD2982 /* OneThemePalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373033A48094D8BB9D6EA029 /* OneThemePalette.swift */; };
 		0B250D7F1668D57C7AE40B40 /* StatusPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3116A6E7247CA0BBB453EF6C /* StatusPill.swift */; };
 		0C03FE4B91814909B3850029 /* OneAppThemeEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD9973FDF9163C12854BE30 /* OneAppThemeEnvironment.swift */; };
@@ -78,6 +79,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		04EDDC78FFD809D53A858F20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C4C27245579A86FD9A11814 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 05036685F139BDEE016CF137;
+			remoteInfo = OneVoiceMac;
+		};
 		235681BE1A88C3172DCD11B9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0C4C27245579A86FD9A11814 /* Project object */;
@@ -148,10 +156,12 @@
 		9167988D6579777C60AB97A6 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		93A677CAE48C90A8487A541C /* MacPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacPermissions.swift; sourceTree = "<group>"; };
 		94873587A1EF52E35E96BC62 /* SecondaryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButtonStyle.swift; sourceTree = "<group>"; };
+		95788B1C0E8331127F9BB320 /* SidebarNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarNavigationTests.swift; sourceTree = "<group>"; };
 		95CEDABED257A2F7A6AA8A32 /* OneRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneRow.swift; sourceTree = "<group>"; };
 		97F727DC23C76ECCE39E6867 /* OnboardingFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFooter.swift; sourceTree = "<group>"; };
 		9F273E763A4F43AAC69B09C0 /* DictationOverlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictationOverlayController.swift; sourceTree = "<group>"; };
 		A6C9EDA743E6BE3D911D7C69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A88DBF00BE43D0346D7DC523 /* OneVoiceMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneVoiceMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF866F572940846CA773EA15 /* OneThemeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneThemeColor.swift; sourceTree = "<group>"; };
 		AFC8DBE87D7C3C49506F1EF0 /* OneVoiceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneVoiceApp.swift; sourceTree = "<group>"; };
 		B3250774C01C3F33B6A16AAA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -390,10 +400,19 @@
 			isa = PBXGroup;
 			children = (
 				15C68EBF41E0800210A5DD22 /* OneVoiceMacTests */,
+				C9FE0619362A01F8D1B876B2 /* OneVoiceMacUITests */,
 				14C8267568A08ACA1997CBE0 /* OneVoiceTests */,
 				B703A5AF9EF102BB7101AC7F /* OneVoiceUITests */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		C9FE0619362A01F8D1B876B2 /* OneVoiceMacUITests */ = {
+			isa = PBXGroup;
+			children = (
+				95788B1C0E8331127F9BB320 /* SidebarNavigationTests.swift */,
+			);
+			path = OneVoiceMacUITests;
 			sourceTree = "<group>";
 		};
 		E1B2FB166A176AAB47E98367 /* Products */ = {
@@ -402,6 +421,7 @@
 				8FAB12978F910A3FA6118878 /* OneVoice.app */,
 				3EAA435142C5F5BEFBCD10F4 /* OneVoiceMac.app */,
 				46D3E28227975766A94D379C /* OneVoiceMacTests.xctest */,
+				A88DBF00BE43D0346D7DC523 /* OneVoiceMacUITests.xctest */,
 				848D3F76F79EF40E96B3FF2D /* OneVoiceTests.xctest */,
 				8445ADE7D3EAB96278B1E282 /* OneVoiceUITests.xctest */,
 			);
@@ -509,6 +529,24 @@
 			productReference = 8445ADE7D3EAB96278B1E282 /* OneVoiceUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		EC7F6A6E8A557DDE13986A79 /* OneVoiceMacUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B974827F5F87193592E0DB1 /* Build configuration list for PBXNativeTarget "OneVoiceMacUITests" */;
+			buildPhases = (
+				AAEC657D8D4F40A300359A6A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				29ADAE6696FB9AA91EA8AE2B /* PBXTargetDependency */,
+			);
+			name = OneVoiceMacUITests;
+			packageProductDependencies = (
+			);
+			productName = OneVoiceMacUITests;
+			productReference = A88DBF00BE43D0346D7DC523 /* OneVoiceMacUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -536,6 +574,10 @@
 						DevelopmentTeam = PCJ84YD7HQ;
 						TestTargetID = 134C51BEFEA26EAE33AFC8FB;
 					};
+					EC7F6A6E8A557DDE13986A79 = {
+						DevelopmentTeam = PCJ84YD7HQ;
+						TestTargetID = 05036685F139BDEE016CF137;
+					};
 				};
 			};
 			buildConfigurationList = C4C8F51D2604F9974489D2CF /* Build configuration list for PBXProject "OneVoice" */;
@@ -560,6 +602,7 @@
 				134C51BEFEA26EAE33AFC8FB /* OneVoice */,
 				05036685F139BDEE016CF137 /* OneVoiceMac */,
 				AB6847049898B5516D3033FA /* OneVoiceMacTests */,
+				EC7F6A6E8A557DDE13986A79 /* OneVoiceMacUITests */,
 				37A0AD43889B5D8406704979 /* OneVoiceTests */,
 				C92691F51887D3FE2CB2D9F4 /* OneVoiceUITests */,
 			);
@@ -603,6 +646,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				79A0C9647A93380B1EC413BE /* OneVoiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAEC657D8D4F40A300359A6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08E8C1F968BE5E8AD11F166E /* SidebarNavigationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,6 +735,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		29ADAE6696FB9AA91EA8AE2B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 05036685F139BDEE016CF137 /* OneVoiceMac */;
+			targetProxy = 04EDDC78FFD809D53A858F20 /* PBXContainerItemProxy */;
+		};
 		73FE788DCFCD1F21E9C43847 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 134C51BEFEA26EAE33AFC8FB /* OneVoice */;
@@ -889,6 +945,23 @@
 			};
 			name = Debug;
 		};
+		81E3A7819FDC975A89EA7303 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = studio.oneapps.onevoice.mac.uitests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = OneVoiceMac;
+			};
+			name = Release;
+		};
 		9DF40A9B911EA40D65AB5583 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -909,6 +982,23 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
+		};
+		AAF9AD0396C4DF687BF6CC03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = studio.oneapps.onevoice.mac.uitests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = OneVoiceMac;
+			};
+			name = Debug;
 		};
 		DF981983D5EBC0DBEE58B732 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1057,6 +1147,15 @@
 			buildConfigurations = (
 				DF981983D5EBC0DBEE58B732 /* Debug */,
 				0CE195A8B7FE379D13C4441B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5B974827F5F87193592E0DB1 /* Build configuration list for PBXNativeTarget "OneVoiceMacUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAF9AD0396C4DF687BF6CC03 /* Debug */,
+				81E3A7819FDC975A89EA7303 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

@@ -132,6 +132,19 @@ targets:
     dependencies:
       - target: OneVoiceMac
 
+  OneVoiceMacUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - path: Tests/OneVoiceMacUITests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice.mac.uitests
+        TEST_TARGET_NAME: OneVoiceMac
+    dependencies:
+      - target: OneVoiceMac
+
 schemes:
   OneVoice:
     build:
@@ -154,3 +167,4 @@ schemes:
       gatherCoverageData: true
       targets:
         - OneVoiceMacTests
+        - OneVoiceMacUITests

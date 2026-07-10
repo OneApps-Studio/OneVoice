@@ -65,6 +65,17 @@
                ReferencedContainer = "container:OneVoice.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EC7F6A6E8A557DDE13986A79"
+               BuildableName = "OneVoiceMacUITests.xctest"
+               BlueprintName = "OneVoiceMacUITests"
+               ReferencedContainer = "container:OneVoice.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

@@ -25,6 +25,7 @@ struct OneVoiceMacHomeView: View {
         NavigationSplitView {
             List(Destination.allCases, selection: $selection) { destination in
                 Label(destination.rawValue, systemImage: destination.icon)
+                    .tag(destination)
             }
             .navigationTitle("OneVoice")
         } detail: {
