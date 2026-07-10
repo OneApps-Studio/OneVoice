@@ -13,6 +13,7 @@ public enum TextInsertionOutcome: Sendable, Equatable {
     case pastedFromClipboard
     case copiedToClipboard
     case blockedSecureField
+    case blockedUnverifiedTarget
     case failed(String)
 }
 

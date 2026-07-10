@@ -59,7 +59,7 @@ TRANSLATIONS: dict[str, tuple[str, str]] = {
     "Live engine": ("实时识别引擎", "リアルタイム認識エンジン"),
     "Live transcript": ("实时转写", "リアルタイム文字起こし"),
     "Live transcription": ("实时转写", "リアルタイム文字起こし"),
-    "Network access is used only when you explicitly download the optional Qwen model. OneVoice has no account and no analytics SDK.": ("只有在你主动下载可选 Qwen 模型时才会访问网络。OneVoice 无需账号，也不包含分析 SDK。", "ネットワークは任意のQwenモデルを明示的にダウンロードするときだけ使用します。OneVoiceにアカウントや分析SDKはありません。"),
+    "OneVoice only connects when you request the optional Qwen model. Apple may separately download and manage on-device speech assets. OneVoice has no account or analytics SDK.": ("只有在你主动请求可选 Qwen 模型时，OneVoice 才会联网。Apple 可能会单独下载并管理设备端语音资源。OneVoice 无需账号，也不包含分析 SDK。", "OneVoiceが通信するのは任意のQwenモデルを要求したときだけです。Appleはオンデバイス音声アセットを別途ダウンロード・管理する場合があります。OneVoiceにアカウントや分析SDKはありません。"),
     "Next": ("下一步", "次へ"),
     "No account required": ("无需账号", "アカウント不要"),
     "No custom terms yet": ("还没有自定义词条", "カスタム用語はまだありません"),

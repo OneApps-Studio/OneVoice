@@ -426,6 +426,8 @@ final class OneVoiceMacModel {
             "No editable field was available, so the transcript was copied."
         case .blockedSecureField:
             "Secure fields cannot be filled automatically. The transcript was copied."
+        case .blockedUnverifiedTarget:
+            "OneVoice could not verify that the focused field was safe to fill. The transcript was copied."
         case let .failed(message):
             "Automatic insertion failed: \(message)"
         case nil:

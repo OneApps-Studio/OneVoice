@@ -42,5 +42,9 @@ let package = Package(
             dependencies: ["OneVoiceAppleSpeech", "OneVoiceCore"],
             linkerSettings: [.linkedFramework("AVFoundation")]
         ),
+        .testTarget(
+            name: "OneVoiceQwenSpeechTests",
+            dependencies: ["OneVoiceQwenSpeech"]
+        ),
     ]
 )

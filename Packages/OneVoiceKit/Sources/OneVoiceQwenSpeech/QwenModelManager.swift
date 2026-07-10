@@ -23,20 +23,40 @@ public actor QwenModelManager {
     private struct ModelFile: Sendable {
         let name: String
         let size: Int64
-        let sha256: String?
+        let sha256: String
     }
 
     private static let modelFiles: [ModelFile] = [
-        .init(name: "config.json", size: 7_187, sha256: nil),
-        .init(name: "merges.txt", size: 1_671_853, sha256: nil),
+        .init(
+            name: "config.json",
+            size: 7_187,
+            sha256: "923618cf5ca452fda0253a6be5c1a17f94a2e4851d3b98beb45848565587bd72"
+        ),
+        .init(
+            name: "merges.txt",
+            size: 1_671_853,
+            sha256: "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+        ),
         .init(
             name: "model.safetensors",
             size: 708_236_945,
             sha256: "70c7e67e588062adce4f10796e47ad42ead51c6671eda61a0987eae38ca95ddf"
         ),
-        .init(name: "model.safetensors.index.json", size: 71_814, sha256: nil),
-        .init(name: "tokenizer_config.json", size: 12_487, sha256: nil),
-        .init(name: "vocab.json", size: 2_776_833, sha256: nil),
+        .init(
+            name: "model.safetensors.index.json",
+            size: 71_814,
+            sha256: "e3bb80ef0fd42a5be07b04e90c97d60460bbde8af3531e0bfe9100a61404d81a"
+        ),
+        .init(
+            name: "tokenizer_config.json",
+            size: 12_487,
+            sha256: "4942d005604266809309cabc9f4e9cb89ce855d59b14681fdc0e1cc62ea26c4c"
+        ),
+        .init(
+            name: "vocab.json",
+            size: 2_776_833,
+            sha256: "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+        ),
     ]
 
     public let cacheDirectory: URL
@@ -107,14 +127,7 @@ public actor QwenModelManager {
         }
 
         progress(0.995, "Verifying model…")
-        if let weights = Self.modelFiles.first(where: { $0.sha256 != nil }),
-           let expectedHash = weights.sha256 {
-            let weightsURL = cacheDirectory.appending(path: weights.name)
-            guard try Self.sha256(of: weightsURL) == expectedHash else {
-                try? FileManager.default.removeItem(at: weightsURL)
-                throw ManagerError.invalidDownload(weights.name)
-            }
-        }
+        try verifyInstalledFiles(removingInvalidFile: true)
 
         progress(0.997, "Loading model…")
         let loaded = try await Qwen3ASRModel.fromPretrained(
@@ -135,6 +148,7 @@ public actor QwenModelManager {
     ) async throws -> String {
         if model == nil {
             guard isInstalled() else { throw ManagerError.notInstalled }
+            try verifyInstalledFiles(removingInvalidFile: false)
             model = try await Qwen3ASRModel.fromPretrained(
                 modelId: Self.modelIdentifier,
                 cacheDir: cacheDirectory,
@@ -169,18 +183,28 @@ public actor QwenModelManager {
         return size.int64Value
     }
 
+    private func verifyInstalledFiles(removingInvalidFile: Bool) throws {
+        for file in Self.modelFiles {
+            let url = cacheDirectory.appending(path: file.name)
+            guard fileSize(at: url) == file.size,
+                  try Self.sha256(of: url) == file.sha256 else {
+                if removingInvalidFile {
+                    try? FileManager.default.removeItem(at: url)
+                }
+                throw ManagerError.invalidDownload(file.name)
+            }
+        }
+    }
+
     private static func sha256(of url: URL) throws -> String {
         let handle = try FileHandle(forReadingFrom: url)
         defer { try? handle.close() }
         var hasher = SHA256()
-        while autoreleasepool(invoking: {
-            guard let data = try? handle.read(upToCount: 4 * 1_024 * 1_024),
-                  !data.isEmpty else {
-                return false
-            }
+        while true {
+            guard let data = try handle.read(upToCount: 4 * 1_024 * 1_024),
+                  !data.isEmpty else { break }
             hasher.update(data: data)
-            return true
-        }) {}
+        }
         return hasher.finalize().map { String(format: "%02x", $0) }.joined()
     }
 

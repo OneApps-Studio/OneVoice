@@ -6,7 +6,7 @@ OneVoice is local-first by design.
 - Quick dictation audio and iOS voice-note audio are never written to disk.
 - Transcripts, favorites, and personal dictionary replacements are stored locally as JSON.
 - OneVoice does not contain an account system, advertising SDK, analytics SDK, crash-reporting SDK, or telemetry endpoint.
-- Network access is used only after the user chooses to download the optional Qwen3-ASR model.
+- OneVoice itself connects only after the user chooses to download the optional Qwen3-ASR model. Apple may separately download and manage on-device Speech assets through the operating system.
 - Downloaded model weights are not uploaded and are excluded from iCloud backup.
 - macOS secure text fields are not filled. Their result is copied to the clipboard for an explicit user paste.
 

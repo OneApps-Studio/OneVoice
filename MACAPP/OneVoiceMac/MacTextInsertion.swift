@@ -4,6 +4,18 @@ import OneVoiceCore
 
 @MainActor
 final class MacTextInsertion: TextInsertion {
+    enum SubroleObservation: Equatable {
+        case absent
+        case value(String)
+        case unreadable
+    }
+
+    enum TargetDisposition: Equatable {
+        case allowed
+        case secure
+        case unverified
+    }
+
     private struct CapturedTarget {
         let application: NSRunningApplication
         let element: AXUIElement
@@ -29,9 +41,15 @@ final class MacTextInsertion: TextInsertion {
             copyToClipboard(text)
             return .copiedToClipboard
         }
-        guard !isSecure(captured.element) else {
+        switch targetDisposition(captured.element) {
+        case .allowed:
+            break
+        case .secure:
             copyToClipboard(text)
             return .blockedSecureField
+        case .unverified:
+            copyToClipboard(text)
+            return .blockedUnverifiedTarget
         }
 
         _ = captured.application.activate(options: [])
@@ -71,16 +89,55 @@ final class MacTextInsertion: TextInsertion {
         return unsafeDowncast(value, to: AXUIElement.self)
     }
 
-    private func isSecure(_ element: AXUIElement) -> Bool {
-        var value: CFTypeRef?
+    private func targetDisposition(_ element: AXUIElement) -> TargetDisposition {
+        var roleValue: CFTypeRef?
         guard AXUIElementCopyAttributeValue(
+            element,
+            kAXRoleAttribute as CFString,
+            &roleValue
+        ) == .success, let role = roleValue as? String else {
+            return .unverified
+        }
+
+        var value: CFTypeRef?
+        let result = AXUIElementCopyAttributeValue(
             element,
             kAXSubroleAttribute as CFString,
             &value
-        ) == .success, let subrole = value as? String else {
-            return false
+        )
+        let subrole: SubroleObservation
+        switch result {
+        case .success:
+            guard let value = value as? String else { return .unverified }
+            subrole = .value(value)
+        case .noValue, .attributeUnsupported:
+            subrole = .absent
+        default:
+            subrole = .unreadable
         }
-        return subrole == "AXSecureTextField"
+
+        return Self.classify(role: role, subrole: subrole)
+    }
+
+    nonisolated static func classify(
+        role: String,
+        subrole: SubroleObservation
+    ) -> TargetDisposition {
+        let supportedRoles: Set<String> = [
+            kAXTextFieldRole,
+            kAXTextAreaRole,
+            kAXComboBoxRole,
+        ]
+        guard supportedRoles.contains(role) else { return .unverified }
+
+        switch subrole {
+        case .value("AXSecureTextField"):
+            return .secure
+        case .value("AXSearchField"), .absent:
+            return .allowed
+        case .value, .unreadable:
+            return .unverified
+        }
     }
 
     private func paste(_ text: String, into application: NSRunningApplication) async -> TextInsertionOutcome {

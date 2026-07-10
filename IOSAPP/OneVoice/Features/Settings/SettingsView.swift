@@ -34,7 +34,7 @@ struct SettingsView: View {
 
             Section("Privacy") {
                 Label("Audio and transcripts stay on this device", systemImage: "lock.shield.fill")
-                Text("Network access is used only when you explicitly download the optional Qwen model. OneVoice has no account and no analytics SDK.")
+                Text("OneVoice only connects when you request the optional Qwen model. Apple may separately download and manage on-device speech assets. OneVoice has no account or analytics SDK.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

@@ -24,7 +24,7 @@ struct OneVoiceMacSettingsView: View {
             }
 
             Form {
-                Text("OneVoice processes speech locally. Network access is only used when you explicitly download an offline model.")
+                Text("OneVoice processes speech locally. It only connects when you request the optional Qwen model; Apple may separately download and manage on-device speech assets.")
             }
             .padding(24)
             .tabItem {

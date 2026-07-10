@@ -817,22 +817,6 @@
         }
       }
     },
-    "Network access is used only when you explicitly download the optional Qwen model. OneVoice has no account and no analytics SDK.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ネットワークは任意のQwenモデルを明示的にダウンロードするときだけ使用します。OneVoiceにアカウントや分析SDKはありません。"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "只有在你主动下载可选 Qwen 模型时才会访问网络。OneVoice 无需账号，也不包含分析 SDK。"
-          }
-        }
-      }
-    },
     "Next": {
       "localizations": {
         "ja": {
@@ -957,6 +941,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "OneVoice 需要你的处理"
+          }
+        }
+      }
+    },
+    "OneVoice only connects when you request the optional Qwen model. Apple may separately download and manage on-device speech assets. OneVoice has no account or analytics SDK.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OneVoiceが通信するのは任意のQwenモデルを要求したときだけです。Appleはオンデバイス音声アセットを別途ダウンロード・管理する場合があります。OneVoiceにアカウントや分析SDKはありません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只有在你主动请求可选 Qwen 模型时，OneVoice 才会联网。Apple 可能会单独下载并管理设备端语音资源。OneVoice 无需账号，也不包含分析 SDK。"
           }
         }
       }
