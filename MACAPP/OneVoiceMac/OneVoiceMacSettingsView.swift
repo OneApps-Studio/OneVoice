@@ -13,7 +13,7 @@ struct OneVoiceMacSettingsView: View {
                     Text("English (US)").tag("en-US")
                     Text("日本語").tag("ja-JP")
                 }
-                Toggle("Launch OneVoice at login", isOn: Binding(
+                Toggle("Launch \(OneVoiceMacIdentity.displayName) at login", isOn: Binding(
                     get: { model.launchAtLoginEnabled },
                     set: { model.setLaunchAtLogin($0) }
                 ))

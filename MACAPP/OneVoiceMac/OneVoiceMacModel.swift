@@ -82,7 +82,7 @@ final class OneVoiceMacModel {
     #endif
 
     private init() {
-        let qwenManager = QwenModelManager()
+        let qwenManager = QwenModelManager(cacheDirectory: OneVoiceMacIdentity.qwenModelDirectory)
         let qwenEnabled = UserDefaults.standard.object(forKey: "useQwenFinalPass") as? Bool ?? true
         localeIdentifier = UserDefaults.standard.string(forKey: "recognitionLocale") ?? "zh-Hans"
         self.qwenManager = qwenManager
@@ -457,7 +457,10 @@ final class OneVoiceMacModel {
             appropriateFor: nil,
             create: true
         )
-        let directory = base.appending(path: "OneVoice", directoryHint: .isDirectory)
+        let directory = base.appending(
+            path: OneVoiceMacIdentity.applicationSupportDirectoryName,
+            directoryHint: .isDirectory
+        )
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         return directory
     }

@@ -1,6 +1,26 @@
 import Testing
 @testable import OneVoiceMac
 
+@Suite("Development identity isolation")
+struct DevelopmentIdentityIsolationTests {
+    @Test("Development identity cannot collide with production identity or data")
+    func developmentIdentityIsIsolated() {
+        let production = OneVoiceMacIdentity.variant(
+            bundleIdentifier: "studio.oneapps.onevoice.mac"
+        )
+        let development = OneVoiceMacIdentity.variant(
+            bundleIdentifier: "studio.oneapps.onevoice.mac.dev"
+        )
+
+        #expect(production == .production)
+        #expect(development == .development)
+        #expect(OneVoiceMacIdentity.displayName(for: production) == "OneVoice")
+        #expect(OneVoiceMacIdentity.displayName(for: development) == "OneVoice Dev")
+        #expect(OneVoiceMacIdentity.applicationSupportDirectoryName(for: production) == "OneVoice")
+        #expect(OneVoiceMacIdentity.applicationSupportDirectoryName(for: development) == "OneVoice Dev")
+    }
+}
+
 @Suite("Safe text insertion policy")
 struct SafeTextInsertionPolicyTests {
     @Test("Regular editable roles are allowed when no secure subrole exists")

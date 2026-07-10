@@ -106,6 +106,7 @@ targets:
       configs:
         Debug:
           PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice.mac.dev
+          PRODUCT_NAME: OneVoice Dev
         Release:
           CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
     entitlements:
@@ -130,7 +131,11 @@ targets:
         BUNDLE_LOADER: "$(TEST_HOST)"
         GENERATE_INFOPLIST_FILE: YES
         PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice.mac.tests
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/OneVoice.app/Contents/MacOS/OneVoice"
+      configs:
+        Debug:
+          TEST_HOST: "$(BUILT_PRODUCTS_DIR)/OneVoice Dev.app/Contents/MacOS/OneVoice Dev"
+        Release:
+          TEST_HOST: "$(BUILT_PRODUCTS_DIR)/OneVoice.app/Contents/MacOS/OneVoice"
     dependencies:
       - target: OneVoiceMac
 

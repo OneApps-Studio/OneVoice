@@ -17,7 +17,7 @@ struct OneVoiceMenuView: View {
 
         Divider()
 
-        Button("Open OneVoice") {
+        Button("Open \(OneVoiceMacIdentity.displayName)") {
             (NSApplication.shared.delegate as? OneVoiceMacAppDelegate)?.showMainWindow()
         }
 
@@ -42,7 +42,7 @@ struct OneVoiceMenuView: View {
 
         Divider()
 
-        Button("Quit OneVoice") {
+        Button("Quit \(OneVoiceMacIdentity.displayName)") {
             NSApplication.shared.terminate(nil)
         }
         .keyboardShortcut("q", modifiers: .command)

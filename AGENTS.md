@@ -18,6 +18,7 @@ OneVoice is an Apache-2.0 open-source, privacy-first offline dictation app for m
 
 ## Development
 
+- Debug builds must remain isolated as `OneVoice Dev`: bundle ID `studio.oneapps.onevoice.mac.dev`, product/display name `OneVoice Dev`, and Application Support folder `OneVoice Dev`. Never run an Apple Development-signed build with the production bundle ID or overwrite `/Applications/OneVoice.app` during testing.
 - Generate the Xcode project with `xcodegen generate` after changing `project.yml`.
 - Run package tests with `cd Packages/OneVoiceKit && swift test`.
 - Use a portrait iPhone simulator for primary iOS UI verification.

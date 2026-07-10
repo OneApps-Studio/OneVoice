@@ -43,6 +43,10 @@ xcodebuild -project OneVoice.xcodeproj -scheme OneVoice \
 
 The Qwen model is not bundled in the repository or app. Users explicitly download the pinned 0.6B model from Hugging Face. Downloaded weights live under Application Support and are excluded from iCloud backup.
 
+## Development identity isolation
+
+macOS Debug builds are intentionally named **OneVoice Dev** and use bundle ID `studio.oneapps.onevoice.mac.dev` plus `Application Support/OneVoice Dev`. Release builds remain **OneVoice**, use `studio.oneapps.onevoice.mac`, and store data under `Application Support/OneVoice`. Never run a development-signed build with the production bundle ID: mixing signing identities under one ID can invalidate macOS privacy permissions for the installed release app.
+
 ## macOS permissions
 
 OneVoice explains and requests four permissions:

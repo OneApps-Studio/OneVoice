@@ -7,7 +7,7 @@ struct OneVoiceMacApp: App {
     private let model = OneVoiceMacModel.shared
 
     var body: some Scene {
-        MenuBarExtra("OneVoice", systemImage: "waveform") {
+        MenuBarExtra(OneVoiceMacIdentity.displayName, systemImage: "waveform") {
             OneVoiceMenuView(model: model)
                 .task { await model.launch() }
         }
@@ -63,7 +63,7 @@ final class OneVoiceMacAppDelegate: NSObject, NSApplicationDelegate {
             backing: .buffered,
             defer: false
         )
-        window.title = "OneVoice"
+        window.title = OneVoiceMacIdentity.displayName
         window.identifier = NSUserInterfaceItemIdentifier("OneVoiceMainWindow")
         window.minSize = NSSize(width: 720, height: 520)
         window.isReleasedWhenClosed = false

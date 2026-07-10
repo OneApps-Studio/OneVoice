@@ -27,7 +27,7 @@ struct OneVoiceMacHomeView: View {
                 Label(destination.rawValue, systemImage: destination.icon)
                     .tag(destination)
             }
-            .navigationTitle("OneVoice")
+            .navigationTitle(OneVoiceMacIdentity.displayName)
         } detail: {
             switch selection {
             case .history:
@@ -53,7 +53,7 @@ struct OneVoiceMacHomeView: View {
                     .padding(.bottom, 8)
             }
         }
-        .alert("OneVoice needs attention", isPresented: Binding(
+        .alert("\(OneVoiceMacIdentity.displayName) needs attention", isPresented: Binding(
             get: { model.lastError != nil },
             set: { if !$0 { model.lastError = nil } }
         )) {
@@ -265,7 +265,7 @@ private struct SetupView: View {
                     .foregroundStyle(.secondary)
             }
             Section("Startup") {
-                Toggle("Launch OneVoice at login", isOn: Binding(
+                Toggle("Launch \(OneVoiceMacIdentity.displayName) at login", isOn: Binding(
                     get: { model.launchAtLoginEnabled },
                     set: { model.setLaunchAtLogin($0) }
                 ))
