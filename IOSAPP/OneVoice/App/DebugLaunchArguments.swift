@@ -19,7 +19,7 @@ enum DebugLaunchArguments {
                for: .applicationSupportDirectory,
                in: .userDomainMask
            ).first {
-            try? FileManager.default.removeItem(at: support.appending(path: "OneVoice"))
+            try? FileManager.default.removeItem(at: support.appending(path: "OneVoice Dev"))
         }
 
         if let value = environment["ONEVOICE_HAS_COMPLETED_ONBOARDING"] {

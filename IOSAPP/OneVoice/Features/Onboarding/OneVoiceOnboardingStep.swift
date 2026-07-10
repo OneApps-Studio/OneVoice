@@ -32,7 +32,7 @@ enum OneVoiceOnboardingStep: Int, CaseIterable, Identifiable {
     var subtitle: LocalizedStringResource {
         switch self {
         case .privateSpeech:
-            "Record and transcribe on your device. Your audio is never uploaded to a OneVoice server."
+            "Record in the foreground or background, then transcribe on device. OneVoice has no audio server."
         case .accurate:
             "Apple Speech gives you live text. Download Qwen3-ASR when you want a more accurate offline final pass."
         case .ready:

@@ -63,9 +63,9 @@ public final class DictationSession {
         state = .preparing
         partialTranscript = ""
         lastInsertionOutcome = nil
-        insertionTarget = insertion.captureTarget()
         self.localeIdentifier = localeIdentifier
         self.source = source
+        insertionTarget = source == .quickDictation ? insertion.captureTarget() : nil
 
         do {
             let updates = try await engine.start(localeIdentifier: localeIdentifier)
@@ -104,7 +104,13 @@ public final class DictationSession {
     }
 
     @discardableResult
-    public func finish(duration: TimeInterval) async throws -> VoiceEntry {
+    public func finish(
+        duration: TimeInterval,
+        id: UUID = UUID(),
+        title: String? = nil,
+        audioFileName: String? = nil,
+        audioByteCount: Int64? = nil
+    ) async throws -> VoiceEntry {
         guard state == .listening else { throw SessionError.notRunning }
         state = .finalizing
 
@@ -120,14 +126,22 @@ public final class DictationSession {
             }
 
             let entry = VoiceEntry(
+                id: id,
                 rawTranscript: rawTranscript,
                 transcript: finalTranscript,
                 duration: duration,
                 localeIdentifier: localeIdentifier,
                 engineIdentifier: transcript.engineIdentifier,
-                source: source
+                source: source,
+                title: title,
+                audioFileName: audioFileName,
+                audioByteCount: audioByteCount
             )
-            lastInsertionOutcome = await insertion.insert(finalTranscript, into: insertionTarget)
+            if source == .quickDictation {
+                lastInsertionOutcome = await insertion.insert(finalTranscript, into: insertionTarget)
+            } else {
+                lastInsertionOutcome = nil
+            }
             try await store.save(entry)
             insertionTarget = nil
             partialTranscript = finalTranscript

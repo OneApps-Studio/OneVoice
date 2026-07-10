@@ -24,7 +24,7 @@ struct OneVoiceMacSettingsView: View {
             }
 
             Form {
-                Text("\(OneVoiceMacIdentity.displayName) processes speech locally. It only connects when you request the optional Qwen model; Apple may separately download and manage on-device speech assets.")
+                Text("\(OneVoiceMacIdentity.displayName) processes speech locally and has no analytics or OneVoice server. Voice-note audio from iPhone or iPad, transcripts, and dictionary replacements can sync through your private Apple iCloud account. Mac quick-dictation audio is never saved.")
             }
             .padding(24)
             .tabItem {

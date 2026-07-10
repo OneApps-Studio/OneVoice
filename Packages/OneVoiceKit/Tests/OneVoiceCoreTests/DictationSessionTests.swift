@@ -32,6 +32,59 @@ struct DictationSessionTests {
         #expect(await store.entries().first?.transcript == "hello OneVoice")
         #expect(await engine.receivedFrameCount == 1)
     }
+
+    @Test("Imported media is saved without inserting into the focused app")
+    func importedMediaDoesNotInsert() async throws {
+        let fileURL = FileManager.default.temporaryDirectory
+            .appending(path: UUID().uuidString)
+            .appendingPathExtension("json")
+        defer { try? FileManager.default.removeItem(at: fileURL) }
+
+        let engine = StubTranscriptionEngine(finalText: "Imported transcript")
+        let insertion = StubTextInsertion()
+        let store = try await VoiceEntryStore(fileURL: fileURL)
+        let session = DictationSession(engine: engine, insertion: insertion, store: store)
+
+        try await session.begin(localeIdentifier: "en-US", source: .importedFile)
+        try await session.append(AudioFrame(samples: [0.1], sampleRate: 16_000))
+        let result = try await session.finish(duration: 2)
+
+        #expect(result.source == .importedFile)
+        #expect(insertion.insertedText == nil)
+        #expect(session.lastInsertionOutcome == nil)
+        #expect(await store.entries().first?.transcript == "Imported transcript")
+    }
+
+    @Test("A voice note keeps its recording identity and metadata after automatic transcription")
+    func voiceNoteKeepsRecordingMetadata() async throws {
+        let fileURL = FileManager.default.temporaryDirectory
+            .appending(path: UUID().uuidString)
+            .appendingPathExtension("json")
+        defer { try? FileManager.default.removeItem(at: fileURL) }
+
+        let engine = StubTranscriptionEngine(finalText: "Planning the next release")
+        let insertion = StubTextInsertion()
+        let store = try await VoiceEntryStore(fileURL: fileURL)
+        let session = DictationSession(engine: engine, insertion: insertion, store: store)
+        let id = UUID()
+
+        try await session.begin(localeIdentifier: "en-US", source: .voiceNote)
+        try await session.append(AudioFrame(samples: [0.1], sampleRate: 16_000))
+        let result = try await session.finish(
+            duration: 4.2,
+            id: id,
+            title: "Planning the next release",
+            audioFileName: "\(id.uuidString.lowercased()).m4a",
+            audioByteCount: 42
+        )
+
+        #expect(result.id == id)
+        #expect(result.source == .voiceNote)
+        #expect(result.title == "Planning the next release")
+        #expect(result.audioFileName == "\(id.uuidString.lowercased()).m4a")
+        #expect(result.audioByteCount == 42)
+        #expect(insertion.insertedText == nil)
+    }
 }
 
 private actor StubTranscriptionEngine: TranscriptionEngine {

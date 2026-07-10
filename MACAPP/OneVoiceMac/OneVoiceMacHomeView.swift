@@ -1,8 +1,10 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct OneVoiceMacHomeView: View {
     enum Destination: String, CaseIterable, Identifiable {
-        case history = "History"
+        case transcribe = "Transcribe File"
+        case history = "Library"
         case dictionary = "Dictionary"
         case models = "Models"
         case setup = "Setup"
@@ -10,6 +12,7 @@ struct OneVoiceMacHomeView: View {
         var id: String { rawValue }
         var icon: String {
             switch self {
+            case .transcribe: "waveform.badge.magnifyingglass"
             case .history: "clock.arrow.circlepath"
             case .dictionary: "text.book.closed"
             case .models: "cpu"
@@ -19,7 +22,7 @@ struct OneVoiceMacHomeView: View {
     }
 
     let model: OneVoiceMacModel
-    @State private var selection: Destination? = .history
+    @State private var selection: Destination? = .transcribe
 
     var body: some View {
         NavigationSplitView {
@@ -30,6 +33,8 @@ struct OneVoiceMacHomeView: View {
             .navigationTitle(OneVoiceMacIdentity.displayName)
         } detail: {
             switch selection {
+            case .transcribe:
+                MediaTranscriptionView(model: model)
             case .history:
                 HistoryView(model: model)
             case .dictionary:
@@ -64,6 +69,83 @@ struct OneVoiceMacHomeView: View {
     }
 }
 
+private struct MediaTranscriptionView: View {
+    let model: OneVoiceMacModel
+    @State private var isChoosingFile = false
+    @State private var isDropTargeted = false
+
+    var body: some View {
+        VStack(spacing: 24) {
+            Spacer(minLength: 24)
+            Image(systemName: "waveform.badge.magnifyingglass")
+                .font(.system(size: 56, weight: .medium))
+                .foregroundStyle(.tint)
+            VStack(spacing: 8) {
+                Text("Transcribe audio or video")
+                    .font(.title2.bold())
+                Text("Drop a media file here. OneVoice reads its audio track locally and saves only the transcript.")
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+
+            if model.isImportingMedia {
+                VStack(spacing: 10) {
+                    ProgressView(value: model.mediaImportProgress) {
+                        Text(model.mediaImportFileName)
+                    }
+                    Text(model.liveTranscript.isEmpty ? "Preparing private recognition…" : model.liveTranscript)
+                        .frame(maxWidth: .infinity, minHeight: 64, alignment: .topLeading)
+                        .textSelection(.enabled)
+                    Button("Cancel", role: .destructive) { model.cancelMediaImport() }
+                }
+                .padding(20)
+                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 18))
+            } else {
+                Button("Choose Audio or Video", systemImage: "plus") {
+                    isChoosingFile = true
+                }
+                .buttonStyle(.borderedProminent)
+            }
+
+            if let entry = model.latestImportedEntry {
+                VStack(alignment: .leading, spacing: 10) {
+                    Label("Transcript saved to History", systemImage: "checkmark.circle.fill")
+                        .font(.headline)
+                        .foregroundStyle(.green)
+                    Text(entry.transcript)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .textSelection(.enabled)
+                    Button("Copy", systemImage: "doc.on.doc") { model.copyTranscript(entry) }
+                }
+                .padding(20)
+                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 18))
+            }
+            Spacer(minLength: 24)
+        }
+        .padding(32)
+        .frame(maxWidth: 720)
+        .frame(maxWidth: .infinity)
+        .background(isDropTargeted ? Color.accentColor.opacity(0.08) : Color.clear)
+        .navigationTitle("Transcribe File")
+        .fileImporter(
+            isPresented: $isChoosingFile,
+            allowedContentTypes: [.audio, .movie],
+            allowsMultipleSelection: false
+        ) { result in
+            if case let .success(urls) = result, let url = urls.first {
+                model.importMedia(at: url)
+            } else if case let .failure(error) = result {
+                model.lastError = error.localizedDescription
+            }
+        }
+        .dropDestination(for: URL.self) { urls, _ in
+            guard let url = urls.first else { return false }
+            model.importMedia(at: url)
+            return true
+        } isTargeted: { isDropTargeted = $0 }
+    }
+}
+
 private struct HistoryView: View {
     let model: OneVoiceMacModel
     @State private var query = ""
@@ -72,9 +154,9 @@ private struct HistoryView: View {
         Group {
             if model.history.isEmpty {
                 ContentUnavailableView {
-                    Label("Ready for dictation", systemImage: "waveform")
+                    Label("No recordings or transcripts yet", systemImage: "waveform")
                 } description: {
-                    Text("Hold Fn or tap Right Command to speak into any text field.")
+                    Text("Voice notes from iPhone and iPad appear here through private iCloud sync. Mac dictation transcripts are saved here too.")
                 } actions: {
                     Button("Start Dictation") { model.toggleDictation() }
                         .buttonStyle(.borderedProminent)
@@ -82,19 +164,45 @@ private struct HistoryView: View {
             } else {
                 List(model.history) { entry in
                     VStack(alignment: .leading, spacing: 7) {
-                        Text(entry.transcript)
-                            .font(.body)
-                            .textSelection(.enabled)
+                        Text(entry.displayTitle)
+                            .font(.headline)
+                        if !entry.transcript.isEmpty, entry.transcript != entry.displayTitle {
+                            Text(entry.transcript)
+                                .font(.body)
+                                .foregroundStyle(.secondary)
+                                .textSelection(.enabled)
+                                .lineLimit(5)
+                        } else if entry.transcript.isEmpty {
+                            Text("Audio saved · transcript unavailable")
+                                .foregroundStyle(.secondary)
+                        }
                         HStack {
                             Text(entry.createdAt, style: .relative)
                             Text("·")
                             Text(entry.duration, format: .number.precision(.fractionLength(1)))
                             Text("seconds")
                             Spacer()
-                            Button("Copy", systemImage: "doc.on.doc") {
-                                model.copyTranscript(entry)
+                            if model.audioURL(for: entry) != nil {
+                                Button(
+                                    model.playingEntryID == entry.id ? "Stop" : "Play",
+                                    systemImage: model.playingEntryID == entry.id ? "stop.fill" : "play.fill"
+                                ) {
+                                    Task { await model.togglePlayback(entry) }
+                                }
+                                .labelStyle(.iconOnly)
                             }
-                            .labelStyle(.iconOnly)
+                            if !entry.transcript.isEmpty {
+                                Button("Copy", systemImage: "doc.on.doc") {
+                                    model.copyTranscript(entry)
+                                }
+                                .labelStyle(.iconOnly)
+                            }
+                            if let audioURL = model.audioURL(for: entry) {
+                                ShareLink(item: audioURL) {
+                                    Label("Share Audio", systemImage: "square.and.arrow.up")
+                                }
+                                .labelStyle(.iconOnly)
+                            }
                             Button("Delete", systemImage: "trash", role: .destructive) {
                                 Task { await model.deleteHistory([entry]) }
                             }
@@ -107,7 +215,7 @@ private struct HistoryView: View {
                 }
             }
         }
-        .navigationTitle("History")
+        .navigationTitle("Library")
         .searchable(text: $query)
         .onChange(of: query) { _, value in
             Task { await model.refreshHistory(query: value) }
@@ -269,6 +377,18 @@ private struct SetupView: View {
                     get: { model.launchAtLoginEnabled },
                     set: { model.setLaunchAtLogin($0) }
                 ))
+            }
+            Section("iCloud Sync") {
+                Toggle("Sync recordings, transcripts, and dictionary", isOn: Binding(
+                    get: { model.iCloudSyncEnabled },
+                    set: { model.setICloudSyncEnabled($0) }
+                ))
+                LabeledContent("Status", value: model.iCloudSyncStatus.displayText)
+                Button("Sync Now") { model.refreshCloudSync() }
+                    .disabled(!model.iCloudSyncEnabled)
+                Text("Voice-note audio, transcripts, and dictionary replacements sync through your private iCloud database. Quick-dictation audio, imported media, and downloaded models never sync.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
         .formStyle(.grouped)

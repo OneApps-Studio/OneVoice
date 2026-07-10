@@ -16,6 +16,9 @@ public struct VoiceEntry: Codable, Identifiable, Sendable, Equatable {
     public var engineIdentifier: String
     public var source: Source
     public var isFavorite: Bool
+    public var title: String?
+    public var audioFileName: String?
+    public var audioByteCount: Int64?
 
     public init(
         id: UUID = UUID(),
@@ -26,7 +29,10 @@ public struct VoiceEntry: Codable, Identifiable, Sendable, Equatable {
         localeIdentifier: String,
         engineIdentifier: String,
         source: Source,
-        isFavorite: Bool = false
+        isFavorite: Bool = false,
+        title: String? = nil,
+        audioFileName: String? = nil,
+        audioByteCount: Int64? = nil
     ) {
         self.id = id
         self.rawTranscript = rawTranscript
@@ -37,5 +43,23 @@ public struct VoiceEntry: Codable, Identifiable, Sendable, Equatable {
         self.engineIdentifier = engineIdentifier
         self.source = source
         self.isFavorite = isFavorite
+        self.title = title
+        self.audioFileName = audioFileName
+        self.audioByteCount = audioByteCount
+    }
+
+    public var hasAudio: Bool {
+        audioFileName?.isEmpty == false
+    }
+
+    public var displayTitle: String {
+        if let title = title?.trimmingCharacters(in: .whitespacesAndNewlines), !title.isEmpty {
+            return title
+        }
+        let firstLine = transcript.split(whereSeparator: \.isNewline).first.map(String.init) ?? ""
+        if !firstLine.isEmpty {
+            return String(firstLine.prefix(80))
+        }
+        return "Untitled Recording"
     }
 }

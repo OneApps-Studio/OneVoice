@@ -9,12 +9,16 @@ options:
 
 settings:
   base:
-    CURRENT_PROJECT_VERSION: 1
+    APS_ENVIRONMENT: development
+    CURRENT_PROJECT_VERSION: 2
     DEVELOPMENT_TEAM: PCJ84YD7HQ
-    MARKETING_VERSION: 1.0.0
+    MARKETING_VERSION: 1.1.0
     SWIFT_STRICT_CONCURRENCY: complete
     SWIFT_VERSION: 6.0
     EXTRACT_APP_INTENTS_METADATA: NO
+  configs:
+    Release:
+      APS_ENVIRONMENT: production
 
 packages:
   OneVoiceKit:
@@ -46,20 +50,30 @@ targets:
     settings:
       base:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_ENTITLEMENTS: IOSAPP/Config/OneVoice.entitlements
         CODE_SIGN_STYLE: Automatic
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: IOSAPP/Config/OneVoice-Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice
+        PRODUCT_MODULE_NAME: OneVoice
         PRODUCT_NAME: OneVoice
+        ONEVOICE_CLOUD_CONTAINER_IDENTIFIER: iCloud.studio.oneapps.onevoice
         SUPPORTS_MACCATALYST: NO
         TARGETED_DEVICE_FAMILY: "1,2"
-    entitlements:
-      path: IOSAPP/Config/OneVoice.entitlements
+      configs:
+        Debug:
+          PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice.dev
+          PRODUCT_NAME: OneVoice Dev
+        Release:
+          PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice
+          PRODUCT_NAME: OneVoice
     dependencies:
       - package: OneVoiceKit
         product: OneVoiceCore
       - package: OneVoiceKit
         product: OneVoiceAppleSpeech
+      - package: OneVoiceKit
+        product: OneVoiceCloudSync
       - package: OneVoiceKit
         product: OneVoiceQwenSpeech
 
@@ -70,8 +84,14 @@ targets:
       - path: Tests/OneVoiceTests
     settings:
       base:
+        BUNDLE_LOADER: "$(TEST_HOST)"
         GENERATE_INFOPLIST_FILE: YES
         PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice.tests
+      configs:
+        Debug:
+          TEST_HOST: "$(BUILT_PRODUCTS_DIR)/OneVoice Dev.app/OneVoice Dev"
+        Release:
+          TEST_HOST: "$(BUILT_PRODUCTS_DIR)/OneVoice.app/OneVoice"
     dependencies:
       - target: OneVoice
 
@@ -103,21 +123,22 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice.mac
         PRODUCT_MODULE_NAME: OneVoiceMac
         PRODUCT_NAME: OneVoice
+        ONEVOICE_CLOUD_CONTAINER_IDENTIFIER: iCloud.studio.oneapps.onevoice
       configs:
         Debug:
+          CODE_SIGN_ENTITLEMENTS: MACAPP/Config/OneVoiceMac-Dev.entitlements
           PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice.mac.dev
           PRODUCT_NAME: OneVoice Dev
         Release:
+          CODE_SIGN_ENTITLEMENTS: MACAPP/Config/OneVoiceMac.entitlements
           CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
-    entitlements:
-      path: MACAPP/Config/OneVoiceMac.entitlements
-      properties:
-        com.apple.security.device.audio-input: true
     dependencies:
       - package: OneVoiceKit
         product: OneVoiceCore
       - package: OneVoiceKit
         product: OneVoiceAppleSpeech
+      - package: OneVoiceKit
+        product: OneVoiceCloudSync
       - package: OneVoiceKit
         product: OneVoiceQwenSpeech
 
@@ -161,6 +182,8 @@ schemes:
         OneVoiceUITests: [test]
     test:
       gatherCoverageData: true
+      environmentVariables:
+        ONEVOICE_RUN_BACKGROUND_TEST: "1"
       targets:
         - OneVoiceTests
         - OneVoiceUITests

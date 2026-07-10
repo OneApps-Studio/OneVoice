@@ -1,9 +1,12 @@
 import OneVoiceCore
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct VoiceRecordView: View {
     let model: OneVoiceMobileModel
     @Environment(\.oneAppTheme) private var theme
+    @State private var isChoosingFile = false
+    @State private var isDropTargeted = false
 
     var body: some View {
         ZStack {
@@ -34,6 +37,16 @@ struct VoiceRecordView: View {
                             .foregroundStyle(.secondary)
                     }
 
+                    if model.isRecording {
+                        Label(
+                            "Recording continues when you lock your screen or use another app.",
+                            systemImage: "lock.open.display"
+                        )
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                    }
+
                     Button {
                         Task {
                             if model.isRecording { await model.finishRecording() }
@@ -59,6 +72,12 @@ struct VoiceRecordView: View {
                     .disabled(!model.isReady || model.isStarting || model.isFinishing)
                     .accessibilityIdentifier("record-button")
                     .accessibilityLabel(model.isRecording ? Text("Finish recording") : Text("Start recording"))
+
+                    MediaImportCard(
+                        model: model,
+                        isChoosingFile: $isChoosingFile,
+                        isDropTargeted: $isDropTargeted
+                    )
 
                     if model.isRecording || model.isFinishing {
                         VStack(alignment: .leading, spacing: 10) {
@@ -93,7 +112,7 @@ struct VoiceRecordView: View {
                         VStack(spacing: 12) {
                             Text("Tap the microphone and speak naturally.")
                                 .font(.headline)
-                            Text("Your final transcript is copied automatically, saved to History, and ready to paste anywhere.")
+                            Text("OneVoice saves the recording, creates a searchable transcript automatically, and syncs both through your private iCloud library by default.")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
                                 .multilineTextAlignment(.center)
@@ -131,14 +150,69 @@ struct VoiceRecordView: View {
                 }
             }
         }
+        .fileImporter(
+            isPresented: $isChoosingFile,
+            allowedContentTypes: [.audio, .movie],
+            allowsMultipleSelection: false
+        ) { result in
+            if case let .success(urls) = result, let url = urls.first {
+                model.importMedia(at: url)
+            } else if case let .failure(error) = result {
+                model.lastError = error.localizedDescription
+            }
+        }
+        .dropDestination(for: URL.self) { urls, _ in
+            guard let url = urls.first else { return false }
+            model.importMedia(at: url)
+            return true
+        } isTargeted: { isDropTargeted = $0 }
     }
 
     private var statusText: LocalizedStringResource {
         if model.isStarting { return "Preparing private recognition…" }
         if model.isFinishing { return model.qwenInstalled && model.useQwenFinalPass ? "Running accurate offline final pass…" : "Finalizing on device…" }
-        if model.isRecording { return "Listening on this device" }
+        if model.isRecording { return "Recording and transcribing on this device" }
         return model.qwenInstalled && model.useQwenFinalPass ? "Apple live · Qwen accurate final" : "Apple on-device recognition"
     }
+}
+
+private struct MediaImportCard: View {
+    let model: OneVoiceMobileModel
+    @Binding var isChoosingFile: Bool
+    @Binding var isDropTargeted: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Transcribe audio or video", systemImage: "waveform.badge.magnifyingglass")
+                .font(.headline)
+            if model.isImportingMedia {
+                ProgressView(value: model.mediaImportProgress) {
+                    Text(model.mediaImportFileName)
+                }
+                if !model.liveTranscript.isEmpty {
+                    Text(model.liveTranscript)
+                        .textSelection(.enabled)
+                }
+                Button("Cancel", role: .destructive) { model.cancelMediaImport() }
+            } else {
+                Text("Choose a file, or drop one here on iPad. Audio is processed on this device and is never saved by OneVoice.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                Button("Choose Audio or Video", systemImage: "plus") { isChoosingFile = true }
+                    .buttonStyle(.bordered)
+            }
+        }
+        .padding(18)
+        .oneCard()
+        .overlay {
+            if isDropTargeted {
+                RoundedRectangle(cornerRadius: OneStyle.cardRadius)
+                    .stroke(themeColor, style: StrokeStyle(lineWidth: 2, dash: [7]))
+            }
+        }
+    }
+
+    private var themeColor: Color { .accentColor }
 }
 
 private struct VoiceActivityBars: View {
@@ -166,7 +240,7 @@ private struct LatestTranscriptCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Label("Copied and saved", systemImage: "checkmark.circle.fill")
+                Label("Recording and transcript saved", systemImage: "checkmark.circle.fill")
                     .font(.headline)
                     .foregroundStyle(.green)
                 Spacer()
@@ -180,14 +254,30 @@ private struct LatestTranscriptCard: View {
                         .foregroundStyle(.secondary)
                 }
             }
+            Text(entry.displayTitle)
+                .font(.headline)
             Text(entry.transcript)
                 .textSelection(.enabled)
                 .frame(maxWidth: .infinity, alignment: .leading)
             HStack {
+                if model.audioURL(for: entry) != nil {
+                    Button(
+                        model.playingEntryID == entry.id ? "Stop" : "Play",
+                        systemImage: model.playingEntryID == entry.id ? "stop.fill" : "play.fill"
+                    ) {
+                        Task { await model.togglePlayback(entry) }
+                    }
+                }
                 Button("Copy", systemImage: "doc.on.doc") { model.copy(entry) }
                 Spacer()
-                ShareLink(item: entry.transcript) {
-                    Label("Share", systemImage: "square.and.arrow.up")
+                if let audioURL = model.audioURL(for: entry) {
+                    ShareLink(item: audioURL) {
+                        Label("Share Audio", systemImage: "square.and.arrow.up")
+                    }
+                } else {
+                    ShareLink(item: entry.transcript) {
+                        Label("Share Text", systemImage: "square.and.arrow.up")
+                    }
                 }
             }
             .buttonStyle(.bordered)

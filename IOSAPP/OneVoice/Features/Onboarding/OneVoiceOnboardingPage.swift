@@ -77,7 +77,7 @@ struct OneVoiceOnboardingPage: View {
         switch step {
         case .privateSpeech:
             [
-                ("iphone", "On-device by design", "Your recordings and history stay on this device."),
+                ("iphone", "Private by design", "Recordings and transcripts stay local-first and can sync through your private iCloud account."),
                 ("waveform", "Live transcription", "Watch words appear as you speak."),
                 ("lock.shield", "No account required", "Open the app and start talking."),
             ]

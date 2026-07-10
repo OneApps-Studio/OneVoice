@@ -32,6 +32,10 @@ public actor DictionaryReplacementStore {
         }
     }
 
+    public func replacement(id: UUID) -> DictionaryReplacement? {
+        replacements.first { $0.id == id }
+    }
+
     public func save(_ replacement: DictionaryReplacement) throws {
         if let index = replacements.firstIndex(where: { $0.id == replacement.id }) {
             replacements[index] = replacement

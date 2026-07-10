@@ -16,7 +16,7 @@ struct VoiceHistoryView: View {
                     }
                 } description: {
                     if query.isEmpty {
-                        Text("Your private transcripts will appear here.")
+                        Text("Your private recordings and searchable transcripts will appear here.")
                     } else {
                         Text("Try a different search.")
                     }
@@ -63,8 +63,20 @@ private struct VoiceHistoryRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top) {
-                Text(entry.transcript)
-                    .lineLimit(5)
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(entry.displayTitle)
+                        .font(.headline)
+                    if !entry.transcript.isEmpty, entry.transcript != entry.displayTitle {
+                        Text(entry.transcript)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(4)
+                    } else if entry.transcript.isEmpty {
+                        Text("Audio saved · transcript unavailable")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                }
                 Spacer(minLength: 8)
                 if entry.isFavorite {
                     Image(systemName: "star.fill").foregroundStyle(.yellow)
@@ -75,12 +87,26 @@ private struct VoiceHistoryRow: View {
                 Text("·")
                 Text(entry.duration.formattedDuration)
                 Spacer()
-                Button { model.copy(entry) } label: {
-                    Image(systemName: "doc.on.doc")
+                if model.audioURL(for: entry) != nil {
+                    Button { Task { await model.togglePlayback(entry) } } label: {
+                        Image(systemName: model.playingEntryID == entry.id ? "stop.fill" : "play.fill")
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
-                ShareLink(item: entry.transcript) {
-                    Image(systemName: "square.and.arrow.up")
+                if !entry.transcript.isEmpty {
+                    Button { model.copy(entry) } label: {
+                        Image(systemName: "doc.on.doc")
+                    }
+                    .buttonStyle(.plain)
+                }
+                if let audioURL = model.audioURL(for: entry) {
+                    ShareLink(item: audioURL) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                } else if !entry.transcript.isEmpty {
+                    ShareLink(item: entry.transcript) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
                 }
             }
             .font(.caption)

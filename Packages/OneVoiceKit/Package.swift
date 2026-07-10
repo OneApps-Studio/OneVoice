@@ -11,6 +11,7 @@ let package = Package(
     products: [
         .library(name: "OneVoiceCore", targets: ["OneVoiceCore"]),
         .library(name: "OneVoiceAppleSpeech", targets: ["OneVoiceAppleSpeech"]),
+        .library(name: "OneVoiceCloudSync", targets: ["OneVoiceCloudSync"]),
         .library(name: "OneVoiceQwenSpeech", targets: ["OneVoiceQwenSpeech"]),
     ],
     dependencies: [
@@ -27,6 +28,11 @@ let package = Package(
             ]
         ),
         .target(
+            name: "OneVoiceCloudSync",
+            dependencies: ["OneVoiceCore"],
+            linkerSettings: [.linkedFramework("CloudKit")]
+        ),
+        .target(
             name: "OneVoiceQwenSpeech",
             dependencies: [
                 "OneVoiceCore",
@@ -41,6 +47,10 @@ let package = Package(
             name: "OneVoiceAppleSpeechTests",
             dependencies: ["OneVoiceAppleSpeech", "OneVoiceCore"],
             linkerSettings: [.linkedFramework("AVFoundation")]
+        ),
+        .testTarget(
+            name: "OneVoiceCloudSyncTests",
+            dependencies: ["OneVoiceCloudSync", "OneVoiceCore"]
         ),
         .testTarget(
             name: "OneVoiceQwenSpeechTests",

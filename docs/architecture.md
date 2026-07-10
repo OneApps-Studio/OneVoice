@@ -22,13 +22,14 @@ The floating dictation panel is nonactivating, so it does not steal the insertio
 
 ## iOS
 
-The iOS app uses the same session, history, dictionary, Apple Speech, and Qwen components. It presents recording, history, dictionary, and settings tabs. Completed transcripts are copied to the system pasteboard because iOS does not allow arbitrary cross-app field insertion.
+The iOS app uses the same session, history, dictionary, Apple Speech, and Qwen components. Its voice recorder writes compressed audio while streaming the same microphone frames into live on-device recognition. The `audio` background mode keeps an explicitly started recording active when the app is backgrounded or the device is locked. Finishing a recording commits the audio first, then saves its automatic transcript so a recognition failure never silently discards the recording.
 
 ## Persistence
 
 - `history.json` and `dictionary.json` live in the app's Application Support directory.
-- Quick dictation and voice-note audio are processed in memory and discarded.
+- iOS voice-note audio lives under `Application Support/OneVoice/Recordings` as compressed `.m4a` files.
+- macOS quick-dictation audio is processed in memory and discarded.
 - Qwen weights live under `Application Support/OneVoice/Models` and are excluded from device backup.
 - Model downloads are resumable, size-checked, and SHA-256 verified before loading.
 
-There is no account, telemetry, analytics SDK, cloud database, or application server.
+`CKSyncEngine` mirrors voice-note audio as `CKAsset`, transcript metadata, and dictionary replacements through the user's private CloudKit database. Quick-dictation audio, imported media, and model files are excluded. There is no OneVoice account, telemetry, analytics SDK, or application server.

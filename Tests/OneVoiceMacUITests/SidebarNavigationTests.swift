@@ -10,7 +10,7 @@ final class SidebarNavigationTests: XCTestCase {
         try assertSelecting("Dictionary", in: app)
         try assertSelecting("Models", in: app)
         try assertSelecting("Setup", in: app)
-        try assertSelecting("History", in: app)
+        try assertSelecting("Library", in: app)
     }
 
     @MainActor

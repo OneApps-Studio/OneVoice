@@ -6,8 +6,8 @@ On macOS, hold **Fn** to talk or tap **Right Command** to start and stop recordi
 
 ## Download
 
-- [Download OneVoice 1.0.0 for macOS](https://downloads.oneapps.studio/onevoice/releases/v1.0.0/OneVoice-1.0.0.dmg)
-- [Verify SHA-256](https://downloads.oneapps.studio/onevoice/releases/v1.0.0/OneVoice-1.0.0.sha256)
+- [Download OneVoice 1.1.0 for macOS](https://downloads.oneapps.studio/onevoice/releases/v1.1.0/OneVoice-1.1.0.dmg)
+- [Verify SHA-256](https://downloads.oneapps.studio/onevoice/releases/v1.1.0/OneVoice-1.1.0.sha256)
 - [Release metadata](https://downloads.oneapps.studio/onevoice/latest.json)
 
 The downloadable macOS build is Developer ID signed, notarized by Apple, and distributed as an Apple-silicon DMG.
@@ -20,7 +20,9 @@ The downloadable macOS build is Developer ID signed, notarized by Apple, and dis
 - Accessibility insertion with safe clipboard fallback
 - Searchable history and a personal pronunciation dictionary
 - English, Simplified Chinese, and Japanese UI on iOS
-- No account, analytics, audio upload, or quick-dictation audio storage
+- Background voice-note recording on iPhone and iPad with automatic searchable transcripts
+- Private iCloud sync for voice-note audio, transcripts, and personal dictionary across Apple devices
+- No OneVoice account, analytics, proprietary audio server, or quick-dictation audio storage
 
 ## Requirements
 
@@ -77,7 +79,7 @@ Tests/                  Xcode unit and UI tests
 Design/                 app-icon master artwork
 ```
 
-See [docs/architecture.md](docs/architecture.md) and [docs/privacy.md](docs/privacy.md) for implementation details.
+See [docs/architecture.md](docs/architecture.md), [docs/privacy.md](docs/privacy.md), and [docs/cloudkit-schema.md](docs/cloudkit-schema.md) for implementation details.
 
 Release maintainers should also read [docs/releasing.md](docs/releasing.md).
 

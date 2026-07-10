@@ -11,14 +11,15 @@ OneVoice is an Apache-2.0 open-source, privacy-first offline dictation app for m
 - Apple on-device Speech provides live transcription.
 - Qwen3-ASR 0.6B is an optional user-initiated download and only replaces the final transcript.
 - Quick dictation audio is never persisted.
-- History and personal dictionary data stay in local Application Support JSON files.
+- iOS voice notes persist compressed audio locally and continue recording after the app backgrounds. Their audio, transcript metadata, and personal dictionary mirror through the user's private iCloud database by default so the Mac app can play and search them.
+- Quick-dictation audio, imported media, and model files never sync. Quick-dictation audio is never persisted.
 - macOS global shortcuts remain Fn hold-to-talk and Right Command tap-to-toggle.
 - Secure fields are never filled automatically.
-- Keep all user-facing claims truthful: no account, no analytics, no audio upload.
+- Keep all user-facing claims truthful: no OneVoice account, no analytics, and no OneVoice-operated audio server. When iCloud Sync is enabled, voice-note audio is uploaded only to the user's private Apple iCloud database.
 
 ## Development
 
-- Debug builds must remain isolated as `OneVoice Dev`: bundle ID `studio.oneapps.onevoice.mac.dev`, product/display name `OneVoice Dev`, and Application Support folder `OneVoice Dev`. Never run an Apple Development-signed build with the production bundle ID or overwrite `/Applications/OneVoice.app` during testing.
+- Debug builds must remain isolated as `OneVoice Dev`: iOS bundle ID `studio.oneapps.onevoice.dev`, macOS bundle ID `studio.oneapps.onevoice.mac.dev`, product/display name `OneVoice Dev`, and Application Support folder `OneVoice Dev`. Never run an Apple Development-signed build with a production bundle ID or overwrite `/Applications/OneVoice.app` during testing.
 - Generate the Xcode project with `xcodegen generate` after changing `project.yml`.
 - Run package tests with `cd Packages/OneVoiceKit && swift test`.
 - Use a portrait iPhone simulator for primary iOS UI verification.

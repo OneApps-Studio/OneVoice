@@ -30,9 +30,14 @@ public actor VoiceEntryStore {
         }
 
         return storedEntries.filter {
+            $0.displayTitle.localizedCaseInsensitiveContains(query) ||
             $0.transcript.localizedCaseInsensitiveContains(query) ||
                 $0.rawTranscript.localizedCaseInsensitiveContains(query)
         }
+    }
+
+    public func entry(id: UUID) -> VoiceEntry? {
+        storedEntries.first { $0.id == id }
     }
 
     public func save(_ entry: VoiceEntry) throws {

@@ -20,6 +20,24 @@ struct SettingsView: View {
 
             QwenModelSettingsSection(model: model)
 
+            Section("iCloud Sync") {
+                Toggle(
+                    "Sync recordings, transcripts, and dictionary",
+                    isOn: Binding(
+                        get: { model.iCloudSyncEnabled },
+                        set: { model.setICloudSyncEnabled($0) }
+                    )
+                )
+                LabeledContent("Status") {
+                    Text(iCloudStatusText)
+                }
+                Button("Sync Now") { model.refreshCloudSync() }
+                    .disabled(!model.iCloudSyncEnabled)
+                Text("Voice-note audio, transcripts, and dictionary replacements sync through your private iCloud database. Imported media and downloaded models never sync.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
             Section("Appearance") {
                 NavigationLink("Theme & Appearance") {
                     SettingsThemeAppearanceView(
@@ -33,8 +51,8 @@ struct SettingsView: View {
             }
 
             Section("Privacy") {
-                Label("Audio and transcripts stay on this device", systemImage: "lock.shield.fill")
-                Text("OneVoice only connects when you request the optional Qwen model. Apple may separately download and manage on-device speech assets. OneVoice has no account or analytics SDK.")
+                Label("Your recordings stay private", systemImage: "lock.shield.fill")
+                Text("OneVoice has no account, analytics SDK, or OneVoice server. Voice notes are stored locally and, when iCloud Sync is on, mirrored with their transcripts through your private Apple iCloud account.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -46,7 +64,7 @@ struct SettingsView: View {
                 )
                 Link("Qwen3-ASR", destination: URL(string: "https://github.com/QwenLM/Qwen3-ASR")!)
                 Link("speech-swift", destination: URL(string: "https://github.com/soniqo/speech-swift")!)
-                Link("Source Code", destination: URL(string: "https://github.com/One-Apps-Studio/OneVoice")!)
+                Link("Source Code", destination: URL(string: "https://github.com/OneApps-Studio/OneVoice")!)
             }
 
             Section {
@@ -56,6 +74,16 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("Settings")
+    }
+
+    private var iCloudStatusText: LocalizedStringResource {
+        switch model.iCloudSyncStatus {
+        case .disabled: "Off"
+        case .syncing: "Syncing…"
+        case .synced: "Synced"
+        case .unavailable: "iCloud unavailable"
+        case .failed: "Sync error"
+        }
     }
 }
 

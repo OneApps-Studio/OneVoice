@@ -225,6 +225,22 @@
         }
       }
     },
+    "Audio always stays on this device": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声は常にこのデバイス内に保存されます"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音频始终只留在此设备"
+          }
+        }
+      }
+    },
     "Audio and transcripts stay on this device": {
       "localizations": {
         "ja": {
@@ -237,6 +253,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "音频和转写内容仅保存在此设备"
+          }
+        }
+      }
+    },
+    "Audio saved · transcript unavailable": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声を保存しました・文字起こしは利用できません"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音频已保存 · 暂无转写"
+          }
+        }
+      }
+    },
+    "Audio stays on this device. Transcript text can sync through your private iCloud account.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声はこのデバイス内に留まり、文字起こしだけをプライベートなiCloudアカウントで同期できます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音频只留在此设备；转写文字可通过你的私有 iCloud 账户同步。"
           }
         }
       }
@@ -269,6 +317,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "记录简短想法或较长的语音笔记。"
+          }
+        }
+      }
+    },
+    "Choose Audio or Video": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声またはビデオを選択"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择音频或视频"
+          }
+        }
+      }
+    },
+    "Choose a file, or drop one here on iPad. Audio is processed on this device and is never saved by OneVoice.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ファイルを選ぶか、iPadではここにドロップできます。音声はデバイス上で処理され、OneVoiceには保存されません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择文件，或在 iPad 上拖放到这里。音频会在设备端处理，OneVoice 不会保存音频。"
           }
         }
       }
@@ -913,6 +993,22 @@
         }
       }
     },
+    "Off": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オフ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭"
+          }
+        }
+      }
+    },
     "On-device by design": {
       "localizations": {
         "ja": {
@@ -925,6 +1021,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "专为设备端处理而设计"
+          }
+        }
+      }
+    },
+    "OneVoice has no account or analytics SDK. When iCloud Sync is on, transcript text and dictionary replacements sync through your private Apple iCloud account; audio never uploads.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OneVoiceにアカウントや分析SDKはありません。iCloud同期をオンにすると、文字起こしと辞書の置換ルールだけがプライベートなApple iCloudアカウントで同期され、音声はアップロードされません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OneVoice 无需账号，也不包含分析 SDK。开启 iCloud 同步后，转写文字和词典替换规则会通过你的私有 Apple iCloud 账户同步；音频永不上传。"
+          }
+        }
+      }
+    },
+    "OneVoice has no account, analytics SDK, or OneVoice server. Voice notes are stored locally and, when iCloud Sync is on, mirrored with their transcripts through your private Apple iCloud account.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OneVoiceにはアカウント、分析SDK、独自サーバーがありません。音声メモはローカルに保存され、iCloud同期をオンにすると音声と文字起こしがプライベートなApple iCloudアカウントに同期されます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OneVoice 无需账号，不含分析 SDK，也没有 OneVoice 服务器。语音笔记保存在本地；开启 iCloud 同步后，音频与转写会同步到你的私有 Apple iCloud 账户。"
           }
         }
       }
@@ -957,6 +1085,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "只有在你主动请求可选 Qwen 模型时，OneVoice 才会联网。Apple 可能会单独下载并管理设备端语音资源。OneVoice 无需账号，也不包含分析 SDK。"
+          }
+        }
+      }
+    },
+    "OneVoice saves the recording, creates a searchable transcript automatically, and syncs both through your private iCloud library by default.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OneVoiceは録音を保存し、検索可能な文字起こしを自動作成して、デフォルトでプライベートなiCloudライブラリに同期します。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OneVoice 会保存录音、自动生成可搜索的转写，并默认通过你的私有 iCloud 资料库同步两者。"
+          }
+        }
+      }
+    },
+    "Only transcript text and dictionary replacements sync through your private iCloud database. Audio, imported media, and downloaded models never sync.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文字起こしと辞書の置換ルールだけがプライベートなiCloudデータベースで同期されます。音声、読み込んだメディア、ダウンロード済みモデルは同期されません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅转写文字和个人词典替换规则会通过你的私有 iCloud 数据库同步。音频、导入的媒体和已下载模型永不同步。"
           }
         }
       }
@@ -1009,6 +1169,22 @@
         }
       }
     },
+    "Play": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再生"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "播放"
+          }
+        }
+      }
+    },
     "Preparing private recognition…": {
       "localizations": {
         "ja": {
@@ -1037,6 +1213,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "隐私"
+          }
+        }
+      }
+    },
+    "Private by design": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プライバシー重視の設計"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隐私优先设计"
           }
         }
       }
@@ -1169,6 +1361,86 @@
         }
       }
     },
+    "Record in the foreground or background, then transcribe on device. OneVoice has no audio server.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォアグラウンドでもバックグラウンドでも録音でき、その後デバイス上で文字起こしします。OneVoiceに音声サーバーはありません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无论前台还是后台都可录音，随后在设备端完成转写。OneVoice 没有音频服务器。"
+          }
+        }
+      }
+    },
+    "Recording and transcribing on this device": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このデバイスで録音・文字起こし中"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在此设备上录音并转写"
+          }
+        }
+      }
+    },
+    "Recording and transcript saved": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音と文字起こしを保存しました"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音和转写已保存"
+          }
+        }
+      }
+    },
+    "Recording continues when you lock your screen or use another app.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "画面をロックしたり別のアプリを使ったりしても録音は続きます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "锁屏或使用其他 App 时，录音仍会继续。"
+          }
+        }
+      }
+    },
+    "Recordings and transcripts stay local-first and can sync through your private iCloud account.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音と文字起こしはローカル優先で保存され、プライベートなiCloudアカウントで同期できます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音和转写以本地保存为主，并可通过你的私有 iCloud 账户同步。"
+          }
+        }
+      }
+    },
     "Remove Download": {
       "localizations": {
         "ja": {
@@ -1245,6 +1517,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "分享"
+          }
+        }
+      }
+    },
+    "Share Audio": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声を共有"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享音频"
+          }
+        }
+      }
+    },
+    "Share Text": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テキストを共有"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享文字"
           }
         }
       }
@@ -1409,6 +1713,134 @@
         }
       }
     },
+    "Status": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "状態"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "状态"
+          }
+        }
+      }
+    },
+    "Stop": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止"
+          }
+        }
+      }
+    },
+    "Sync Now": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今すぐ同期"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即同步"
+          }
+        }
+      }
+    },
+    "Sync error": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同期エラー"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步出错"
+          }
+        }
+      }
+    },
+    "Sync recordings, transcripts, and dictionary": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音、文字起こし、辞書を同期"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步录音、转写与个人词典"
+          }
+        }
+      }
+    },
+    "Sync transcripts and dictionary": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文字起こしと辞書を同期"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步转写与个人词典"
+          }
+        }
+      }
+    },
+    "Synced": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同期済み"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已同步"
+          }
+        }
+      }
+    },
+    "Syncing…": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同期中…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在同步…"
+          }
+        }
+      }
+    },
     "System": {
       "localizations": {
         "ja": {
@@ -1505,6 +1937,38 @@
         }
       }
     },
+    "Transcribe audio or video": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声またはビデオを文字起こし"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "转写音频或视频"
+          }
+        }
+      }
+    },
+    "Transcript saved to History": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文字起こしを履歴に保存しました"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "转写已保存到历史记录"
+          }
+        }
+      }
+    },
     "Try a different search.": {
       "localizations": {
         "ja": {
@@ -1597,6 +2061,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "版本"
+          }
+        }
+      }
+    },
+    "Voice-note audio, transcripts, and dictionary replacements sync through your private iCloud database. Imported media and downloaded models never sync.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声メモ、文字起こし、辞書の置換ルールはプライベートなiCloudデータベースで同期されます。読み込んだメディアとダウンロード済みモデルは同期されません。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音笔记音频、转写和个人词典替换规则会通过你的私有 iCloud 数据库同步。导入的媒体和下载模型永不同步。"
           }
         }
       }
@@ -1729,6 +2209,22 @@
         }
       }
     },
+    "Your private recordings and searchable transcripts will appear here.": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プライベートな録音と検索可能な文字起こしがここに表示されます。"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你的私密录音和可搜索转写会显示在这里。"
+          }
+        }
+      }
+    },
     "Your private transcripts will appear here.": {
       "localizations": {
         "ja": {
@@ -1761,6 +2257,22 @@
         }
       }
     },
+    "Your recordings stay private": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "録音はプライベートに保たれます"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你的录音保持私密"
+          }
+        }
+      }
+    },
     "Your replacements": {
       "localizations": {
         "ja": {
@@ -1789,6 +2301,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "来自 OneApps.Studio"
+          }
+        }
+      }
+    },
+    "iCloud Sync": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud同期"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud 同步"
+          }
+        }
+      }
+    },
+    "iCloud unavailable": {
+      "localizations": {
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloudを利用できません"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud 不可用"
           }
         }
       }

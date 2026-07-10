@@ -20,8 +20,10 @@ final class MobileMicrophoneCapture: @unchecked Sendable {
     private let lock = NSLock()
     private var running = false
     private var observers: [NSObjectProtocol] = []
+    private var recordingFile: AVAudioFile?
 
     func start(
+        recordingURL: URL,
         frameHandler: @escaping @Sendable (AudioFrame) -> Void,
         errorHandler: @escaping @Sendable (Error) -> Void
     ) throws {
@@ -36,7 +38,34 @@ final class MobileMicrophoneCapture: @unchecked Sendable {
         let input = engine.inputNode
         let format = input.outputFormat(forBus: 0)
         guard format.channelCount > 0 else { throw CaptureError.noInputChannels }
+        try FileManager.default.createDirectory(
+            at: recordingURL.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
+        if FileManager.default.fileExists(atPath: recordingURL.path()) {
+            try FileManager.default.removeItem(at: recordingURL)
+        }
+        let settings: [String: Any] = [
+            AVFormatIDKey: kAudioFormatMPEG4AAC,
+            AVSampleRateKey: format.sampleRate,
+            AVNumberOfChannelsKey: Int(format.channelCount),
+            AVEncoderBitRateKey: 64_000 * Int(format.channelCount),
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
+        ]
+        let recordingFile = try AVAudioFile(
+            forWriting: recordingURL,
+            settings: settings,
+            commonFormat: format.commonFormat,
+            interleaved: format.isInterleaved
+        )
+        self.recordingFile = recordingFile
         input.installTap(onBus: 0, bufferSize: 1_024, format: format) { buffer, _ in
+            do {
+                try recordingFile.write(from: buffer)
+            } catch {
+                errorHandler(error)
+                return
+            }
             guard let channels = buffer.floatChannelData else { return }
             let frameCount = Int(buffer.frameLength)
             let channelCount = Int(buffer.format.channelCount)
@@ -57,6 +86,7 @@ final class MobileMicrophoneCapture: @unchecked Sendable {
             installObservers(errorHandler: errorHandler)
         } catch {
             input.removeTap(onBus: 0)
+            self.recordingFile = nil
             try? session.setActive(false, options: .notifyOthersOnDeactivation)
             throw error
         }
@@ -68,6 +98,7 @@ final class MobileMicrophoneCapture: @unchecked Sendable {
         guard running else { return }
         engine.inputNode.removeTap(onBus: 0)
         engine.stop()
+        recordingFile = nil
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         removeObservers()
         running = false

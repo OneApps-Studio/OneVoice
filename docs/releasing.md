@@ -1,10 +1,11 @@
 # Releasing OneVoice
 
-OneVoice uses three release surfaces with separate responsibilities:
+OneVoice uses four release surfaces with separate responsibilities:
 
 - GitHub repository `OneApps-Studio/OneVoice`: source, issues, tags, and release notes.
 - GitHub Releases: canonical version record and an additional binary download.
 - Cloudflare R2 bucket `oneapps-studio-assets`: primary binary mirror behind `downloads.oneapps.studio`.
+- App Store Connect: the signed iOS/iPadOS build, metadata, review, and phased release state.
 
 The One Apps Studio product page is maintained separately and should link to the immutable R2 download URL.
 
@@ -28,6 +29,18 @@ Create a tag only after the final app and DMG pass all release checks. Never mov
 10. Compute SHA-256 from the final stapled DMG.
 
 Do not publish a stable release unless both the app and DMG report `source=Notarized Developer ID` under Gatekeeper assessment.
+
+## iOS and CloudKit release
+
+1. Keep Debug isolated as `OneVoice Dev` with bundle ID `studio.oneapps.onevoice.dev`; never use a development-signed build with the production identity to test local changes.
+2. Run the package tests, iOS unit/UI tests, and the physical-device background-recording test.
+3. Verify that leaving OneVoice and locking the device do not stop recording, then confirm the saved `.m4a` is non-empty and playable after relaunch.
+4. Verify the private CloudKit development schema and deploy it to production using [cloudkit-schema.md](cloudkit-schema.md).
+5. Archive the `OneVoice` scheme in Release, export with `IOSAPP/Config/ExportOptions-AppStore.plist`, and validate the exported entitlements.
+6. Upload the build, wait for processing, attach it to the matching App Store version, complete privacy/encryption/age-rating declarations, and run the App Store Connect submission-readiness checks.
+7. Submit only after the final screenshots, localized metadata, review contact, and background-audio review note are present.
+
+The review note must explain that background audio is user-initiated voice-note recording: recording begins only after the user taps the microphone, remains visibly active, and stops when the user taps Finish or Cancel. OneVoice does not start recording silently.
 
 ## R2 layout
 

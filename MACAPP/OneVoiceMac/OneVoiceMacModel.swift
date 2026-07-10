@@ -3,6 +3,7 @@ import AVFoundation
 import Foundation
 import Observation
 import OneVoiceAppleSpeech
+import OneVoiceCloudSync
 import OneVoiceCore
 import OneVoiceQwenSpeech
 import ServiceManagement
@@ -43,14 +44,21 @@ final class OneVoiceMacModel {
     private(set) var isStarting = false
     private(set) var isRecording = false
     private(set) var isFinishing = false
+    private(set) var isImportingMedia = false
+    private(set) var mediaImportProgress = 0.0
+    private(set) var mediaImportFileName = ""
+    private(set) var latestImportedEntry: VoiceEntry?
     private(set) var permissionGeneration = 0
     private(set) var launchAtLoginEnabled = false
     private(set) var history: [VoiceEntry] = []
+    private(set) var audioURLs: [UUID: URL] = [:]
+    private(set) var playingEntryID: UUID?
     private(set) var replacements: [DictionaryReplacement] = []
     private(set) var qwenInstalled = false
     private(set) var qwenIsDownloading = false
     private(set) var qwenDownloadProgress = 0.0
     private(set) var qwenStatusText = "Not installed"
+    private(set) var iCloudSyncStatus: OneVoiceCloudSyncStatus = .disabled
     var liveTranscript: String { session?.partialTranscript ?? "" }
     var lastError: String?
     var lastDeliveryMessage: String?
@@ -63,20 +71,29 @@ final class OneVoiceMacModel {
             Task { await speechEngine.setUseQwenFinalPass(useQwenFinalPass) }
         }
     }
+    var iCloudSyncEnabled: Bool {
+        didSet { UserDefaults.standard.set(iCloudSyncEnabled, forKey: "iCloudSyncEnabled") }
+    }
 
     private let qwenManager: QwenModelManager
     private let speechEngine: HybridTranscriptionEngine
     private let insertion = MacTextInsertion()
     private let microphone = MacMicrophoneCapture()
+    private let mediaReader = MediaAudioReader()
     private let overlay = DictationOverlayController()
     private var store: VoiceEntryStore?
+    private var recordingStore: VoiceRecordingStore?
     private var dictionaryStore: DictionaryReplacementStore?
+    private var cloudSync: OneVoiceCloudSync?
     private var session: DictationSession?
     private var hotkeyMonitor: GlobalHotkeyMonitor?
     private var startedAt: ContinuousClock.Instant?
     private var didLaunch = false
     private var hotkeyStartTask: Task<Void, Never>?
+    private var mediaImportTask: Task<Void, Never>?
     private var pushToTalkIsHeld = false
+    private var audioPlayer: AVAudioPlayer?
+    private var playbackTask: Task<Void, Never>?
     #if DEBUG
     private var debugHotkeyOutputURL: URL?
     #endif
@@ -92,6 +109,7 @@ final class OneVoiceMacModel {
             useQwenFinalPass: qwenEnabled
         )
         useQwenFinalPass = qwenEnabled
+        iCloudSyncEnabled = UserDefaults.standard.object(forKey: "iCloudSyncEnabled") as? Bool ?? true
         launchAtLoginEnabled = SMAppService.mainApp.status == .enabled
     }
 
@@ -110,10 +128,14 @@ final class OneVoiceMacModel {
         do {
             let support = try applicationSupportDirectory()
             let store = try await VoiceEntryStore(fileURL: support.appending(path: "history.json"))
+            let recordingStore = VoiceRecordingStore(
+                directoryURL: support.appending(path: "Recordings", directoryHint: .isDirectory)
+            )
             let dictionaryStore = try await DictionaryReplacementStore(
                 fileURL: support.appending(path: "dictionary.json")
             )
             self.store = store
+            self.recordingStore = recordingStore
             self.dictionaryStore = dictionaryStore
             replacements = await dictionaryStore.all()
             qwenInstalled = await qwenManager.isInstalled()
@@ -130,6 +152,15 @@ final class OneVoiceMacModel {
             #endif
             installHotkeys()
             isReady = true
+            if iCloudSyncEnabled {
+                Task { [weak self] in
+                    await self?.startCloudSync(
+                        supportDirectory: support,
+                        store: store,
+                        dictionaryStore: dictionaryStore
+                    )
+                }
+            }
             #if DEBUG
             await runSpeechFixtureIfRequested()
             await runQwenFixtureIfRequested()
@@ -222,7 +253,7 @@ final class OneVoiceMacModel {
     }
 
     func startDictation() async {
-        guard isReady, !isStarting, !isRecording, !isFinishing, let session else { return }
+        guard isReady, !isStarting, !isRecording, !isFinishing, !isImportingMedia, let session else { return }
         isStarting = true
         defer { isStarting = false }
         lastError = nil
@@ -282,7 +313,8 @@ final class OneVoiceMacModel {
         let duration = startedAt.map { $0.duration(to: .now).timeInterval } ?? 0
 
         do {
-            _ = try await session.finish(duration: duration)
+            let entry = try await session.finish(duration: duration)
+            await cloudSync?.save(entry)
             lastDeliveryMessage = deliveryMessage(for: session.lastInsertionOutcome)
             await refreshHistory()
         } catch {
@@ -304,15 +336,86 @@ final class OneVoiceMacModel {
         overlay.hide()
     }
 
+    func importMedia(at url: URL) {
+        guard mediaImportTask == nil, !isRecording, !isStarting, !isFinishing else { return }
+        mediaImportTask = Task { [weak self] in
+            guard let self else { return }
+            await self.runMediaImport(at: url)
+            self.mediaImportTask = nil
+        }
+    }
+
+    func cancelMediaImport() {
+        mediaImportTask?.cancel()
+    }
+
+    private func runMediaImport(at url: URL) async {
+        guard isReady, let session else { return }
+        isImportingMedia = true
+        mediaImportProgress = 0
+        mediaImportFileName = url.lastPathComponent
+        latestImportedEntry = nil
+        lastError = nil
+        lastDeliveryMessage = nil
+        let accessed = url.startAccessingSecurityScopedResource()
+        defer {
+            if accessed { url.stopAccessingSecurityScopedResource() }
+            isImportingMedia = false
+            mediaImportProgress = 0
+            mediaImportFileName = ""
+        }
+
+        do {
+            guard await MacPermissions.requestSpeechRecognition() else {
+                throw NSError(
+                    domain: "OneVoiceMediaImport",
+                    code: 1,
+                    userInfo: [NSLocalizedDescriptionKey: "Speech Recognition access is required to transcribe this file."]
+                )
+            }
+            try await session.begin(localeIdentifier: localeIdentifier, source: .importedFile)
+            let duration = try await mediaReader.read(url: url) { frame in
+                try await session.append(frame)
+            } onProgress: { [weak self] progress in
+                await MainActor.run { self?.mediaImportProgress = progress }
+            }
+            latestImportedEntry = try await session.finish(duration: duration)
+            if let latestImportedEntry { await cloudSync?.save(latestImportedEntry) }
+            await refreshHistory()
+            lastDeliveryMessage = "Transcribed \(url.lastPathComponent) and saved it to History."
+            session.reset()
+        } catch is CancellationError {
+            await session.cancel()
+            lastDeliveryMessage = "File transcription cancelled."
+        } catch {
+            await session.cancel()
+            lastError = error.localizedDescription
+        }
+    }
+
     func refreshHistory(query: String = "") async {
         history = await store?.entries(matching: query) ?? []
+        guard let recordingStore else {
+            audioURLs = [:]
+            return
+        }
+        var urls: [UUID: URL] = [:]
+        for entry in history {
+            if let url = await recordingStore.fileURL(for: entry) {
+                urls[entry.id] = url
+            }
+        }
+        audioURLs = urls
     }
 
     func deleteHistory(_ entries: [VoiceEntry]) async {
         guard let store else { return }
         do {
             for entry in entries {
+                if playingEntryID == entry.id { stopPlayback() }
+                try await recordingStore?.deleteRecording(for: entry)
                 try await store.delete(id: entry.id)
+                await cloudSync?.deleteEntry(id: entry.id)
             }
             await refreshHistory()
         } catch {
@@ -325,7 +428,9 @@ final class OneVoiceMacModel {
         let written = written.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !spoken.isEmpty, !written.isEmpty, let dictionaryStore else { return }
         do {
-            try await dictionaryStore.save(.init(spoken: spoken, written: written))
+            let replacement = DictionaryReplacement(spoken: spoken, written: written)
+            try await dictionaryStore.save(replacement)
+            await cloudSync?.save(replacement)
             replacements = await dictionaryStore.all()
             rebuildSession()
         } catch {
@@ -337,6 +442,7 @@ final class OneVoiceMacModel {
         guard let dictionaryStore else { return }
         do {
             try await dictionaryStore.delete(id: replacement.id)
+            await cloudSync?.deleteReplacement(id: replacement.id)
             replacements = await dictionaryStore.all()
             rebuildSession()
         } catch {
@@ -385,6 +491,83 @@ final class OneVoiceMacModel {
     func copyTranscript(_ entry: VoiceEntry) {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(entry.transcript, forType: .string)
+    }
+
+    func audioURL(for entry: VoiceEntry) -> URL? {
+        audioURLs[entry.id]
+    }
+
+    func togglePlayback(_ entry: VoiceEntry) async {
+        if playingEntryID == entry.id {
+            stopPlayback()
+            return
+        }
+        let url: URL?
+        if let cachedURL = audioURLs[entry.id] {
+            url = cachedURL
+        } else {
+            url = await recordingStore?.fileURL(for: entry)
+        }
+        guard let url else {
+            lastError = "The recording audio is not available on this Mac yet. Try Sync Now after iCloud finishes."
+            return
+        }
+        do {
+            stopPlayback()
+            let player = try AVAudioPlayer(contentsOf: url)
+            player.prepareToPlay()
+            guard player.play() else {
+                throw NSError(
+                    domain: "OneVoicePlayback",
+                    code: 1,
+                    userInfo: [NSLocalizedDescriptionKey: "The recording could not start playing."]
+                )
+            }
+            audioPlayer = player
+            playingEntryID = entry.id
+            let playbackID = entry.id
+            playbackTask = Task { [weak self] in
+                try? await Task.sleep(for: .seconds(player.duration + 0.2))
+                guard !Task.isCancelled, self?.playingEntryID == playbackID else { return }
+                self?.stopPlayback()
+            }
+        } catch {
+            stopPlayback()
+            lastError = error.localizedDescription
+        }
+    }
+
+    func stopPlayback() {
+        playbackTask?.cancel()
+        playbackTask = nil
+        audioPlayer?.stop()
+        audioPlayer = nil
+        playingEntryID = nil
+    }
+
+    func setICloudSyncEnabled(_ enabled: Bool) {
+        iCloudSyncEnabled = enabled
+        Task { [weak self] in
+            guard let self else { return }
+            if enabled,
+               let store = self.store,
+               let dictionaryStore = self.dictionaryStore,
+               let support = try? self.applicationSupportDirectory() {
+                await self.startCloudSync(
+                    supportDirectory: support,
+                    store: store,
+                    dictionaryStore: dictionaryStore
+                )
+            } else {
+                await self.cloudSync?.stop()
+                self.cloudSync = nil
+                self.iCloudSyncStatus = .disabled
+            }
+        }
+    }
+
+    func refreshCloudSync() {
+        Task { await cloudSync?.refresh() }
     }
 
     func openPrivacySettings() {
@@ -443,6 +626,46 @@ final class OneVoiceMacModel {
             store: store,
             normalizer: TranscriptNormalizer(replacements: replacements)
         )
+    }
+
+    private func startCloudSync(
+        supportDirectory: URL,
+        store: VoiceEntryStore,
+        dictionaryStore: DictionaryReplacementStore
+    ) async {
+        guard cloudSync == nil, let containerIdentifier = cloudContainerIdentifier else {
+            if cloudContainerIdentifier == nil { iCloudSyncStatus = .unavailable }
+            return
+        }
+        let sync = OneVoiceCloudSync(
+            containerIdentifier: containerIdentifier,
+            stateFileURL: supportDirectory.appending(path: "cloud-sync-state.json"),
+            entryStore: store,
+            replacementStore: dictionaryStore,
+            recordingStore: recordingStore,
+            statusHandler: { [weak self] status in
+                await MainActor.run { self?.iCloudSyncStatus = status }
+            },
+            changeHandler: { [weak self] in
+                await self?.reloadSyncedData()
+            }
+        )
+        cloudSync = sync
+        await sync.start()
+    }
+
+    private func reloadSyncedData() async {
+        replacements = await dictionaryStore?.all() ?? []
+        await refreshHistory()
+        rebuildSession()
+    }
+
+    private var cloudContainerIdentifier: String? {
+        #if DEBUG
+        nil
+        #else
+        Bundle.main.object(forInfoDictionaryKey: "OneVoiceCloudContainerIdentifier") as? String
+        #endif
     }
 
     private func failRecording(_ error: Error) async {

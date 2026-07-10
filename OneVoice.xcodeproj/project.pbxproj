@@ -29,8 +29,10 @@
 		35E5488A7BAB34D3463CD4E6 /* StatusPillTone.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1C1EAD161A92432328A9C /* StatusPillTone.swift */; };
 		39527D111513C774C6F30780 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E0D2BC5BB031AF7E03AD6A /* OnboardingView.swift */; };
 		39C32517B505804A7C5D996A /* OneVoiceMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ED02888862A10B7DAE55A5 /* OneVoiceMacTests.swift */; };
+		3FD63608D2341405FD6A1570 /* OneVoiceQwenSpeech in Frameworks */ = {isa = PBXBuildFile; productRef = B279BE95B04CAAFF7E9F1E86 /* OneVoiceQwenSpeech */; };
 		3FD8D4101A5B43106A25C6A0 /* OneVoiceAppleSpeech in Frameworks */ = {isa = PBXBuildFile; productRef = F0569D6FE64A14CA824B9A15 /* OneVoiceAppleSpeech */; };
 		458BBF3873820073394A06C2 /* OneVoiceMobileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F7E061EE5DDEDE4600ECE2 /* OneVoiceMobileModel.swift */; };
+		485DA9F14C3BFA46A5746D41 /* OneVoiceQwenSpeech in Frameworks */ = {isa = PBXBuildFile; productRef = 2E1AC2EED7206ED7778D5037 /* OneVoiceQwenSpeech */; };
 		4E74FD1BD608351E41D79B74 /* OneIconTileStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0894B5DC8E6FC73E6DC72 /* OneIconTileStyle.swift */; };
 		4EFEF0DFCC32B8DAAAF40214 /* VoiceRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071D0E956D7003C5F0E158F4 /* VoiceRecordView.swift */; };
 		4FF216BFD41EF6B9CF9AB6B3 /* OneVoiceOnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CFBE595D77B28ED727BB /* OneVoiceOnboardingPage.swift */; };
@@ -39,7 +41,7 @@
 		54F4DCA1B6659AC0F4D2CFE0 /* OnboardingFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F727DC23C76ECCE39E6867 /* OnboardingFooter.swift */; };
 		5A9C7245A7E593B5996F3309 /* DictationOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F273E763A4F43AAC69B09C0 /* DictationOverlayController.swift */; };
 		5B2812DEC05744B22EC20F4A /* OneThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF866F572940846CA773EA15 /* OneThemeColor.swift */; };
-		63BD50D150266D8D89891D76 /* OneVoiceQwenSpeech in Frameworks */ = {isa = PBXBuildFile; productRef = B279BE95B04CAAFF7E9F1E86 /* OneVoiceQwenSpeech */; };
+		63BD50D150266D8D89891D76 /* OneVoiceCloudSync in Frameworks */ = {isa = PBXBuildFile; productRef = 9D3BF625B8E6FD35D818B348 /* OneVoiceCloudSync */; };
 		6D2299DE52BF3C3CDA3AB6B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854DBABA9CB6B37F5E238529 /* InfoPlist.strings */; };
 		6D449D880A1BAB57C5B279DE /* OneVoiceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC8DBE87D7C3C49506F1EF0 /* OneVoiceApp.swift */; };
 		7478EF95DBA2D88673E0412A /* VoiceDictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D288E5A194C0CA0F5266B94 /* VoiceDictionaryView.swift */; };
@@ -70,7 +72,7 @@
 		C2E58AC0CD1FE1473358A805 /* OneVoiceCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0A000DC3D4C8309B6F71D56C /* OneVoiceCore */; };
 		CB9BB73B1E050A1A504EE819 /* OneAppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C696C33959813F19CBBDEF /* OneAppTheme.swift */; };
 		CBB04B6DAD4917EE55EDE382 /* DebugLaunchArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32769EC0C2AD47457232CDBB /* DebugLaunchArguments.swift */; };
-		DD23F9CB928ECAD02B062033 /* OneVoiceQwenSpeech in Frameworks */ = {isa = PBXBuildFile; productRef = 2E1AC2EED7206ED7778D5037 /* OneVoiceQwenSpeech */; };
+		DD23F9CB928ECAD02B062033 /* OneVoiceCloudSync in Frameworks */ = {isa = PBXBuildFile; productRef = 2220AC9F962EB928D10C3CF2 /* OneVoiceCloudSync */; };
 		DDAE2D319A4D6266C6660699 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D961F0043FADCBCF79498A66 /* Localizable.xcstrings */; };
 		DE64EC6C24D679890CF135BC /* OneVoiceMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366AE8D1B3F4C51965783847 /* OneVoiceMenuView.swift */; };
 		E01FF05FBB11D3A362CC13EB /* OneSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1686F8CF4EBBB1D8438B1A29 /* OneSection.swift */; };
@@ -193,7 +195,8 @@
 			files = (
 				C2E58AC0CD1FE1473358A805 /* OneVoiceCore in Frameworks */,
 				3FD8D4101A5B43106A25C6A0 /* OneVoiceAppleSpeech in Frameworks */,
-				DD23F9CB928ECAD02B062033 /* OneVoiceQwenSpeech in Frameworks */,
+				DD23F9CB928ECAD02B062033 /* OneVoiceCloudSync in Frameworks */,
+				485DA9F14C3BFA46A5746D41 /* OneVoiceQwenSpeech in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,7 +206,8 @@
 			files = (
 				AE49927E851D57B58B38B0B9 /* OneVoiceCore in Frameworks */,
 				BD262D26C54FECB4717DA9E7 /* OneVoiceAppleSpeech in Frameworks */,
-				63BD50D150266D8D89891D76 /* OneVoiceQwenSpeech in Frameworks */,
+				63BD50D150266D8D89891D76 /* OneVoiceCloudSync in Frameworks */,
+				3FD63608D2341405FD6A1570 /* OneVoiceQwenSpeech in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +454,7 @@
 			packageProductDependencies = (
 				0A000DC3D4C8309B6F71D56C /* OneVoiceCore */,
 				F0569D6FE64A14CA824B9A15 /* OneVoiceAppleSpeech */,
+				2220AC9F962EB928D10C3CF2 /* OneVoiceCloudSync */,
 				2E1AC2EED7206ED7778D5037 /* OneVoiceQwenSpeech */,
 			);
 			productName = OneVoiceMac;
@@ -472,6 +477,7 @@
 			packageProductDependencies = (
 				83823C1443B3F21BD90323EB /* OneVoiceCore */,
 				D8102434C0041E5975D9A16B /* OneVoiceAppleSpeech */,
+				9D3BF625B8E6FD35D818B348 /* OneVoiceCloudSync */,
 				B279BE95B04CAAFF7E9F1E86 /* OneVoiceQwenSpeech */,
 			);
 			productName = OneVoice;
@@ -805,7 +811,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = studio.oneapps.onevoice.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneVoice.app/OneVoice";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneVoice Dev.app/OneVoice Dev";
 			};
 			name = Debug;
 		};
@@ -830,7 +836,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = MACAPP/Config/OneVoiceMac.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "MACAPP/Config/OneVoiceMac-Dev.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -840,6 +846,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				ONEVOICE_CLOUD_CONTAINER_IDENTIFIER = iCloud.studio.oneapps.onevoice;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.oneapps.onevoice.mac.dev;
 				PRODUCT_MODULE_NAME = OneVoiceMac;
 				PRODUCT_NAME = "OneVoice Dev";
@@ -885,6 +892,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APS_ENVIRONMENT = development;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -915,7 +923,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = PCJ84YD7HQ;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -937,7 +945,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -979,7 +987,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				ONEVOICE_CLOUD_CONTAINER_IDENTIFIER = iCloud.studio.oneapps.onevoice;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.oneapps.onevoice;
+				PRODUCT_MODULE_NAME = OneVoice;
 				PRODUCT_NAME = OneVoice;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
@@ -1036,6 +1046,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				ONEVOICE_CLOUD_CONTAINER_IDENTIFIER = iCloud.studio.oneapps.onevoice;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.oneapps.onevoice.mac;
 				PRODUCT_MODULE_NAME = OneVoiceMac;
 				PRODUCT_NAME = OneVoice;
@@ -1047,6 +1058,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APS_ENVIRONMENT = production;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1077,7 +1089,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = PCJ84YD7HQ;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1093,7 +1105,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1117,8 +1129,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = studio.oneapps.onevoice;
-				PRODUCT_NAME = OneVoice;
+				ONEVOICE_CLOUD_CONTAINER_IDENTIFIER = iCloud.studio.oneapps.onevoice;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.oneapps.onevoice.dev;
+				PRODUCT_MODULE_NAME = OneVoice;
+				PRODUCT_NAME = "OneVoice Dev";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1205,6 +1219,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = OneVoiceCore;
 		};
+		2220AC9F962EB928D10C3CF2 /* OneVoiceCloudSync */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OneVoiceCloudSync;
+		};
 		2E1AC2EED7206ED7778D5037 /* OneVoiceQwenSpeech */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OneVoiceQwenSpeech;
@@ -1212,6 +1230,10 @@
 		83823C1443B3F21BD90323EB /* OneVoiceCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OneVoiceCore;
+		};
+		9D3BF625B8E6FD35D818B348 /* OneVoiceCloudSync */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OneVoiceCloudSync;
 		};
 		B279BE95B04CAAFF7E9F1E86 /* OneVoiceQwenSpeech */ = {
 			isa = XCSwiftPackageProductDependency;
