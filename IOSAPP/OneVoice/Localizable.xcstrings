@@ -337,18 +337,18 @@
         }
       }
     },
-    "Choose a file, or drop one here on iPad. Audio is processed on this device and is never saved by OneVoice.": {
+    "Choose an audio or video file. It is processed on this device and is never saved by OneVoice.": {
       "localizations": {
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ファイルを選ぶか、iPadではここにドロップできます。音声はデバイス上で処理され、OneVoiceには保存されません。"
+            "value": "音声または動画ファイルを選択してください。ファイルはデバイス上で処理され、OneVoiceには保存されません。"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择文件，或在 iPad 上拖放到这里。音频会在设备端处理，OneVoice 不会保存音频。"
+            "value": "选择音频或视频文件。文件会在设备端处理，OneVoice 不会保存源文件。"
           }
         }
       }

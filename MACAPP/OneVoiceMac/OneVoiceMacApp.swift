@@ -9,11 +9,13 @@ struct OneVoiceMacApp: App {
     var body: some Scene {
         MenuBarExtra(OneVoiceMacIdentity.displayName, systemImage: "waveform") {
             OneVoiceMenuView(model: model)
+                .environment(\.locale, model.appLanguage.locale)
                 .task { await model.launch() }
         }
 
         Settings {
             OneVoiceMacSettingsView(model: model)
+                .environment(\.locale, model.appLanguage.locale)
                 .frame(width: 560, height: 440)
         }
     }
@@ -55,7 +57,7 @@ final class OneVoiceMacAppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        let rootView = OneVoiceMacHomeView(model: .shared)
+        let rootView = OneVoiceMacLocalizedHomeView(model: .shared)
             .frame(minWidth: 720, minHeight: 520)
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 860, height: 620),
@@ -80,5 +82,14 @@ final class OneVoiceMacAppDelegate: NSObject, NSApplicationDelegate {
         mainWindowController = controller
         NSApplication.shared.activate(ignoringOtherApps: true)
         controller.showWindow(nil)
+    }
+}
+
+private struct OneVoiceMacLocalizedHomeView: View {
+    let model: OneVoiceMacModel
+
+    var body: some View {
+        OneVoiceMacHomeView(model: model)
+            .environment(\.locale, model.appLanguage.locale)
     }
 }

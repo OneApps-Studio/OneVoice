@@ -26,7 +26,7 @@ The downloadable macOS build is Developer ID signed, notarized by Apple, and dis
 
 ## Requirements
 
-- macOS 26 or newer
+- Apple silicon Mac with macOS 26 or newer
 - iOS/iPadOS 26 or newer
 - Xcode 26.5 or newer
 - Apple silicon for Qwen3-ASR inference

@@ -195,7 +195,7 @@ private struct MediaImportCard: View {
                 }
                 Button("Cancel", role: .destructive) { model.cancelMediaImport() }
             } else {
-                Text("Choose a file, or drop one here on iPad. Audio is processed on this device and is never saved by OneVoice.")
+                Text("Choose an audio or video file. It is processed on this device and is never saved by OneVoice.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 Button("Choose Audio or Video", systemImage: "plus") { isChoosingFile = true }

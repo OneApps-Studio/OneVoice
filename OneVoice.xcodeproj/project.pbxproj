@@ -60,13 +60,16 @@
 		9CA2B03572A17F5B09CF5849 /* OneVoiceOnboardingStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443C9E2A256DEF2847F95111 /* OneVoiceOnboardingStep.swift */; };
 		9CC01E9458F514BF49DB139C /* OnboardingPageDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9779C908C9596B1C6324D7 /* OnboardingPageDots.swift */; };
 		A5F756521B5649E2B300C5E2 /* OneVoiceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A606120E54C4E3F764D0D0 /* OneVoiceUITests.swift */; };
+		A76EB90BBAA6CB7C1A9C1A10 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BE8641CD1334A52222634F75 /* Localizable.xcstrings */; };
 		A9A702112359DE9632647E2D /* VoiceHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3841A5E7105DB663758DC /* VoiceHistoryView.swift */; };
+		ABE1E4AF31BE166E792502FB /* MacAppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B459833A7C4C3640F149A5F /* MacAppLanguage.swift */; };
 		AE49927E851D57B58B38B0B9 /* OneVoiceCore in Frameworks */ = {isa = PBXBuildFile; productRef = 83823C1443B3F21BD90323EB /* OneVoiceCore */; };
 		B033CE6F602C150D93BD9F7D /* OneIconTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0033DA4822BD81E66F8646B3 /* OneIconTile.swift */; };
 		B8A6D43F6CCDE5BFB6AB14B2 /* MobileMicrophoneCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EDA881B6CEE98C2999BC16 /* MobileMicrophoneCapture.swift */; };
 		BC60C97CDB513378404E41B9 /* OneVoiceMacModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5EF23A7E74B5247623F83F /* OneVoiceMacModel.swift */; };
 		BD22FF3E9892495286128E9B /* OneSectionStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CC421F30978D6C2E6954A8 /* OneSectionStack.swift */; };
 		BD262D26C54FECB4717DA9E7 /* OneVoiceAppleSpeech in Frameworks */ = {isa = PBXBuildFile; productRef = D8102434C0041E5975D9A16B /* OneVoiceAppleSpeech */; };
+		BFC44CC84B7D81E5FDAFFB92 /* UITestTranscriptionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A802A8C8EF37F7E7D3FAEF /* UITestTranscriptionEngine.swift */; };
 		C186A39B76A6946362259134 /* OneVoiceMacSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE9AD409C767367F74CD657 /* OneVoiceMacSettingsView.swift */; };
 		C2BA513BFC5AAE31EB6402D5 /* MacPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A677CAE48C90A8487A541C /* MacPermissions.swift */; };
 		C2E58AC0CD1FE1473358A805 /* OneVoiceCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0A000DC3D4C8309B6F71D56C /* OneVoiceCore */; };
@@ -124,6 +127,7 @@
 		24F7E061EE5DDEDE4600ECE2 /* OneVoiceMobileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneVoiceMobileModel.swift; sourceTree = "<group>"; };
 		2740374B14336278F651ABA6 /* MacMicrophoneCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacMicrophoneCapture.swift; sourceTree = "<group>"; };
 		28620DE77244FDBC6458433E /* OneVoiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneVoiceTests.swift; sourceTree = "<group>"; };
+		2B459833A7C4C3640F149A5F /* MacAppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppLanguage.swift; sourceTree = "<group>"; };
 		2BCBFAB281360E5D6F23C3A2 /* PrimaryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonStyle.swift; sourceTree = "<group>"; };
 		2D3044468A79430018B60525 /* SettingsLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLanguageView.swift; sourceTree = "<group>"; };
 		3116A6E7247CA0BBB453EF6C /* StatusPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPill.swift; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 		44319613F106557F3095395F /* OneStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneStyle.swift; sourceTree = "<group>"; };
 		443C9E2A256DEF2847F95111 /* OneVoiceOnboardingStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneVoiceOnboardingStep.swift; sourceTree = "<group>"; };
 		46D3E28227975766A94D379C /* OneVoiceMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneVoiceMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		47A802A8C8EF37F7E7D3FAEF /* UITestTranscriptionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestTranscriptionEngine.swift; sourceTree = "<group>"; };
 		48A9299693348877B060F138 /* OneDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDivider.swift; sourceTree = "<group>"; };
 		5122CAD200EB6470A6BCB874 /* OneSectionHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneSectionHeading.swift; sourceTree = "<group>"; };
 		5143CFBE595D77B28ED727BB /* OneVoiceOnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneVoiceOnboardingPage.swift; sourceTree = "<group>"; };
@@ -172,6 +177,7 @@
 		B7E5D4376F6651AD368DA05E /* OneCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneCardBackground.swift; sourceTree = "<group>"; };
 		B9E0D2BC5BB031AF7E03AD6A /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		BE5EF23A7E74B5247623F83F /* OneVoiceMacModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneVoiceMacModel.swift; sourceTree = "<group>"; };
+		BE8641CD1334A52222634F75 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		C1429A1306989DCE1BEB7614 /* AppStorageKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageKeys.swift; sourceTree = "<group>"; };
 		C5B9E964D7EAD7660462A397 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		CCB1FA6A544C112FF1D9DE40 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -245,6 +251,7 @@
 				D1EDA881B6CEE98C2999BC16 /* MobileMicrophoneCapture.swift */,
 				24F7E061EE5DDEDE4600ECE2 /* OneVoiceMobileModel.swift */,
 				848DD591A9DA5A2DE690393E /* QwenModelSettingsSection.swift */,
+				47A802A8C8EF37F7E7D3FAEF /* UITestTranscriptionEngine.swift */,
 				5D288E5A194C0CA0F5266B94 /* VoiceDictionaryView.swift */,
 				0EE3841A5E7105DB663758DC /* VoiceHistoryView.swift */,
 				071D0E956D7003C5F0E158F4 /* VoiceRecordView.swift */,
@@ -266,6 +273,8 @@
 				CCB1FA6A544C112FF1D9DE40 /* Assets.xcassets */,
 				9F273E763A4F43AAC69B09C0 /* DictationOverlayController.swift */,
 				55408C46BDE89E1A1276F9C9 /* GlobalHotkeyMonitor.swift */,
+				BE8641CD1334A52222634F75 /* Localizable.xcstrings */,
+				2B459833A7C4C3640F149A5F /* MacAppLanguage.swift */,
 				2740374B14336278F651ABA6 /* MacMicrophoneCapture.swift */,
 				93A677CAE48C90A8487A541C /* MacPermissions.swift */,
 				81B4C0426C65CD55CAA98E3A /* MacTextInsertion.swift */,
@@ -635,6 +644,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88D6E2B635405679142BBD1C /* Assets.xcassets in Resources */,
+				A76EB90BBAA6CB7C1A9C1A10 /* Localizable.xcstrings in Resources */,
 				0F507E755E762CA8E2BA7337 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -672,6 +682,7 @@
 			files = (
 				5A9C7245A7E593B5996F3309 /* DictationOverlayController.swift in Sources */,
 				EB5A34883D848FCFF60CA5C3 /* GlobalHotkeyMonitor.swift in Sources */,
+				ABE1E4AF31BE166E792502FB /* MacAppLanguage.swift in Sources */,
 				EAB82ABBC7ACD7B22E34553D /* MacMicrophoneCapture.swift in Sources */,
 				C2BA513BFC5AAE31EB6402D5 /* MacPermissions.swift in Sources */,
 				79A1369D8C5E2D85E2458C4F /* MacTextInsertion.swift in Sources */,
@@ -728,6 +739,7 @@
 				0B250D7F1668D57C7AE40B40 /* StatusPill.swift in Sources */,
 				35E5488A7BAB34D3463CD4E6 /* StatusPillTone.swift in Sources */,
 				52D0FD1F14D100ACDDA0BFE2 /* SystemMainTabContent.swift in Sources */,
+				BFC44CC84B7D81E5FDAFFB92 /* UITestTranscriptionEngine.swift in Sources */,
 				7478EF95DBA2D88673E0412A /* VoiceDictionaryView.swift in Sources */,
 				A9A702112359DE9632647E2D /* VoiceHistoryView.swift in Sources */,
 				4EFEF0DFCC32B8DAAAF40214 /* VoiceRecordView.swift in Sources */,
@@ -835,6 +847,7 @@
 		2DA73101A169E4FF07EDD3D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "MACAPP/Config/OneVoiceMac-Dev.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -923,7 +936,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = PCJ84YD7HQ;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -993,7 +1006,7 @@
 				PRODUCT_NAME = OneVoice;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1034,6 +1047,7 @@
 		EA86249527575A8FD804C318 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MACAPP/Config/OneVoiceMac.entitlements;
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
@@ -1089,7 +1103,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = PCJ84YD7HQ;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1120,7 +1134,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = IOSAPP/Config/OneVoice.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "IOSAPP/Config/OneVoice-Dev.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -1135,7 +1149,7 @@
 				PRODUCT_NAME = "OneVoice Dev";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "79B80DA7-3201-4E21-A4CD-F6C121B1D901",
+    "rawTranscript": "OneVoice 1.1 should keep recording when I lock the screen and make every note searchable on my Mac.",
+    "transcript": "OneVoice 1.1 should keep recording when I lock the screen and make every note searchable on my Mac.",
+    "createdAt": "2026-07-10T08:41:00Z",
+    "duration": 82,
+    "localeIdentifier": "en-US",
+    "engineIdentifier": "apple-speech-analyzer",
+    "source": "voiceNote",
+    "isFavorite": true,
+    "title": "Launch notes for OneVoice 1.1",
+    "audioFileName": "79b80da7-3201-4e21-a4cd-f6c121b1d901.m4a",
+    "audioByteCount": 8192
+  },
+  {
+    "id": "27EA4EF8-E935-4C33-8F1E-63225B2CD4A2",
+    "rawTranscript": "The clearest product promise is simple: speak once, find it later, and keep the audio private.",
+    "transcript": "The clearest product promise is simple: speak once, find it later, and keep the audio private.",
+    "createdAt": "2026-07-09T14:18:00Z",
+    "duration": 214,
+    "localeIdentifier": "en-US",
+    "engineIdentifier": "qwen3-asr-0.6b-mlx-4bit",
+    "source": "voiceNote",
+    "isFavorite": false,
+    "title": "Weekly product review",
+    "audioFileName": "27ea4ef8-e935-4c33-8f1e-63225b2cd4a2.m4a",
+    "audioByteCount": 8192
+  },
+  {
+    "id": "44FDE508-021A-4BB8-B2F7-374B34670DD7",
+    "rawTranscript": "People want a recorder they can trust when they switch apps, without sending a meeting to somebody else's server.",
+    "transcript": "People want a recorder they can trust when they switch apps, without sending a meeting to somebody else's server.",
+    "createdAt": "2026-07-08T03:27:00Z",
+    "duration": 667,
+    "localeIdentifier": "en-US",
+    "engineIdentifier": "apple-speech-analyzer",
+    "source": "voiceNote",
+    "isFavorite": true,
+    "title": "Interview highlights",
+    "audioFileName": "44fde508-021a-4bb8-b2f7-374b34670dd7.m4a",
+    "audioByteCount": 8192
+  },
+  {
+    "id": "58695905-8E13-4AA5-A5C7-50D839FDE19D",
+    "rawTranscript": "Mei suggested putting search first and showing the transcript beside every recording.",
+    "transcript": "Mei suggested putting search first and showing the transcript beside every recording.",
+    "createdAt": "2026-07-06T09:05:00Z",
+    "duration": 298,
+    "localeIdentifier": "en-US",
+    "engineIdentifier": "apple-speech-analyzer",
+    "source": "voiceNote",
+    "isFavorite": false,
+    "title": "Coffee chat with Mei",
+    "audioFileName": "58695905-8e13-4aa5-a5c7-50d839fde19d.m4a",
+    "audioByteCount": 8192
+  },
+  {
+    "id": "D9B5445F-7095-45E6-AC5F-ED53E5E55741",
+    "rawTranscript": "A quiet idea is easier to keep when recording takes one tap and works from the lock screen.",
+    "transcript": "A quiet idea is easier to keep when recording takes one tap and works from the lock screen.",
+    "createdAt": "2026-07-04T12:36:00Z",
+    "duration": 96,
+    "localeIdentifier": "en-US",
+    "engineIdentifier": "apple-speech-analyzer",
+    "source": "voiceNote",
+    "isFavorite": false,
+    "title": "Ideas while walking",
+    "audioFileName": "d9b5445f-7095-45e6-ac5f-ed53e5e55741.m4a",
+    "audioByteCount": 8192
+  }
+]

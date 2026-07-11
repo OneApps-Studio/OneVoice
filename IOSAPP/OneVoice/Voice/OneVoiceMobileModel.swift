@@ -69,9 +69,19 @@ final class OneVoiceMobileModel {
     private init() {
         let qwenManager = QwenModelManager(cacheDirectory: Self.qwenModelDirectory)
         let qwenEnabled = UserDefaults.standard.object(forKey: "onevoice.useQwenFinalPass") as? Bool ?? true
+        let liveEngine: any TranscriptionEngine
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["ONEVOICE_UI_TEST_FAKE_SPEECH"] == "1" {
+            liveEngine = UITestTranscriptionEngine()
+        } else {
+            liveEngine = AppleSpeechTranscriptionEngine()
+        }
+        #else
+        liveEngine = AppleSpeechTranscriptionEngine()
+        #endif
         self.qwenManager = qwenManager
         speechEngine = HybridTranscriptionEngine(
-            liveEngine: AppleSpeechTranscriptionEngine(),
+            liveEngine: liveEngine,
             qwenManager: qwenManager,
             useQwenFinalPass: qwenEnabled
         )
@@ -99,10 +109,18 @@ final class OneVoiceMobileModel {
             qwenInstalled = await qwenManager.isInstalled()
             qwenStatusText = qwenInstalled ? "Installed" : "Not installed"
             session = makeSession(store: store)
+            await recoverPendingRecordings(store: store, recordingStore: recordingStore)
             await refreshHistory()
             latestEntry = history.first
             isReady = true
-            if iCloudSyncEnabled {
+            var shouldStartCloudSync = iCloudSyncEnabled
+            #if DEBUG
+            if ProcessInfo.processInfo.environment["ONEVOICE_UI_TEST_SYNCED"] == "1" {
+                iCloudSyncStatus = .synced
+                shouldStartCloudSync = false
+            }
+            #endif
+            if shouldStartCloudSync {
                 Task { [weak self] in
                     await self?.startCloudSync(
                         supportDirectory: support,
@@ -131,8 +149,8 @@ final class OneVoiceMobileModel {
         do {
             stopPlayback()
             let recordingID = UUID()
-            let recordingURL = FileManager.default.temporaryDirectory
-                .appending(path: "onevoice-\(recordingID.uuidString.lowercased()).m4a")
+            guard let recordingStore else { return }
+            let recordingURL = try await recordingStore.pendingRecordingURL(id: recordingID)
             activeRecordingID = recordingID
             activeRecordingURL = recordingURL
             try await session.begin(localeIdentifier: localeIdentifier, source: .voiceNote)
@@ -196,7 +214,18 @@ final class OneVoiceMobileModel {
         durationTask?.cancel()
         durationTask = nil
         microphone.stop()
-        let finalDuration = startedAt.map { $0.duration(to: .now).timeInterval } ?? currentDuration
+        let finalDuration: TimeInterval
+        do {
+            finalDuration = try validatedAudioDuration(at: recordingURL)
+        } catch {
+            lastError = "The recording is safe in the recovery folder, but OneVoice could not finalize it yet: \(error.localizedDescription)"
+            isFinishing = false
+            startedAt = nil
+            activeRecordingID = nil
+            activeRecordingURL = nil
+            await session.cancel()
+            return
+        }
         currentDuration = finalDuration
         var committedRecording: VoiceRecordingFile?
         do {
@@ -248,6 +277,101 @@ final class OneVoiceMobileModel {
         activeRecordingID = nil
         activeRecordingURL = nil
         session.reset()
+    }
+
+    private func recoverPendingRecordings(
+        store: VoiceEntryStore,
+        recordingStore: VoiceRecordingStore
+    ) async {
+        let candidates: [(id: UUID, fileURL: URL, byteCount: Int64, needsCommit: Bool)]
+        do {
+            let pending = try await recordingStore.pendingRecordings().map {
+                (id: $0.id, fileURL: $0.fileURL, byteCount: $0.byteCount, needsCommit: true)
+            }
+            let referencedIDs = Set(await store.entries().map(\.id))
+            let unindexed = try await recordingStore
+                .unindexedRecordings(referencedEntryIDs: referencedIDs)
+                .map {
+                    (
+                        id: $0.id,
+                        fileURL: $0.file.fileURL,
+                        byteCount: $0.file.byteCount,
+                        needsCommit: false
+                    )
+                }
+            candidates = pending + unindexed
+        } catch {
+            lastError = "OneVoice could not inspect recordings awaiting recovery: \(error.localizedDescription)"
+            return
+        }
+        guard !candidates.isEmpty else { return }
+
+        var recoveryMessages: [String] = []
+        var recoveredIDs: Set<UUID> = []
+        for candidate in candidates where !recoveredIDs.contains(candidate.id) {
+            do {
+                guard candidate.byteCount > 0 else {
+                    throw NSError(
+                        domain: "OneVoiceRecordingRecovery",
+                        code: 1,
+                        userInfo: [NSLocalizedDescriptionKey: "The pending recording is empty."]
+                    )
+                }
+                let duration = try validatedAudioDuration(at: candidate.fileURL)
+                let recording: VoiceRecordingFile
+                if candidate.needsCommit {
+                    recording = try await recordingStore.commitRecording(
+                        from: candidate.fileURL,
+                        id: candidate.id
+                    )
+                } else {
+                    recording = VoiceRecordingFile(
+                        fileName: candidate.fileURL.lastPathComponent,
+                        fileURL: candidate.fileURL,
+                        byteCount: candidate.byteCount
+                    )
+                }
+                let fallback = VoiceEntry(
+                    id: candidate.id,
+                    rawTranscript: "",
+                    transcript: "",
+                    duration: duration,
+                    localeIdentifier: localeIdentifier,
+                    engineIdentifier: "recovered-audio",
+                    source: .voiceNote,
+                    title: fallbackRecordingTitle(),
+                    audioFileName: recording.fileName,
+                    audioByteCount: recording.byteCount
+                )
+                try await store.save(fallback)
+                recoveredIDs.insert(candidate.id)
+
+                let recoverySession = makeSession(store: store)
+                do {
+                    try await recoverySession.begin(localeIdentifier: localeIdentifier, source: .voiceNote)
+                    _ = try await mediaReader.read(url: recording.fileURL) { frame in
+                        try await recoverySession.append(frame)
+                    } onProgress: { _ in }
+                    var recovered = try await recoverySession.finish(
+                        duration: duration,
+                        id: candidate.id,
+                        audioFileName: recording.fileName,
+                        audioByteCount: recording.byteCount
+                    )
+                    recovered.title = suggestedTitle(for: recovered.transcript)
+                    try await store.save(recovered)
+                    recoverySession.reset()
+                } catch {
+                    await recoverySession.cancel()
+                    recoveryMessages.append("Audio recovered; transcription will need another try.")
+                }
+            } catch {
+                recoveryMessages.append("A recording remains in safe recovery storage: \(error.localizedDescription)")
+            }
+        }
+        if !recoveryMessages.isEmpty {
+            lastError = recoveryMessages.joined(separator: " ")
+        }
     }
 
     func cancelRecording() async {
@@ -578,7 +702,7 @@ final class OneVoiceMobileModel {
     }
 
     private var cloudContainerIdentifier: String? {
-        #if DEBUG
+        #if targetEnvironment(simulator)
         nil
         #else
         Bundle.main.object(forInfoDictionaryKey: "OneVoiceCloudContainerIdentifier") as? String
@@ -615,6 +739,26 @@ final class OneVoiceMobileModel {
 
     private func fallbackRecordingTitle() -> String {
         "Recording \(Date().formatted(date: .abbreviated, time: .shortened))"
+    }
+
+    private func validatedAudioDuration(at url: URL) throws -> TimeInterval {
+        let values = try url.resourceValues(forKeys: [.fileSizeKey])
+        guard let byteCount = values.fileSize, byteCount > 0 else {
+            throw NSError(
+                domain: "OneVoiceRecordingValidation",
+                code: 1,
+                userInfo: [NSLocalizedDescriptionKey: "The audio file is empty."]
+            )
+        }
+        let player = try AVAudioPlayer(contentsOf: url)
+        guard player.prepareToPlay(), player.duration > 0, player.duration.isFinite else {
+            throw NSError(
+                domain: "OneVoiceRecordingValidation",
+                code: 2,
+                userInfo: [NSLocalizedDescriptionKey: "The audio file is not playable."]
+            )
+        }
+        return player.duration
     }
 
     private func applicationSupportDirectory() throws -> URL {

@@ -6,10 +6,10 @@ import Testing
 struct VoiceEntryStoreTests {
     @Test("Saved entries survive reopening and newest entries are returned first")
     func persistenceAndOrdering() async throws {
-        let fileURL = FileManager.default.temporaryDirectory
-            .appending(path: UUID().uuidString)
-            .appendingPathExtension("json")
-        defer { try? FileManager.default.removeItem(at: fileURL) }
+        let root = FileManager.default.temporaryDirectory
+            .appending(path: "OneVoice App Support \(UUID().uuidString)")
+        let fileURL = root.appending(path: "history.json")
+        defer { try? FileManager.default.removeItem(at: root) }
 
         let older = VoiceEntry(
             id: UUID(),

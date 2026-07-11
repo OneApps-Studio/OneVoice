@@ -63,6 +63,27 @@ final class SidebarNavigationTests: XCTestCase {
     }
 
     @MainActor
+    func testSimplifiedChineseUIAndConfigurableShortcuts() throws {
+        let app = XCUIApplication()
+        app.launchArguments = [
+            "--onevoice-ui-testing",
+            "-appLanguage", "simplifiedChinese",
+        ]
+        app.launch()
+
+        XCTAssertTrue(app.staticTexts["文件转写"].waitForExistence(timeout: 6))
+        XCTAssertTrue(app.staticTexts["录音库"].exists)
+        XCTAssertTrue(app.staticTexts["个人词典"].exists)
+        XCTAssertTrue(app.staticTexts["模型"].exists)
+
+        app.typeKey(",", modifierFlags: .command)
+        XCTAssertTrue(app.staticTexts["App 语言"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["长按时输入"].exists)
+        XCTAssertTrue(app.staticTexts["短按开始或结束"].exists)
+        XCTAssertTrue(app.buttons["恢复默认快捷键"].exists)
+    }
+
+    @MainActor
     private func assertSelecting(_ title: String, in app: XCUIApplication) throws {
         let labels = app.staticTexts.matching(
             NSPredicate(format: "value == %@", title)

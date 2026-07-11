@@ -42,7 +42,7 @@ final class MobileMicrophoneCapture: @unchecked Sendable {
             at: recordingURL.deletingLastPathComponent(),
             withIntermediateDirectories: true
         )
-        if FileManager.default.fileExists(atPath: recordingURL.path()) {
+        if FileManager.default.fileExists(atPath: recordingURL.path) {
             try FileManager.default.removeItem(at: recordingURL)
         }
         let settings: [String: Any] = [

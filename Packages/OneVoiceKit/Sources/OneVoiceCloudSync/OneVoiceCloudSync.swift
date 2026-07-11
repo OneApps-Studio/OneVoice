@@ -32,10 +32,15 @@ public actor OneVoiceCloudSync: CKSyncEngineDelegate {
     private let replacementStore: DictionaryReplacementStore
     private let recordingStore: VoiceRecordingStore?
     private let systemFieldsDirectoryURL: URL
+    private let journalFileURL: URL
     private let statusHandler: StatusHandler
     private let changeHandler: ChangeHandler
+    private var journal: OneVoiceCloudSyncJournal
     private var engine: CKSyncEngine?
     private var started = false
+    private var isSynchronizing = false
+    private var cloudReady = false
+    private var lastFailureMessage: String?
 
     public init(
         containerIdentifier: String,
@@ -57,6 +62,14 @@ public actor OneVoiceCloudSync: CKSyncEngineDelegate {
         self.systemFieldsDirectoryURL = stateFileURL
             .deletingLastPathComponent()
             .appending(path: "cloud-record-system-fields", directoryHint: .isDirectory)
+        self.journalFileURL = stateFileURL
+            .deletingLastPathComponent()
+            .appending(path: "cloud-sync-journal.json")
+        self.journal = Self.loadJournal(
+            from: stateFileURL
+                .deletingLastPathComponent()
+                .appending(path: "cloud-sync-journal.json")
+        )
         self.statusHandler = statusHandler
         self.changeHandler = changeHandler
     }
@@ -64,81 +77,68 @@ public actor OneVoiceCloudSync: CKSyncEngineDelegate {
     public func start() async {
         guard !started else { return }
         started = true
-        await statusHandler(.syncing)
-        do {
-            guard try await container.accountStatus() == .available else {
-                await statusHandler(.unavailable)
-                started = false
-                return
-            }
-
-            _ = try await database.save(zone)
-
-            var configuration = CKSyncEngine.Configuration(
-                database: database,
-                stateSerialization: loadState(),
-                delegate: self
-            )
-            configuration.automaticallySync = true
-            let engine = CKSyncEngine(configuration)
-            self.engine = engine
-
-            try await engine.fetchChanges()
-            await enqueueAllLocalRecords()
-            try await engine.sendChanges()
-            await statusHandler(.synced)
-        } catch {
-            await statusHandler(.failed(error.localizedDescription))
-        }
+        let engine = ensureEngine()
+        replayLocalJournal(into: engine)
+        await synchronizeIfPossible(using: engine)
     }
 
     public func stop() async {
         started = false
+        cloudReady = false
         await engine?.cancelOperations()
         engine = nil
         await statusHandler(.disabled)
     }
 
     public func save(_ entry: VoiceEntry) async {
-        guard let engine else { return }
-        engine.state.add(pendingRecordZoneChanges: [
-            .saveRecord(OneVoiceCloudRecordCodec.entryRecordID(entry.id, zoneID: zone.zoneID)),
-        ])
-        await sendPendingChanges(using: engine)
+        let recordID = OneVoiceCloudRecordCodec.entryRecordID(entry.id, zoneID: zone.zoneID)
+        let action: OneVoiceCloudSyncJournal.Action = OneVoiceCloudRecordPolicy.shouldSync(entry)
+            ? .save
+            : .delete
+        await stageLocalMutation(recordID: recordID, action: action)
     }
 
     public func deleteEntry(id: UUID) async {
-        guard let engine else { return }
-        engine.state.add(pendingRecordZoneChanges: [
-            .deleteRecord(OneVoiceCloudRecordCodec.entryRecordID(id, zoneID: zone.zoneID)),
-        ])
-        await sendPendingChanges(using: engine)
+        await stageLocalMutation(
+            recordID: OneVoiceCloudRecordCodec.entryRecordID(id, zoneID: zone.zoneID),
+            action: .delete
+        )
     }
 
     public func save(_ replacement: DictionaryReplacement) async {
-        guard let engine else { return }
-        engine.state.add(pendingRecordZoneChanges: [
-            .saveRecord(OneVoiceCloudRecordCodec.replacementRecordID(replacement.id, zoneID: zone.zoneID)),
-        ])
-        await sendPendingChanges(using: engine)
+        await stageLocalMutation(
+            recordID: OneVoiceCloudRecordCodec.replacementRecordID(replacement.id, zoneID: zone.zoneID),
+            action: .save
+        )
     }
 
     public func deleteReplacement(id: UUID) async {
-        guard let engine else { return }
-        engine.state.add(pendingRecordZoneChanges: [
-            .deleteRecord(OneVoiceCloudRecordCodec.replacementRecordID(id, zoneID: zone.zoneID)),
-        ])
-        await sendPendingChanges(using: engine)
+        await stageLocalMutation(
+            recordID: OneVoiceCloudRecordCodec.replacementRecordID(id, zoneID: zone.zoneID),
+            action: .delete
+        )
     }
 
     public func refresh() async {
-        guard let engine else { return }
+        let engine = ensureEngine()
+        replayLocalJournal(into: engine)
+        await synchronizeIfPossible(using: engine)
+    }
+
+    private func synchronizeIfPossible(using engine: CKSyncEngine) async {
+        guard !isSynchronizing else { return }
+        isSynchronizing = true
+        defer { isSynchronizing = false }
         await statusHandler(.syncing)
         do {
-            try await engine.fetchChanges()
-            await statusHandler(.synced)
+            guard try await container.accountStatus() == .available else {
+                cloudReady = false
+                await statusHandler(.unavailable)
+                return
+            }
+            try await synchronize(using: engine)
         } catch {
-            await statusHandler(.failed(error.localizedDescription))
+            await reportFailure(error)
         }
     }
 
@@ -151,12 +151,14 @@ public actor OneVoiceCloudSync: CKSyncEngineDelegate {
         case let .sentRecordZoneChanges(changes):
             await handleSentRecordChanges(changes, syncEngine: syncEngine)
         case .didFetchChanges, .didSendChanges:
-            await statusHandler(.synced)
+            await reportSteadyState()
         case let .accountChange(change):
             switch change.changeType {
             case .signIn:
-                await statusHandler(.syncing)
+                cloudReady = false
+                await refresh()
             case .signOut, .switchAccounts:
+                cloudReady = false
                 await statusHandler(.unavailable)
             @unknown default:
                 await statusHandler(.unavailable)
@@ -181,7 +183,8 @@ public actor OneVoiceCloudSync: CKSyncEngineDelegate {
         guard let local = OneVoiceCloudRecordCodec.localIdentifier(for: recordID) else { return nil }
         switch local.kind {
         case .entry:
-            guard let entry = await entryStore.entry(id: local.id) else { return nil }
+            guard let entry = await entryStore.entry(id: local.id),
+                  OneVoiceCloudRecordPolicy.shouldSync(entry) else { return nil }
             let audioFileURL = await recordingStore?.fileURL(for: entry)
             let existingRecord = await existingRecord(recordID: recordID)
             return OneVoiceCloudRecordCodec.record(
@@ -204,41 +207,41 @@ public actor OneVoiceCloudSync: CKSyncEngineDelegate {
     }
 
     private func apply(_ changes: CKSyncEngine.Event.FetchedRecordZoneChanges) async {
+        var didChange = false
+        var failureMessages: [String] = []
+        for modification in changes.modifications {
+            let record = modification.record
+            do {
+                didChange = try await applyRemoteRecord(record) || didChange
+                journal.acknowledgeRemoteRetry(recordName: record.recordID.recordName, action: .save)
+            } catch {
+                journal.stageRemoteRetry(recordName: record.recordID.recordName, action: .save)
+                failureMessages.append(error.localizedDescription)
+            }
+        }
+        for deletion in changes.deletions {
+            do {
+                didChange = try await applyRemoteDeletion(deletion.recordID) || didChange
+                journal.acknowledgeRemoteRetry(
+                    recordName: deletion.recordID.recordName,
+                    action: .delete
+                )
+            } catch {
+                journal.stageRemoteRetry(recordName: deletion.recordID.recordName, action: .delete)
+                failureMessages.append(error.localizedDescription)
+            }
+        }
         do {
-            for modification in changes.modifications {
-                let record = modification.record
-                persistSystemFields(for: record)
-                if var entry = OneVoiceCloudRecordCodec.entry(from: record) {
-                    if let asset = record["audioAsset"] as? CKAsset,
-                       let stagingURL = asset.fileURL,
-                       let recordingStore {
-                        let recording = try await recordingStore.importCloudAsset(
-                            from: stagingURL,
-                            id: entry.id
-                        )
-                        entry.audioFileName = recording.fileName
-                        entry.audioByteCount = recording.byteCount
-                    }
-                    try await entryStore.save(entry)
-                } else if let replacement = OneVoiceCloudRecordCodec.replacement(from: record) {
-                    try await replacementStore.save(replacement)
-                }
-            }
-            for deletion in changes.deletions {
-                guard let local = OneVoiceCloudRecordCodec.localIdentifier(for: deletion.recordID) else { continue }
-                removeSystemFields(for: deletion.recordID)
-                switch local.kind {
-                case .entry:
-                    if let entry = await entryStore.entry(id: local.id) {
-                        try await recordingStore?.deleteRecording(for: entry)
-                    }
-                    try await entryStore.delete(id: local.id)
-                case .replacement: try await replacementStore.delete(id: local.id)
-                }
-            }
-            await changeHandler()
+            try persistJournal()
         } catch {
-            await statusHandler(.failed(error.localizedDescription))
+            failureMessages.append(error.localizedDescription)
+        }
+        if didChange {
+            await changeHandler()
+        }
+        if let failure = failureMessages.first {
+            lastFailureMessage = failure
+            await statusHandler(.failed(failure))
         }
     }
 
@@ -246,31 +249,43 @@ public actor OneVoiceCloudSync: CKSyncEngineDelegate {
         guard let engine else { return }
         let entries = await entryStore.entries()
         let replacements = await replacementStore.all()
-        let entryChanges = entries.map {
-            CKSyncEngine.PendingRecordZoneChange.saveRecord(
-                OneVoiceCloudRecordCodec.entryRecordID($0.id, zoneID: zone.zoneID)
+        for entry in entries {
+            let recordID = OneVoiceCloudRecordCodec.entryRecordID(entry.id, zoneID: zone.zoneID)
+            let action: OneVoiceCloudSyncJournal.Action = OneVoiceCloudRecordPolicy.shouldSync(entry)
+                ? .save
+                : .delete
+            stageLocalMutation(recordID: recordID, action: action, into: engine)
+        }
+        for replacement in replacements {
+            stageLocalMutation(
+                recordID: OneVoiceCloudRecordCodec.replacementRecordID(
+                    replacement.id,
+                    zoneID: zone.zoneID
+                ),
+                action: .save,
+                into: engine
             )
         }
-        let replacementChanges = replacements.map {
-            CKSyncEngine.PendingRecordZoneChange.saveRecord(
-                OneVoiceCloudRecordCodec.replacementRecordID($0.id, zoneID: zone.zoneID)
-            )
+        do {
+            try persistJournal()
+        } catch {
+            await reportFailure(error)
         }
-        engine.state.add(pendingRecordZoneChanges: entryChanges + replacementChanges)
     }
 
     private func sendPendingChanges(using engine: CKSyncEngine) async {
         await statusHandler(.syncing)
+        lastFailureMessage = nil
         do {
             try await engine.sendChanges()
-            await statusHandler(.synced)
+            await reportSteadyState()
         } catch {
-            await statusHandler(.failed(error.localizedDescription))
+            await reportFailure(error)
         }
     }
 
     private func loadState() -> CKSyncEngine.State.Serialization? {
-        guard FileManager.default.fileExists(atPath: systemFieldsDirectoryURL.path()) else {
+        guard FileManager.default.fileExists(atPath: stateFileURL.path) else {
             return nil
         }
         guard let data = try? Data(contentsOf: stateFileURL) else { return nil }
@@ -305,8 +320,24 @@ public actor OneVoiceCloudSync: CKSyncEngineDelegate {
         _ changes: CKSyncEngine.Event.SentRecordZoneChanges,
         syncEngine: CKSyncEngine
     ) async {
-        changes.savedRecords.forEach(persistSystemFields)
-        changes.deletedRecordIDs.forEach(removeSystemFields)
+        let stillPending = Set(syncEngine.state.pendingRecordZoneChanges.map(\.recordID.recordName))
+        for record in changes.savedRecords {
+            persistSystemFields(for: record)
+            if !stillPending.contains(record.recordID.recordName) {
+                journal.acknowledgeLocal(recordName: record.recordID.recordName, action: .save)
+            }
+        }
+        for recordID in changes.deletedRecordIDs {
+            removeSystemFields(for: recordID)
+            if !stillPending.contains(recordID.recordName) {
+                journal.acknowledgeLocal(recordName: recordID.recordName, action: .delete)
+            }
+        }
+        do {
+            try persistJournal()
+        } catch {
+            await reportFailure(error)
+        }
 
         var retries: [CKSyncEngine.PendingRecordZoneChange] = []
         for failure in changes.failedRecordSaves {
@@ -314,6 +345,7 @@ public actor OneVoiceCloudSync: CKSyncEngineDelegate {
                 persistSystemFields(for: serverRecord)
                 retries.append(.saveRecord(failure.record.recordID))
             } else {
+                lastFailureMessage = failure.error.localizedDescription
                 await statusHandler(.failed(failure.error.localizedDescription))
             }
         }
@@ -321,8 +353,195 @@ public actor OneVoiceCloudSync: CKSyncEngineDelegate {
             syncEngine.state.add(pendingRecordZoneChanges: retries)
         }
         if let error = changes.failedRecordDeletes.values.first {
+            lastFailureMessage = error.localizedDescription
             await statusHandler(.failed(error.localizedDescription))
+        } else if changes.failedRecordSaves.isEmpty,
+                  journal.localMutations.isEmpty,
+                  journal.remoteRetries.isEmpty {
+            lastFailureMessage = nil
         }
+    }
+
+    private func ensureEngine() -> CKSyncEngine {
+        if let engine { return engine }
+        var configuration = CKSyncEngine.Configuration(
+            database: database,
+            stateSerialization: loadState(),
+            delegate: self
+        )
+        configuration.automaticallySync = true
+        let engine = CKSyncEngine(configuration)
+        self.engine = engine
+        return engine
+    }
+
+    private func synchronize(using engine: CKSyncEngine) async throws {
+        lastFailureMessage = nil
+        _ = try await database.save(zone)
+        cloudReady = true
+        replayLocalJournal(into: engine)
+        if !journal.localMutations.isEmpty {
+            try await engine.sendChanges()
+        }
+        try await retryFailedRemoteApplications()
+        try await engine.fetchChanges()
+        try await retryFailedRemoteApplications()
+        await enqueueAllLocalRecords()
+        try await engine.sendChanges()
+        await reportSteadyState()
+    }
+
+    private func stageLocalMutation(
+        recordID: CKRecord.ID,
+        action: OneVoiceCloudSyncJournal.Action
+    ) async {
+        let engine = ensureEngine()
+        stageLocalMutation(recordID: recordID, action: action, into: engine)
+        do {
+            try persistJournal()
+        } catch {
+            await reportFailure(error)
+            return
+        }
+        guard cloudReady else { return }
+        await sendPendingChanges(using: engine)
+    }
+
+    private func stageLocalMutation(
+        recordID: CKRecord.ID,
+        action: OneVoiceCloudSyncJournal.Action,
+        into engine: CKSyncEngine
+    ) {
+        journal.stageLocal(recordName: recordID.recordName, action: action)
+        switch action {
+        case .save:
+            engine.state.add(pendingRecordZoneChanges: [.saveRecord(recordID)])
+        case .delete:
+            engine.state.add(pendingRecordZoneChanges: [.deleteRecord(recordID)])
+        }
+    }
+
+    private func replayLocalJournal(into engine: CKSyncEngine) {
+        for mutation in journal.localMutations.values {
+            let recordID = CKRecord.ID(recordName: mutation.recordName, zoneID: zone.zoneID)
+            switch mutation.action {
+            case .save:
+                engine.state.add(pendingRecordZoneChanges: [.saveRecord(recordID)])
+            case .delete:
+                engine.state.add(pendingRecordZoneChanges: [.deleteRecord(recordID)])
+            }
+        }
+    }
+
+    private func applyRemoteRecord(_ record: CKRecord) async throws -> Bool {
+        if let localMutation = journal.localMutations[record.recordID.recordName] {
+            if localMutation.action == .save {
+                persistSystemFields(for: record)
+            }
+            return false
+        }
+        if var entry = OneVoiceCloudRecordCodec.entry(from: record) {
+            guard OneVoiceCloudRecordPolicy.shouldSync(entry) else {
+                if let engine {
+                    stageLocalMutation(recordID: record.recordID, action: .delete, into: engine)
+                    try persistJournal()
+                }
+                return false
+            }
+            if let asset = record["audioAsset"] as? CKAsset,
+               let stagingURL = asset.fileURL,
+               let recordingStore {
+                let recording = try await recordingStore.importCloudAsset(from: stagingURL, id: entry.id)
+                entry.audioFileName = recording.fileName
+                entry.audioByteCount = recording.byteCount
+            }
+            try await entryStore.save(entry)
+            persistSystemFields(for: record)
+            return true
+        }
+        if let replacement = OneVoiceCloudRecordCodec.replacement(from: record) {
+            try await replacementStore.save(replacement)
+            persistSystemFields(for: record)
+            return true
+        }
+        return false
+    }
+
+    private func applyRemoteDeletion(_ recordID: CKRecord.ID) async throws -> Bool {
+        if journal.localMutations[recordID.recordName]?.action == .save {
+            removeSystemFields(for: recordID)
+            return false
+        }
+        guard let local = OneVoiceCloudRecordCodec.localIdentifier(for: recordID) else { return false }
+        switch local.kind {
+        case .entry:
+            if let entry = await entryStore.entry(id: local.id) {
+                try await recordingStore?.deleteRecording(for: entry)
+            }
+            try await entryStore.delete(id: local.id)
+        case .replacement:
+            try await replacementStore.delete(id: local.id)
+        }
+        removeSystemFields(for: recordID)
+        return true
+    }
+
+    private func retryFailedRemoteApplications() async throws {
+        guard !journal.remoteRetries.isEmpty else { return }
+        var didChange = false
+        var firstError: Error?
+        for retry in journal.remoteRetries.values {
+            let recordID = CKRecord.ID(recordName: retry.recordName, zoneID: zone.zoneID)
+            do {
+                switch retry.action {
+                case .save:
+                    do {
+                        let record = try await database.record(for: recordID)
+                        didChange = try await applyRemoteRecord(record) || didChange
+                    } catch let error as CKError where error.code == .unknownItem {
+                        didChange = try await applyRemoteDeletion(recordID) || didChange
+                    }
+                case .delete:
+                    didChange = try await applyRemoteDeletion(recordID) || didChange
+                }
+                journal.acknowledgeRemoteRetry(recordName: retry.recordName, action: retry.action)
+            } catch {
+                firstError = firstError ?? error
+            }
+        }
+        try persistJournal()
+        if didChange { await changeHandler() }
+        if let firstError { throw firstError }
+    }
+
+    private func reportFailure(_ error: Error) async {
+        lastFailureMessage = error.localizedDescription
+        await statusHandler(.failed(error.localizedDescription))
+    }
+
+    private func reportSteadyState() async {
+        if let lastFailureMessage {
+            await statusHandler(.failed(lastFailureMessage))
+        } else if journal.localMutations.isEmpty, journal.remoteRetries.isEmpty {
+            await statusHandler(.synced)
+        } else {
+            await statusHandler(.syncing)
+        }
+    }
+
+    private static func loadJournal(from url: URL) -> OneVoiceCloudSyncJournal {
+        guard let data = try? Data(contentsOf: url),
+              let journal = try? JSONDecoder().decode(OneVoiceCloudSyncJournal.self, from: data)
+        else { return OneVoiceCloudSyncJournal() }
+        return journal
+    }
+
+    private func persistJournal() throws {
+        try FileManager.default.createDirectory(
+            at: journalFileURL.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
+        try JSONEncoder().encode(journal).write(to: journalFileURL, options: .atomic)
     }
 
     private func persistSystemFields(for record: CKRecord) {
@@ -354,5 +573,15 @@ public actor OneVoiceCloudSync: CKSyncEngineDelegate {
 
     private func systemFieldsURL(for recordID: CKRecord.ID) -> URL {
         systemFieldsDirectoryURL.appending(path: "\(recordID.recordName).record")
+    }
+}
+
+private extension CKSyncEngine.PendingRecordZoneChange {
+    var recordID: CKRecord.ID {
+        switch self {
+        case let .saveRecord(recordID), let .deleteRecord(recordID): recordID
+        @unknown default:
+            preconditionFailure("Unsupported CKSyncEngine pending record-zone change")
+        }
     }
 }

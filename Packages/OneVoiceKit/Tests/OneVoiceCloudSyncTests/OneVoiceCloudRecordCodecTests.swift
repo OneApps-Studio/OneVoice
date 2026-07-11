@@ -45,4 +45,46 @@ struct OneVoiceCloudRecordCodecTests {
         let decoded = try #require(OneVoiceCloudRecordCodec.replacement(from: record))
         #expect(decoded == replacement)
     }
+
+    @Test("Only saved voice notes are eligible for CloudKit")
+    func cloudPrivacyPolicy() {
+        let voiceNote = makeEntry(source: .voiceNote)
+        let quickDictation = makeEntry(source: .quickDictation)
+        let importedFile = makeEntry(source: .importedFile)
+
+        #expect(OneVoiceCloudRecordPolicy.shouldSync(voiceNote))
+        #expect(!OneVoiceCloudRecordPolicy.shouldSync(quickDictation))
+        #expect(!OneVoiceCloudRecordPolicy.shouldSync(importedFile))
+    }
+
+    @Test("Sync journal coalesces offline mutations and only acknowledges matching work")
+    func syncJournalCoalescesMutations() {
+        var journal = OneVoiceCloudSyncJournal()
+
+        journal.stageLocal(recordName: "entry_one", action: .save)
+        journal.stageLocal(recordName: "entry_one", action: .delete)
+        journal.acknowledgeLocal(recordName: "entry_one", action: .save)
+        #expect(journal.localMutations["entry_one"]?.action == .delete)
+
+        journal.stageRemoteRetry(recordName: "entry_two", action: .save)
+        journal.stageRemoteRetry(recordName: "entry_two", action: .delete)
+        journal.acknowledgeRemoteRetry(recordName: "entry_two", action: .save)
+        #expect(journal.remoteRetries["entry_two"]?.action == .delete)
+
+        journal.acknowledgeLocal(recordName: "entry_one", action: .delete)
+        journal.acknowledgeRemoteRetry(recordName: "entry_two", action: .delete)
+        #expect(journal.localMutations.isEmpty)
+        #expect(journal.remoteRetries.isEmpty)
+    }
+
+    private func makeEntry(source: VoiceEntry.Source) -> VoiceEntry {
+        VoiceEntry(
+            rawTranscript: "raw",
+            transcript: "text",
+            duration: 1,
+            localeIdentifier: "en-US",
+            engineIdentifier: "apple",
+            source: source
+        )
+    }
 }

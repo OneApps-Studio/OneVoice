@@ -92,6 +92,8 @@ private struct VoiceHistoryRow: View {
                         Image(systemName: model.playingEntryID == entry.id ? "stop.fill" : "play.fill")
                     }
                     .buttonStyle(.plain)
+                    .accessibilityLabel(model.playingEntryID == entry.id ? "Stop" : "Play")
+                    .accessibilityIdentifier("play-recording-\(entry.id.uuidString.lowercased())")
                 }
                 if !entry.transcript.isEmpty {
                     Button { model.copy(entry) } label: {
@@ -113,6 +115,7 @@ private struct VoiceHistoryRow: View {
             .foregroundStyle(.secondary)
         }
         .padding(.vertical, 6)
+        .accessibilityIdentifier("recording-\(entry.id.uuidString.lowercased())")
     }
 }
 

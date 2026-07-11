@@ -38,6 +38,10 @@ enum DebugLaunchArguments {
             defaults.set(value, forKey: AppStorageKeys.appTheme)
         }
 
+        if let value = environment["ONEVOICE_RECOGNITION_LOCALE"] {
+            defaults.set(value, forKey: "onevoice.recognitionLocale")
+        }
+
     }
 
     private static func debugValues() -> [String: String] {

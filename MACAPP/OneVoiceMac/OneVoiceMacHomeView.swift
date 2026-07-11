@@ -10,6 +10,15 @@ struct OneVoiceMacHomeView: View {
         case setup = "Setup"
 
         var id: String { rawValue }
+        var title: LocalizedStringResource {
+            switch self {
+            case .transcribe: "Transcribe File"
+            case .history: "Library"
+            case .dictionary: "Dictionary"
+            case .models: "Models"
+            case .setup: "Setup"
+            }
+        }
         var icon: String {
             switch self {
             case .transcribe: "waveform.badge.magnifyingglass"
@@ -27,7 +36,7 @@ struct OneVoiceMacHomeView: View {
     var body: some View {
         NavigationSplitView {
             List(Destination.allCases, selection: $selection) { destination in
-                Label(destination.rawValue, systemImage: destination.icon)
+                Label(destination.title, systemImage: destination.icon)
                     .tag(destination)
             }
             .navigationTitle(OneVoiceMacIdentity.displayName)
@@ -58,7 +67,7 @@ struct OneVoiceMacHomeView: View {
                     .padding(.bottom, 8)
             }
         }
-        .alert("\(OneVoiceMacIdentity.displayName) needs attention", isPresented: Binding(
+        .alert("OneVoice needs attention", isPresented: Binding(
             get: { model.lastError != nil },
             set: { if !$0 { model.lastError = nil } }
         )) {
@@ -156,7 +165,7 @@ private struct HistoryView: View {
                 ContentUnavailableView {
                     Label("No recordings or transcripts yet", systemImage: "waveform")
                 } description: {
-                    Text("Voice notes from iPhone and iPad appear here through private iCloud sync. Mac dictation transcripts are saved here too.")
+                    Text("Voice notes from iPhone appear here through private iCloud sync. Mac dictation transcripts are saved here too.")
                 } actions: {
                     Button("Start Dictation") { model.toggleDictation() }
                         .buttonStyle(.borderedProminent)
@@ -222,8 +231,14 @@ private struct HistoryView: View {
         }
         .toolbar {
             ToolbarItem {
-                Button(dictationButtonTitle, systemImage: model.isRecording ? "stop.fill" : "mic.fill") {
+                Button {
                     model.toggleDictation()
+                } label: {
+                    Label {
+                        Text(dictationButtonTitle)
+                    } icon: {
+                        Image(systemName: model.isRecording ? "stop.fill" : "mic.fill")
+                    }
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(model.isFinishing)
@@ -231,7 +246,7 @@ private struct HistoryView: View {
         }
     }
 
-    private var dictationButtonTitle: String {
+    private var dictationButtonTitle: LocalizedStringResource {
         if model.isStarting { return "Cancel" }
         if model.isRecording { return "Finish" }
         if model.isFinishing { return "Finishing…" }
@@ -248,9 +263,9 @@ private struct DictionaryView: View {
         VStack(spacing: 0) {
             Form {
                 Section("Add a pronunciation correction") {
-                    TextField("What \(OneVoiceMacIdentity.displayName) hears", text: $spoken)
+                    TextField("What OneVoice hears", text: $spoken)
                         .autocorrectionDisabled()
-                    TextField("What \(OneVoiceMacIdentity.displayName) should write", text: $written)
+                    TextField("What OneVoice should write", text: $written)
                         .autocorrectionDisabled()
                     Button("Add Replacement") {
                         let source = spoken
@@ -366,14 +381,24 @@ private struct SetupView: View {
                 Button("Open Privacy & Security") { model.openPrivacySettings() }
             }
             Section("Keyboard") {
-                LabeledContent("Push to talk", value: "Hold Fn")
-                LabeledContent("Start / finish", value: "Tap Right Command")
-                Text("For Fn push-to-talk, set System Settings → Keyboard → Press fn key to → Do Nothing.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                Picker("Hold to talk", selection: Bindable(model).pushToTalkKey) {
+                    ForEach(GlobalHotkeyKey.allCases) { key in
+                        Text(key.title).tag(key)
+                    }
+                }
+                Picker("Tap to start or finish", selection: Bindable(model).toggleKey) {
+                    ForEach(GlobalHotkeyKey.allCases) { key in
+                        Text(key.title).tag(key)
+                    }
+                }
+                if model.pushToTalkKey == .function || model.toggleKey == .function {
+                    Text("When using Fn, set System Settings → Keyboard → Press fn key to → Do Nothing.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
             Section("Startup") {
-                Toggle("Launch \(OneVoiceMacIdentity.displayName) at login", isOn: Binding(
+                Toggle("Launch at Login", isOn: Binding(
                     get: { model.launchAtLoginEnabled },
                     set: { model.setLaunchAtLogin($0) }
                 ))
@@ -383,7 +408,9 @@ private struct SetupView: View {
                     get: { model.iCloudSyncEnabled },
                     set: { model.setICloudSyncEnabled($0) }
                 ))
-                LabeledContent("Status", value: model.iCloudSyncStatus.displayText)
+                LabeledContent("Status") {
+                    Text(cloudStatusText)
+                }
                 Button("Sync Now") { model.refreshCloudSync() }
                     .disabled(!model.iCloudSyncEnabled)
                 Text("Voice-note audio, transcripts, and dictionary replacements sync through your private iCloud database. Quick-dictation audio, imported media, and downloaded models never sync.")
@@ -393,6 +420,16 @@ private struct SetupView: View {
         }
         .formStyle(.grouped)
         .navigationTitle("Setup")
+    }
+
+    private var cloudStatusText: LocalizedStringResource {
+        switch model.iCloudSyncStatus {
+        case .disabled: "Off"
+        case .syncing: "Syncing…"
+        case .synced: "Synced"
+        case .unavailable: "iCloud unavailable"
+        case .failed: "Sync error"
+        }
     }
 
     private func permissionRow(_ title: String, granted: Bool) -> some View {

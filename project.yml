@@ -10,7 +10,7 @@ options:
 settings:
   base:
     APS_ENVIRONMENT: development
-    CURRENT_PROJECT_VERSION: 2
+    CURRENT_PROJECT_VERSION: 3
     DEVELOPMENT_TEAM: PCJ84YD7HQ
     MARKETING_VERSION: 1.1.0
     SWIFT_STRICT_CONCURRENCY: complete
@@ -50,7 +50,6 @@ targets:
     settings:
       base:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        CODE_SIGN_ENTITLEMENTS: IOSAPP/Config/OneVoice.entitlements
         CODE_SIGN_STYLE: Automatic
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: IOSAPP/Config/OneVoice-Info.plist
@@ -59,12 +58,14 @@ targets:
         PRODUCT_NAME: OneVoice
         ONEVOICE_CLOUD_CONTAINER_IDENTIFIER: iCloud.studio.oneapps.onevoice
         SUPPORTS_MACCATALYST: NO
-        TARGETED_DEVICE_FAMILY: "1,2"
+        TARGETED_DEVICE_FAMILY: "1"
       configs:
         Debug:
+          CODE_SIGN_ENTITLEMENTS: IOSAPP/Config/OneVoice-Dev.entitlements
           PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice.dev
           PRODUCT_NAME: OneVoice Dev
         Release:
+          CODE_SIGN_ENTITLEMENTS: IOSAPP/Config/OneVoice.entitlements
           PRODUCT_BUNDLE_IDENTIFIER: studio.oneapps.onevoice
           PRODUCT_NAME: OneVoice
     dependencies:
@@ -115,6 +116,7 @@ targets:
       - path: MACAPP/OneVoiceMac
     settings:
       base:
+        ARCHS: arm64
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_STYLE: Automatic
         ENABLE_HARDENED_RUNTIME: YES

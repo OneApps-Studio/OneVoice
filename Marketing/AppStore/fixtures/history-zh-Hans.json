@@ -1,0 +1,72 @@
+[
+  {
+    "id": "79B80DA7-3201-4E21-A4CD-F6C121B1D901",
+    "rawTranscript": "OneVoice 1.1 要在锁屏之后继续录音，并让每一条录音都能在 Mac 上搜索。",
+    "transcript": "OneVoice 1.1 要在锁屏之后继续录音，并让每一条录音都能在 Mac 上搜索。",
+    "createdAt": "2026-07-10T08:41:00Z",
+    "duration": 82,
+    "localeIdentifier": "zh-Hans",
+    "engineIdentifier": "apple-speech-analyzer",
+    "source": "voiceNote",
+    "isFavorite": true,
+    "title": "OneVoice 1.1 发布笔记",
+    "audioFileName": "79b80da7-3201-4e21-a4cd-f6c121b1d901.m4a",
+    "audioByteCount": 8192
+  },
+  {
+    "id": "27EA4EF8-E935-4C33-8F1E-63225B2CD4A2",
+    "rawTranscript": "最清楚的产品承诺很简单：说一次，以后随时找到，音频始终保持私密。",
+    "transcript": "最清楚的产品承诺很简单：说一次，以后随时找到，音频始终保持私密。",
+    "createdAt": "2026-07-09T14:18:00Z",
+    "duration": 214,
+    "localeIdentifier": "zh-Hans",
+    "engineIdentifier": "qwen3-asr-0.6b-mlx-4bit",
+    "source": "voiceNote",
+    "isFavorite": false,
+    "title": "每周产品复盘",
+    "audioFileName": "27ea4ef8-e935-4c33-8f1e-63225b2cd4a2.m4a",
+    "audioByteCount": 8192
+  },
+  {
+    "id": "44FDE508-021A-4BB8-B2F7-374B34670DD7",
+    "rawTranscript": "用户需要一款切换 App 后仍能安心录音，而且不会把会议上传到第三方服务器的录音工具。",
+    "transcript": "用户需要一款切换 App 后仍能安心录音，而且不会把会议上传到第三方服务器的录音工具。",
+    "createdAt": "2026-07-08T03:27:00Z",
+    "duration": 667,
+    "localeIdentifier": "zh-Hans",
+    "engineIdentifier": "apple-speech-analyzer",
+    "source": "voiceNote",
+    "isFavorite": true,
+    "title": "用户访谈重点",
+    "audioFileName": "44fde508-021a-4bb8-b2f7-374b34670dd7.m4a",
+    "audioByteCount": 8192
+  },
+  {
+    "id": "58695905-8E13-4AA5-A5C7-50D839FDE19D",
+    "rawTranscript": "小美建议把搜索放在最前面，并在每条录音旁直接展示转写文本。",
+    "transcript": "小美建议把搜索放在最前面，并在每条录音旁直接展示转写文本。",
+    "createdAt": "2026-07-06T09:05:00Z",
+    "duration": 298,
+    "localeIdentifier": "zh-Hans",
+    "engineIdentifier": "apple-speech-analyzer",
+    "source": "voiceNote",
+    "isFavorite": false,
+    "title": "和小美的咖啡聊天",
+    "audioFileName": "58695905-8e13-4aa5-a5c7-50d839fde19d.m4a",
+    "audioByteCount": 8192
+  },
+  {
+    "id": "D9B5445F-7095-45E6-AC5F-ED53E5E55741",
+    "rawTranscript": "一键开始并能在锁屏后继续录音，走路时冒出的想法也不会丢。",
+    "transcript": "一键开始并能在锁屏后继续录音，走路时冒出的想法也不会丢。",
+    "createdAt": "2026-07-04T12:36:00Z",
+    "duration": 96,
+    "localeIdentifier": "zh-Hans",
+    "engineIdentifier": "apple-speech-analyzer",
+    "source": "voiceNote",
+    "isFavorite": false,
+    "title": "散步时的想法",
+    "audioFileName": "d9b5445f-7095-45e6-ac5f-ed53e5e55741.m4a",
+    "audioByteCount": 8192
+  }
+]

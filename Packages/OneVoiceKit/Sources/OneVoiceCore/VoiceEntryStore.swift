@@ -10,7 +10,7 @@ public actor VoiceEntryStore {
         self.encoder = JSONEncoder()
         self.encoder.dateEncodingStrategy = .iso8601
 
-        guard FileManager.default.fileExists(atPath: fileURL.path()) else {
+        guard FileManager.default.fileExists(atPath: fileURL.path) else {
             self.storedEntries = []
             return
         }

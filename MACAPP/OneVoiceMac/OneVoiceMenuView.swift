@@ -6,19 +6,32 @@ struct OneVoiceMenuView: View {
     @Environment(\.openSettings) private var openSettings
 
     var body: some View {
-        Button(dictationButtonTitle) {
+        Button {
             model.toggleDictation()
+        } label: {
+            Text(dictationButtonTitle)
         }
         .disabled(model.isFinishing)
             .keyboardShortcut("d", modifiers: [.command, .shift])
 
-        Text("Hold Fn · Tap Right Command")
+        HStack(spacing: 4) {
+            Text("Hold")
+            Text(model.pushToTalkKey.title)
+            Text("·")
+            Text("Tap")
+            Text(model.toggleKey.title)
+        }
             .foregroundStyle(.secondary)
 
         Divider()
 
-        Button("Open \(OneVoiceMacIdentity.displayName)") {
+        Button {
             (NSApplication.shared.delegate as? OneVoiceMacAppDelegate)?.showMainWindow()
+        } label: {
+            HStack(spacing: 3) {
+                Text("Open")
+                Text(OneVoiceMacIdentity.displayName)
+            }
         }
 
         Button("Settings…") {
@@ -42,13 +55,18 @@ struct OneVoiceMenuView: View {
 
         Divider()
 
-        Button("Quit \(OneVoiceMacIdentity.displayName)") {
+        Button {
             NSApplication.shared.terminate(nil)
+        } label: {
+            HStack(spacing: 3) {
+                Text("Quit")
+                Text(OneVoiceMacIdentity.displayName)
+            }
         }
         .keyboardShortcut("q", modifiers: .command)
     }
 
-    private var dictationButtonTitle: String {
+    private var dictationButtonTitle: LocalizedStringResource {
         if model.isStarting { return "Cancel Starting" }
         if model.isRecording { return "Finish Dictation" }
         if model.isFinishing { return "Finishing…" }

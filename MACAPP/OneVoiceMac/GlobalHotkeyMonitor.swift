@@ -2,19 +2,81 @@ import CoreGraphics
 import Foundation
 import OneVoiceCore
 
+enum GlobalHotkeyKey: String, CaseIterable, Identifiable, Sendable {
+    case function
+    case rightCommand
+    case leftCommand
+    case rightOption
+    case leftOption
+    case rightControl
+    case leftControl
+
+    static let defaultPushToTalk: Self = .function
+    static let defaultToggle: Self = .rightCommand
+
+    var id: String { rawValue }
+
+    var title: LocalizedStringResource {
+        switch self {
+        case .function: "Fn"
+        case .rightCommand: "Right Command"
+        case .leftCommand: "Left Command"
+        case .rightOption: "Right Option"
+        case .leftOption: "Left Option"
+        case .rightControl: "Right Control"
+        case .leftControl: "Left Control"
+        }
+    }
+
+    var keyCode: Int64 {
+        switch self {
+        case .function: 63
+        case .rightCommand: 54
+        case .leftCommand: 55
+        case .rightOption: 61
+        case .leftOption: 58
+        case .rightControl: 62
+        case .leftControl: 59
+        }
+    }
+
+    var eventFlag: CGEventFlags {
+        switch self {
+        case .function: .maskSecondaryFn
+        case .rightCommand, .leftCommand: .maskCommand
+        case .rightOption, .leftOption: .maskAlternate
+        case .rightControl, .leftControl: .maskControl
+        }
+    }
+
+    static func fallback(excluding key: Self, preferred: Self) -> Self {
+        if preferred != key { return preferred }
+        return allCases.first { $0 != key } ?? .function
+    }
+}
+
 @MainActor
 final class GlobalHotkeyMonitor {
     typealias ActionHandler = @MainActor (HotkeyGestureInterpreter.Action) -> Void
 
     private let actionHandler: ActionHandler
+    private let pushToTalkKey: GlobalHotkeyKey
+    private let toggleKey: GlobalHotkeyKey
     private var interpreter = HotkeyGestureInterpreter()
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
-    private var functionIsDown = false
-    private var rightCommandIsDown = false
-    private var functionHoldTask: Task<Void, Never>?
+    private var pushToTalkIsDown = false
+    private var toggleIsDown = false
+    private var pushToTalkHoldTask: Task<Void, Never>?
 
-    init(actionHandler: @escaping ActionHandler) {
+    init(
+        pushToTalkKey: GlobalHotkeyKey,
+        toggleKey: GlobalHotkeyKey,
+        actionHandler: @escaping ActionHandler
+    ) {
+        precondition(pushToTalkKey != toggleKey, "Global shortcut keys must be different")
+        self.pushToTalkKey = pushToTalkKey
+        self.toggleKey = toggleKey
         self.actionHandler = actionHandler
     }
 
@@ -56,8 +118,8 @@ final class GlobalHotkeyMonitor {
     }
 
     func stop() {
-        functionHoldTask?.cancel()
-        functionHoldTask = nil
+        pushToTalkHoldTask?.cancel()
+        pushToTalkHoldTask = nil
         if let runLoopSource {
             CFRunLoopRemoveSource(CFRunLoopGetMain(), runLoopSource, .commonModes)
         }
@@ -79,43 +141,65 @@ final class GlobalHotkeyMonitor {
         let timestamp = ProcessInfo.processInfo.systemUptime
         if type == .keyDown {
             dispatch(interpreter.handle(.otherKeyDown(at: timestamp)))
-            functionHoldTask?.cancel()
+            pushToTalkHoldTask?.cancel()
             return
         }
 
         guard type == .flagsChanged else { return }
         let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
-        switch keyCode {
-        case 63:
-            let isDown = event.flags.contains(.maskSecondaryFn)
-            guard isDown != functionIsDown else { return }
-            functionIsDown = isDown
+        if keyCode == pushToTalkKey.keyCode {
+            let isDown = isKeyDown(
+                pushToTalkKey,
+                currentState: pushToTalkIsDown,
+                event: event
+            )
+            guard isDown != pushToTalkIsDown else { return }
+            pushToTalkIsDown = isDown
             if isDown {
                 dispatch(interpreter.handle(.modifierDown(.function, at: timestamp)))
-                functionHoldTask?.cancel()
-                functionHoldTask = Task { [weak self] in
+                pushToTalkHoldTask?.cancel()
+                pushToTalkHoldTask = Task { [weak self] in
                     try? await Task.sleep(for: .milliseconds(180))
-                    guard !Task.isCancelled, let self, self.functionIsDown else { return }
+                    guard !Task.isCancelled, let self, self.pushToTalkIsDown else { return }
                     self.dispatch(self.interpreter.handle(
                         .holdThresholdElapsed(.function, at: ProcessInfo.processInfo.systemUptime)
                     ))
                 }
             } else {
-                functionHoldTask?.cancel()
-                functionHoldTask = nil
+                pushToTalkHoldTask?.cancel()
+                pushToTalkHoldTask = nil
                 dispatch(interpreter.handle(.modifierUp(.function, at: timestamp)))
             }
-        case 54:
-            let isDown = event.flags.contains(.maskCommand)
-            guard isDown != rightCommandIsDown else { return }
-            rightCommandIsDown = isDown
-            let event: HotkeyGestureInterpreter.Event = isDown
+            return
+        }
+
+        if keyCode == toggleKey.keyCode {
+            let isDown = isKeyDown(
+                toggleKey,
+                currentState: toggleIsDown,
+                event: event
+            )
+            guard isDown != toggleIsDown else { return }
+            toggleIsDown = isDown
+            let shortcutEvent: HotkeyGestureInterpreter.Event = isDown
                 ? .modifierDown(.rightCommand, at: timestamp)
                 : .modifierUp(.rightCommand, at: timestamp)
-            dispatch(interpreter.handle(event))
-        default:
-            break
+            dispatch(interpreter.handle(shortcutEvent))
         }
+    }
+
+    private func isKeyDown(
+        _ key: GlobalHotkeyKey,
+        currentState: Bool,
+        event: CGEvent
+    ) -> Bool {
+        if CGEventSource.keyState(.combinedSessionState, key: CGKeyCode(key.keyCode)) {
+            return true
+        }
+        if currentState {
+            return false
+        }
+        return event.flags.contains(key.eventFlag)
     }
 
     private func dispatch(_ actions: [HotkeyGestureInterpreter.Action]) {

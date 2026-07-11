@@ -37,3 +37,25 @@ struct SafeTextInsertionPolicyTests {
         #expect(MacTextInsertion.classify(role: "AXTextField", subrole: .value("UnexpectedSubrole")) == .unverified)
     }
 }
+
+@Suite("Configurable global shortcuts")
+struct ConfigurableGlobalShortcutTests {
+    @Test("Defaults remain Fn hold and Right Command tap")
+    func defaultsMatchProductContract() {
+        #expect(GlobalHotkeyKey.defaultPushToTalk == .function)
+        #expect(GlobalHotkeyKey.defaultToggle == .rightCommand)
+    }
+
+    @Test("Every selectable modifier has a unique physical key code")
+    func selectableKeysAreUnambiguous() {
+        let keyCodes = GlobalHotkeyKey.allCases.map(\.keyCode)
+        #expect(Set(keyCodes).count == keyCodes.count)
+    }
+
+    @Test("Conflict fallback always selects a different key")
+    func conflictFallbackIsDifferent() {
+        for key in GlobalHotkeyKey.allCases {
+            #expect(GlobalHotkeyKey.fallback(excluding: key, preferred: key) != key)
+        }
+    }
+}

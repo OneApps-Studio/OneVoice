@@ -32,7 +32,7 @@ OneVoice syncs through the private database of `iCloud.studio.oneapps.onevoice` 
 
 ## Release gate
 
-1. Run a development-signed Release build on a physical device signed into iCloud.
+1. Run `OneVoice Dev` or `OneVoice Mac Dev` on a physical device/Mac signed into iCloud. Debug uses the isolated `.dev` Bundle ID and the CloudKit Development environment; never development-sign a production Bundle ID.
 2. Create one voice note and one dictionary replacement, then verify both record types and `audioAsset` in the development environment.
 3. Deploy the development schema to production in CloudKit Console before uploading the App Store build.
 4. Install the exported distribution build and verify that it uses the production CloudKit environment.

@@ -65,6 +65,27 @@ final class OneVoiceMacModel {
     var localeIdentifier: String {
         didSet { UserDefaults.standard.set(localeIdentifier, forKey: "recognitionLocale") }
     }
+    var appLanguage: MacAppLanguage {
+        didSet { UserDefaults.standard.set(appLanguage.rawValue, forKey: MacAppLanguage.defaultsKey) }
+    }
+    var pushToTalkKey: GlobalHotkeyKey {
+        didSet {
+            if pushToTalkKey == toggleKey {
+                toggleKey = .fallback(excluding: pushToTalkKey, preferred: .defaultToggle)
+            }
+            UserDefaults.standard.set(pushToTalkKey.rawValue, forKey: "pushToTalkKey")
+            reinstallHotkeys()
+        }
+    }
+    var toggleKey: GlobalHotkeyKey {
+        didSet {
+            if toggleKey == pushToTalkKey {
+                pushToTalkKey = .fallback(excluding: toggleKey, preferred: .defaultPushToTalk)
+            }
+            UserDefaults.standard.set(toggleKey.rawValue, forKey: "toggleKey")
+            reinstallHotkeys()
+        }
+    }
     var useQwenFinalPass: Bool {
         didSet {
             UserDefaults.standard.set(useQwenFinalPass, forKey: "useQwenFinalPass")
@@ -101,6 +122,19 @@ final class OneVoiceMacModel {
     private init() {
         let qwenManager = QwenModelManager(cacheDirectory: OneVoiceMacIdentity.qwenModelDirectory)
         let qwenEnabled = UserDefaults.standard.object(forKey: "useQwenFinalPass") as? Bool ?? true
+        appLanguage = MacAppLanguage(
+            rawValue: UserDefaults.standard.string(forKey: MacAppLanguage.defaultsKey) ?? ""
+        ) ?? .system
+        let storedPushToTalkKey = GlobalHotkeyKey(
+            rawValue: UserDefaults.standard.string(forKey: "pushToTalkKey") ?? ""
+        ) ?? .defaultPushToTalk
+        pushToTalkKey = storedPushToTalkKey
+        let storedToggleKey = GlobalHotkeyKey(
+            rawValue: UserDefaults.standard.string(forKey: "toggleKey") ?? ""
+        ) ?? .defaultToggle
+        toggleKey = storedToggleKey == storedPushToTalkKey
+            ? .fallback(excluding: storedPushToTalkKey, preferred: .defaultToggle)
+            : storedToggleKey
         localeIdentifier = UserDefaults.standard.string(forKey: "recognitionLocale") ?? "zh-Hans"
         self.qwenManager = qwenManager
         speechEngine = HybridTranscriptionEngine(
@@ -578,13 +612,23 @@ final class OneVoiceMacModel {
     private func installHotkeys() {
         guard MacPermissions.hasInputMonitoring else { return }
         if hotkeyMonitor == nil {
-            hotkeyMonitor = GlobalHotkeyMonitor { [weak self] action in
+            hotkeyMonitor = GlobalHotkeyMonitor(
+                pushToTalkKey: pushToTalkKey,
+                toggleKey: toggleKey
+            ) { [weak self] action in
                 self?.handleHotkey(action)
             }
         }
         if hotkeyMonitor?.start() == false {
             lastError = "Input Monitoring permission is required before global shortcuts can start."
         }
+    }
+
+    private func reinstallHotkeys() {
+        guard didLaunch else { return }
+        hotkeyMonitor?.stop()
+        hotkeyMonitor = nil
+        installHotkeys()
     }
 
     private func beginHotkeyDictation(pushToTalk: Bool) {
@@ -661,11 +705,7 @@ final class OneVoiceMacModel {
     }
 
     private var cloudContainerIdentifier: String? {
-        #if DEBUG
-        nil
-        #else
         Bundle.main.object(forInfoDictionaryKey: "OneVoiceCloudContainerIdentifier") as? String
-        #endif
     }
 
     private func failRecording(_ error: Error) async {
