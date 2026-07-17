@@ -1,5 +1,6 @@
 import SwiftUI
 import UniformTypeIdentifiers
+import OneVoiceCore
 
 struct OneVoiceMacHomeView: View {
     enum Destination: String, CaseIterable, Identifiable {
@@ -102,9 +103,14 @@ private struct MediaTranscriptionView: View {
                     ProgressView(value: model.mediaImportProgress) {
                         Text(model.mediaImportFileName)
                     }
-                    Text(model.liveTranscript.isEmpty ? "Preparing private recognition…" : model.liveTranscript)
-                        .frame(maxWidth: .infinity, minHeight: 64, alignment: .topLeading)
-                        .textSelection(.enabled)
+                    if model.liveTranscript.isEmpty {
+                        Text("Preparing private recognition…")
+                            .frame(maxWidth: .infinity, minHeight: 64, alignment: .topLeading)
+                    } else {
+                        Text(model.liveTranscript)
+                            .frame(maxWidth: .infinity, minHeight: 64, alignment: .topLeading)
+                            .textSelection(.enabled)
+                    }
                     Button("Cancel", role: .destructive) { model.cancelMediaImport() }
                 }
                 .padding(20)
@@ -193,8 +199,8 @@ private struct HistoryView: View {
                             Spacer()
                             if model.audioURL(for: entry) != nil {
                                 Button(
-                                    model.playingEntryID == entry.id ? "Stop" : "Play",
-                                    systemImage: model.playingEntryID == entry.id ? "stop.fill" : "play.fill"
+                                    isPlaying(entry) ? "Pause" : "Play",
+                                    systemImage: isPlaying(entry) ? "pause.fill" : "play.fill"
                                 ) {
                                     Task { await model.togglePlayback(entry) }
                                 }
@@ -219,6 +225,52 @@ private struct HistoryView: View {
                         }
                         .font(.caption)
                         .foregroundStyle(.secondary)
+
+                        if model.playingEntryID == entry.id {
+                            VStack(spacing: 7) {
+                                Slider(
+                                    value: Binding(
+                                        get: { model.playbackTime },
+                                        set: { value in
+                                            Task { await model.seekPlayback(to: value, entry: entry) }
+                                        }
+                                    ),
+                                    in: 0...max(model.playbackDuration, 0.1)
+                                )
+                                HStack {
+                                    Text(model.playbackTime.formattedMacPlaybackDuration)
+                                    Spacer()
+                                    Button {
+                                        Task { await model.skipPlayback(by: -15, entry: entry) }
+                                    } label: {
+                                        Image(systemName: "gobackward.15")
+                                    }
+                                    .accessibilityLabel("Back 15 Seconds")
+                                    Button {
+                                        Task { await model.togglePlayback(entry) }
+                                    } label: {
+                                        Image(systemName: isPlaying(entry) ? "pause.fill" : "play.fill")
+                                    }
+                                    .accessibilityLabel(isPlaying(entry) ? "Pause" : "Play")
+                                    Button {
+                                        Task { await model.skipPlayback(by: 15, entry: entry) }
+                                    } label: {
+                                        Image(systemName: "goforward.15")
+                                    }
+                                    .accessibilityLabel("Forward 15 Seconds")
+                                    Menu("\(Double(model.playbackRate).formatted())×") {
+                                        ForEach([0.5, 1, 1.5, 2], id: \.self) { rate in
+                                            Button("\(rate.formatted())×") {
+                                                model.setPlaybackRate(Float(rate))
+                                            }
+                                        }
+                                    }
+                                    Text(model.playbackDuration.formattedMacPlaybackDuration)
+                                }
+                                .font(.caption.monospacedDigit())
+                            }
+                            .padding(.top, 4)
+                        }
                     }
                     .padding(.vertical, 6)
                 }
@@ -251,6 +303,23 @@ private struct HistoryView: View {
         if model.isRecording { return "Finish" }
         if model.isFinishing { return "Finishing…" }
         return "Dictate"
+    }
+
+    private func isPlaying(_ entry: VoiceEntry) -> Bool {
+        model.playingEntryID == entry.id && model.playbackIsActive
+    }
+}
+
+private extension TimeInterval {
+    var formattedMacPlaybackDuration: String {
+        guard isFinite else { return "00:00" }
+        let total = max(0, Int(rounded(.down)))
+        let hours = total / 3600
+        let minutes = (total % 3600) / 60
+        let seconds = total % 60
+        return hours > 0
+            ? String(format: "%d:%02d:%02d", hours, minutes, seconds)
+            : String(format: "%02d:%02d", minutes, seconds)
     }
 }
 

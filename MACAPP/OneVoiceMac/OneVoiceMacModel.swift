@@ -53,6 +53,9 @@ final class OneVoiceMacModel {
     private(set) var history: [VoiceEntry] = []
     private(set) var audioURLs: [UUID: URL] = [:]
     private(set) var playingEntryID: UUID?
+    private(set) var playbackTime: TimeInterval = 0
+    private(set) var playbackDuration: TimeInterval = 0
+    private(set) var playbackRate: Float = 1
     private(set) var replacements: [DictionaryReplacement] = []
     private(set) var qwenInstalled = false
     private(set) var qwenIsDownloading = false
@@ -60,6 +63,7 @@ final class OneVoiceMacModel {
     private(set) var qwenStatusText = "Not installed"
     private(set) var iCloudSyncStatus: OneVoiceCloudSyncStatus = .disabled
     var liveTranscript: String { session?.partialTranscript ?? "" }
+    var playbackIsActive: Bool { audioPlayer?.isPlaying == true }
     var lastError: String?
     var lastDeliveryMessage: String?
     var localeIdentifier: String {
@@ -533,9 +537,42 @@ final class OneVoiceMacModel {
 
     func togglePlayback(_ entry: VoiceEntry) async {
         if playingEntryID == entry.id {
-            stopPlayback()
+            guard let audioPlayer else { return }
+            if audioPlayer.isPlaying {
+                audioPlayer.pause()
+                playbackTime = audioPlayer.currentTime
+            } else {
+                audioPlayer.rate = playbackRate
+                audioPlayer.play()
+            }
             return
         }
+        await preparePlayback(entry, autoplay: true)
+    }
+
+    func seekPlayback(to time: TimeInterval, entry: VoiceEntry) async {
+        if playingEntryID != entry.id {
+            await preparePlayback(entry, autoplay: false)
+        }
+        guard let audioPlayer, playingEntryID == entry.id else { return }
+        let clamped = min(max(time, 0), audioPlayer.duration)
+        audioPlayer.currentTime = clamped
+        playbackTime = clamped
+    }
+
+    func skipPlayback(by interval: TimeInterval, entry: VoiceEntry) async {
+        let current = playingEntryID == entry.id ? playbackTime : 0
+        await seekPlayback(to: current + interval, entry: entry)
+    }
+
+    func setPlaybackRate(_ rate: Float) {
+        guard [Float(0.5), 1, 1.5, 2].contains(rate) else { return }
+        playbackRate = rate
+        audioPlayer?.enableRate = true
+        audioPlayer?.rate = rate
+    }
+
+    private func preparePlayback(_ entry: VoiceEntry, autoplay: Bool) async {
         let url: URL?
         if let cachedURL = audioURLs[entry.id] {
             url = cachedURL
@@ -549,8 +586,10 @@ final class OneVoiceMacModel {
         do {
             stopPlayback()
             let player = try AVAudioPlayer(contentsOf: url)
+            player.enableRate = true
+            player.rate = playbackRate
             player.prepareToPlay()
-            guard player.play() else {
+            if autoplay, !player.play() {
                 throw NSError(
                     domain: "OneVoicePlayback",
                     code: 1,
@@ -559,15 +598,30 @@ final class OneVoiceMacModel {
             }
             audioPlayer = player
             playingEntryID = entry.id
-            let playbackID = entry.id
-            playbackTask = Task { [weak self] in
-                try? await Task.sleep(for: .seconds(player.duration + 0.2))
-                guard !Task.isCancelled, self?.playingEntryID == playbackID else { return }
-                self?.stopPlayback()
-            }
+            playbackTime = player.currentTime
+            playbackDuration = player.duration
+            startPlaybackUpdates(entryID: entry.id)
         } catch {
             stopPlayback()
             lastError = error.localizedDescription
+        }
+    }
+
+    private func startPlaybackUpdates(entryID: UUID) {
+        playbackTask?.cancel()
+        playbackTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .milliseconds(100))
+                guard let self,
+                      self.playingEntryID == entryID,
+                      let player = self.audioPlayer else { return }
+                self.playbackTime = player.currentTime
+                self.playbackDuration = player.duration
+                if !player.isPlaying, player.currentTime >= player.duration - 0.05 {
+                    self.stopPlayback()
+                    return
+                }
+            }
         }
     }
 
@@ -577,6 +631,8 @@ final class OneVoiceMacModel {
         audioPlayer?.stop()
         audioPlayer = nil
         playingEntryID = nil
+        playbackTime = 0
+        playbackDuration = 0
     }
 
     func setICloudSyncEnabled(_ enabled: Bool) {

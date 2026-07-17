@@ -16,7 +16,7 @@ struct OneVoiceMacApp: App {
         Settings {
             OneVoiceMacSettingsView(model: model)
                 .environment(\.locale, model.appLanguage.locale)
-                .frame(width: 560, height: 440)
+                .frame(width: 620, height: 520)
         }
     }
 }

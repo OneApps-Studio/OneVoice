@@ -15,15 +15,14 @@ final class OneVoiceUITests: XCTestCase {
         app.buttons["Next"].tap()
         XCTAssertTrue(app.staticTexts["Speak, Save, Share"].waitForExistence(timeout: 3))
         app.buttons["Start"].tap()
-        XCTAssertTrue(app.tabBars.buttons["Record"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.tabBars.buttons["Recordings"].waitForExistence(timeout: 5))
     }
 
     func testMainTabsAndDictionaryWorkflow() {
         let app = launchApp(onboardingCompleted: true)
 
-        XCTAssertTrue(app.tabBars.buttons["Record"].waitForExistence(timeout: 8))
-        app.tabBars.buttons["History"].tap()
-        XCTAssertTrue(app.staticTexts["No voice notes yet"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.tabBars.buttons["Recordings"].waitForExistence(timeout: 8))
+        XCTAssertTrue(app.staticTexts["No recordings yet"].waitForExistence(timeout: 3))
 
         app.tabBars.buttons["Dictionary"].tap()
         let spoken = app.textFields["What OneVoice hears"]
@@ -45,9 +44,9 @@ final class OneVoiceUITests: XCTestCase {
         )
 
         XCTAssertTrue(app.navigationBars["设置"].waitForExistence(timeout: 8))
-        XCTAssertTrue(app.staticTexts["语音识别"].exists)
+        XCTAssertTrue(app.staticTexts["识别语言"].exists)
         XCTAssertTrue(app.staticTexts["高精度模型"].exists)
-        let privacyLabel = app.staticTexts["你的录音保持私密"]
+        let privacyLabel = app.staticTexts["隐私承诺"]
         app.swipeUp()
         XCTAssertTrue(privacyLabel.waitForExistence(timeout: 3))
     }
@@ -66,6 +65,9 @@ final class OneVoiceUITests: XCTestCase {
         }
 
         let app = launchApp(onboardingCompleted: true)
+        let newRecordingButton = app.buttons["new-recording-button"]
+        XCTAssertTrue(newRecordingButton.waitForExistence(timeout: 8))
+        newRecordingButton.tap()
         let recordButton = app.buttons["record-button"]
         XCTAssertTrue(recordButton.waitForExistence(timeout: 12))
         recordButton.tap()
@@ -85,9 +87,10 @@ final class OneVoiceUITests: XCTestCase {
         if app.alerts.firstMatch.waitForExistence(timeout: 12) {
             app.alerts.firstMatch.buttons["OK"].tap()
         }
-        XCTAssertTrue(app.tabBars.buttons["History"].waitForExistence(timeout: 20))
-        app.tabBars.buttons["History"].tap()
-        XCTAssertGreaterThan(app.cells.count, 0)
+        let doneButton = app.buttons["Done"]
+        XCTAssertTrue(doneButton.waitForExistence(timeout: 20))
+        doneButton.tap()
+        XCTAssertTrue(app.tabBars.buttons["Recordings"].waitForExistence(timeout: 8))
         let playButton = app.buttons.matching(NSPredicate(
             format: "identifier BEGINSWITH %@",
             "play-recording-"
@@ -97,7 +100,7 @@ final class OneVoiceUITests: XCTestCase {
         }
         XCTAssertTrue(playButton.waitForExistence(timeout: 8), "The saved recording must expose playback.")
         playButton.tap()
-        XCTAssertTrue(app.buttons["Stop"].waitForExistence(timeout: 5), "The saved audio must be playable.")
+        XCTAssertTrue(app.buttons["Pause"].waitForExistence(timeout: 5), "The saved audio must be playable.")
     }
 
     private func launchApp(

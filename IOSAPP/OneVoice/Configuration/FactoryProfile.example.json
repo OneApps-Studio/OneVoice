@@ -1,0 +1,34 @@
+{
+  "brandName": "One Apps Studio",
+  "copyrightOwner": "One Apps Studio",
+  "githubOrganization": "OneApps-Studio",
+  "repositoryVisibility": "private",
+  "primaryLocale": "en-US",
+  "supportedLocales": [
+    "en-US",
+    "zh-Hans"
+  ],
+  "contact": {
+    "firstName": "",
+    "lastName": "",
+    "email": "contact@oneapps.studio",
+    "phone": ""
+  },
+  "appleDeveloper": {
+    "teamID": "",
+    "legalName": "",
+    "displayName": "One Apps Studio"
+  },
+  "appStoreConnect": {
+    "profileName": "",
+    "keyID": "",
+    "issuerID": "",
+    "webProviderID": "",
+    "webPublicProviderID": "",
+    "privateKeyPath": "",
+    "storage": "System Keychain"
+  },
+  "privacyURL": "https://oneapps.studio/privacy",
+  "supportURL": "https://oneapps.studio/support",
+  "cloudflareDefault": "Workers, D1, R2, KV under oneapps-slug scoped names"
+}

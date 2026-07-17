@@ -6,18 +6,11 @@ struct SystemMainTabContent: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            Tab("Record", systemImage: "mic.fill", value: MainTab.record) {
+            Tab("Recordings", systemImage: "waveform", value: MainTab.recordings) {
                 NavigationStack {
-                    VoiceRecordView(model: model)
+                    VoiceLibraryView(model: model)
                 }
-                .accessibilityIdentifier("main-tab-record")
-            }
-
-            Tab("History", systemImage: "clock.arrow.circlepath", value: MainTab.history) {
-                NavigationStack {
-                    VoiceHistoryView(model: model)
-                }
-                .accessibilityIdentifier("main-tab-history")
+                .accessibilityIdentifier("main-tab-recordings")
             }
 
             Tab("Dictionary", systemImage: "text.book.closed.fill", value: MainTab.dictionary) {

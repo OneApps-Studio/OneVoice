@@ -1,0 +1,45 @@
+{
+  "appName": "OneVoice",
+  "appSlug": "onevoice",
+  "bundleIdentifier": "studio.oneapps.onevoice",
+  "sku": "oneapps.onevoice.ios",
+  "primaryLocale": "en-US",
+  "supportedLocales": [
+    "en-US",
+    "zh-Hans"
+  ],
+  "minimumOS": "26.0",
+  "supportedDevices": [
+    "iPhone",
+    "Apple silicon Mac"
+  ],
+  "orientationPolicy": "Portrait",
+  "appStoreCategory": "Productivity",
+  "ageRating": "4+",
+  "subtitle": "Record, transcribe, remember",
+  "shortDescription": "Record private voice notes on iPhone, search their offline transcripts, and use OneVoice for global dictation on Mac.",
+  "privacyURL": "https://oneapps.studio/privacy",
+  "supportURL": "https://oneapps.studio/support",
+  "marketingURL": "https://oneapps.studio/apps/onevoice",
+  "testFlightTesterEmails": [],
+  "storeKitProducts": [],
+  "requiredPermissions": [
+    "Microphone",
+    "Speech Recognition"
+  ],
+  "cloudflareResources": [],
+  "openSourceCredits": [
+    {
+      "id": "qwen3-asr",
+      "name": "Qwen3-ASR",
+      "url": "https://github.com/QwenLM/Qwen3-ASR",
+      "note": "Optional on-device final transcription model. Model licensing terms apply separately."
+    },
+    {
+      "id": "mlx-swift",
+      "name": "MLX Swift",
+      "url": "https://github.com/ml-explore/mlx-swift",
+      "note": "Apple silicon machine-learning runtime used by the optional high-accuracy model."
+    }
+  ]
+}

@@ -1,3 +1,0 @@
-"CFBundleDisplayName" = "OneVoice";
-"NSMicrophoneUsageDescription" = "OneVoiceは、このデバイス上で音声を文字に変換するためにマイクへのアクセスを必要とします。";
-"NSSpeechRecognitionUsageDescription" = "OneVoiceはオンデバイス音声認識を使用して、話している内容をリアルタイムで表示します。";

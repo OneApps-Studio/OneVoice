@@ -39,3 +39,8 @@ skills-lock.json
 .asc/reports/
 release/
 *.xcresult
+
+# Reproducible marketing output
+Marketing/AppStore/generated/
+Marketing/AppStore/review/
+Marketing/Campaign/output/

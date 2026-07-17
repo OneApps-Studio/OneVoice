@@ -254,7 +254,7 @@ private struct LatestTranscriptCard: View {
                         .foregroundStyle(.secondary)
                 }
             }
-            Text(entry.displayTitle)
+            Text(verbatim: entry.oneVoiceDisplayTitle)
                 .font(.headline)
             Text(entry.transcript)
                 .textSelection(.enabled)

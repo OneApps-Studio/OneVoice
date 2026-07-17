@@ -1,14 +1,28 @@
 {
   "sourceLanguage": "en",
   "strings": {
-    "About": {
+    "%arg×": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "このアプリについて"
+            "value": "%arg×"
           }
-        },
+        }
+      }
+    },
+    "A transcript is not available for this recording.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这段录音暂时没有可用的转写。"
+          }
+        }
+      }
+    },
+    "About": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -17,30 +31,38 @@
         }
       }
     },
-    "About 0.7–1 GB. Wi-Fi recommended. After download it runs entirely offline.": {
+    "About 0.7–1 GB · Wi-Fi recommended": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "約0.7〜1 GBです。Wi-Fiを推奨します。ダウンロード後は完全にオフラインで動作します。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "约 0.7–1 GB，建议使用 Wi-Fi。下载后可完全离线运行。"
+            "value": "约 0.7–1 GB · 建议使用 Wi-Fi"
           }
         }
       }
     },
-    "Accurate model": {
+    "About One Apps": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "高精度モデル"
+            "value": "关于 One Apps"
           }
-        },
+        }
+      }
+    },
+    "About OneVoice": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关于 OneVoice"
+          }
+        }
+      }
+    },
+    "Accurate Model": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -49,14 +71,18 @@
         }
       }
     },
-    "Add Replacement": {
+    "Accurate Offline": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "置換ルールを追加"
+            "value": "高精度离线识别"
           }
-        },
+        }
+      }
+    },
+    "Add Replacement": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -67,12 +93,6 @@
     },
     "After download, no network is needed for recognition.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ダウンロード後の音声認識にネットワークは不要です。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -83,12 +103,6 @@
     },
     "App Language": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "アプリの言語"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -99,12 +113,6 @@
     },
     "Appearance": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "外観"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -113,30 +121,18 @@
         }
       }
     },
-    "Apple On-Device Speech": {
+    "Apple On-Device": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple オンデバイス音声認識"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apple 设备端语音识别"
+            "value": "Apple 设备端识别"
           }
         }
       }
     },
     "Apple Speech": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple 音声認識"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -147,12 +143,6 @@
     },
     "Apple Speech gives you live text. Download Qwen3-ASR when you want a more accurate offline final pass.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple音声認識でリアルタイム表示し、より正確なオフライン最終結果が必要な場合はQwen3-ASRをダウンロードできます。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -163,12 +153,6 @@
     },
     "Apple final": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple 最終結果"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -179,12 +163,6 @@
     },
     "Apple live preview": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple リアルタイムプレビュー"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -195,12 +173,6 @@
     },
     "Apple live · Qwen accurate final": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple リアルタイム・Qwen 高精度最終結果"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -211,12 +183,6 @@
     },
     "Apple on-device recognition": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple オンデバイス音声認識"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -225,46 +191,8 @@
         }
       }
     },
-    "Audio always stays on this device": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声は常にこのデバイス内に保存されます"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音频始终只留在此设备"
-          }
-        }
-      }
-    },
-    "Audio and transcripts stay on this device": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声と文字起こしはこのデバイス内に保存されます"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音频和转写内容仅保存在此设备"
-          }
-        }
-      }
-    },
     "Audio saved · transcript unavailable": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声を保存しました・文字起こしは利用できません"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -273,30 +201,18 @@
         }
       }
     },
-    "Audio stays on this device. Transcript text can sync through your private iCloud account.": {
+    "Back 15 Seconds": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声はこのデバイス内に留まり、文字起こしだけをプライベートなiCloudアカウントで同期できます。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "音频只留在此设备；转写文字可通过你的私有 iCloud 账户同步。"
+            "value": "后退 15 秒"
           }
         }
       }
     },
     "Cancel": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "キャンセル"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -307,12 +223,6 @@
     },
     "Capture short thoughts or longer voice notes.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "短いアイデアから長めの音声メモまで記録できます。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -323,12 +233,6 @@
     },
     "Choose Audio or Video": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声またはビデオを選択"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -339,12 +243,6 @@
     },
     "Choose an audio or video file. It is processed on this device and is never saved by OneVoice.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声または動画ファイルを選択してください。ファイルはデバイス上で処理され、OneVoiceには保存されません。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -355,12 +253,6 @@
     },
     "Clean Blue": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "クリーンブルー"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -369,46 +261,28 @@
         }
       }
     },
-    "Color theme": {
+    "Contact": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "カラーテーマ"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "配色主题"
+            "value": "联系我们"
           }
         }
       }
     },
-    "Copied and saved": {
+    "Continue Recording": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "コピーして保存しました"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "已复制并保存"
+            "value": "继续录音"
           }
         }
       }
     },
     "Copy": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "コピー"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -419,12 +293,6 @@
     },
     "Copy or share the transcript into any app.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "文字起こしを任意のアプリにコピーまたは共有できます。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -433,14 +301,18 @@
         }
       }
     },
-    "Correct names and specialist vocabulary.": {
+    "Copyright © One Apps Studio": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "名前や専門用語を正しく置換します。"
+            "value": "版权所有 © One Apps Studio"
           }
-        },
+        }
+      }
+    },
+    "Correct names and specialist vocabulary.": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -451,12 +323,6 @@
     },
     "Creating final transcript": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "最終文字起こしを作成中"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -467,12 +333,6 @@
     },
     "Crisp, bright, and utility-first.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "明るくシャープで、実用性を重視します。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -483,12 +343,6 @@
     },
     "Dark": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ダーク"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -497,14 +351,18 @@
         }
       }
     },
-    "Delete": {
+    "Data & Privacy": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "削除"
+            "value": "数据与隐私"
           }
-        },
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -513,14 +371,28 @@
         }
       }
     },
-    "Dictionary": {
+    "Delete Recording": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "辞書"
+            "value": "删除录音"
           }
-        },
+        }
+      }
+    },
+    "Delete this recording?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要删除这段录音吗？"
+          }
+        }
+      }
+    },
+    "Dictionary": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -529,14 +401,18 @@
         }
       }
     },
-    "Download Model": {
+    "Done": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "モデルをダウンロード"
+            "value": "完成"
           }
-        },
+        }
+      }
+    },
+    "Download Model": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -545,14 +421,28 @@
         }
       }
     },
-    "English": {
+    "Download failed": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "英語"
+            "value": "下载失败"
           }
-        },
+        }
+      }
+    },
+    "Downloading Qwen3-ASR… %arg%%": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在下载 Qwen3-ASR… %arg%%"
+          }
+        }
+      }
+    },
+    "English": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -563,12 +453,6 @@
     },
     "English (US)": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "英語（米国）"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -579,12 +463,6 @@
     },
     "Example: “one voice” → “OneVoice”. Replacements are applied locally to every final transcript.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "例：「one voice」→「OneVoice」。置換はすべての最終文字起こしにローカルで適用されます。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -595,12 +473,6 @@
     },
     "Fast Live, Accurate Final": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "リアルタイムは高速、最終結果は高精度"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -611,12 +483,6 @@
     },
     "Fast feedback with system on-device speech.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "システムのオンデバイス音声認識ですばやく確認できます。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -627,12 +493,6 @@
     },
     "Favorite": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "お気に入り"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -643,12 +503,6 @@
     },
     "Finalizing on device…": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "デバイス上で仕上げています…"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -659,12 +513,6 @@
     },
     "Finish recording": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音を終了"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -673,14 +521,28 @@
         }
       }
     },
-    "Fresh Sage": {
+    "Focused apps for everyday work, made with care for privacy and simplicity.": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "フレッシュセージ"
+            "value": "专注日常所需，以隐私与简洁为先。"
           }
-        },
+        }
+      }
+    },
+    "Forward 15 Seconds": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前进 15 秒"
+          }
+        }
+      }
+    },
+    "Fresh Sage": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -691,12 +553,6 @@
     },
     "Graphite": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "グラファイト"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -705,46 +561,48 @@
         }
       }
     },
-    "High-accuracy offline final pass": {
+    "Help": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "高精度オフライン最終認識"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "高精度离线最终识别"
+            "value": "帮助"
           }
         }
       }
     },
-    "History": {
+    "Imported": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "履歴"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "历史"
+            "value": "已导入"
+          }
+        }
+      }
+    },
+    "Imported audio and video are transcribed on this device and are not added to your OneVoice library or iCloud.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导入的音频与视频会在此设备上转写，不会加入 OneVoice 资料库或 iCloud。"
+          }
+        }
+      }
+    },
+    "Imports Stay Temporary": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导入文件仅临时处理"
           }
         }
       }
     },
     "Installed": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "インストール済み"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -753,30 +611,18 @@
         }
       }
     },
-    "Japanese": {
+    "Installed and ready": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "日本語"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "日语"
+            "value": "已安装，可以使用"
           }
         }
       }
     },
     "Keep searchable voice notes, teach OneVoice your vocabulary, and paste the result anywhere.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "検索できる音声メモを保存し、用語を登録して、結果をどこにでも貼り付けられます。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -787,12 +633,6 @@
     },
     "Language": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "認識言語"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -803,12 +643,6 @@
     },
     "Light": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ライト"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -817,30 +651,18 @@
         }
       }
     },
-    "Listening on this device": {
+    "Links": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "このデバイスで聞き取り中"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "正在此设备上聆听"
+            "value": "链接"
           }
         }
       }
     },
     "Live": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "リアルタイム"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -849,30 +671,18 @@
         }
       }
     },
-    "Live engine": {
+    "Live Recognition": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "リアルタイム認識エンジン"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "实时识别引擎"
+            "value": "实时识别"
           }
         }
       }
     },
     "Live transcript": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "リアルタイム文字起こし"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -883,12 +693,6 @@
     },
     "Live transcription": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "リアルタイム文字起こし"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -897,14 +701,78 @@
         }
       }
     },
-    "Next": {
+    "Local-First": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "次へ"
+            "value": "本地优先"
           }
-        },
+        }
+      }
+    },
+    "Local-first. No account, ads, or analytics.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地优先，无需账号，没有广告或分析。"
+          }
+        }
+      }
+    },
+    "MLX Swift": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MLX Swift"
+          }
+        }
+      }
+    },
+    "Models Stay on Device": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型保留在设备上"
+          }
+        }
+      }
+    },
+    "More Actions": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更多操作"
+          }
+        }
+      }
+    },
+    "More From One Apps": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更多 One Apps"
+          }
+        }
+      }
+    },
+    "New Recording": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新录音"
+          }
+        }
+      }
+    },
+    "Next": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -913,14 +781,28 @@
         }
       }
     },
-    "No account required": {
+    "No Ads or Analytics": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "アカウント不要"
+            "value": "没有广告或分析"
           }
-        },
+        }
+      }
+    },
+    "No OneVoice Audio Server": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有 OneVoice 音频服务器"
+          }
+        }
+      }
+    },
+    "No account required": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -931,12 +813,6 @@
     },
     "No custom terms yet": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "カスタム用語はまだありません"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -947,12 +823,6 @@
     },
     "No matches": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "一致する結果はありません"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -961,30 +831,28 @@
         }
       }
     },
-    "No voice notes yet": {
+    "No recordings yet": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声メモはまだありません"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "还没有语音笔记"
+            "value": "还没有录音"
+          }
+        }
+      }
+    },
+    "Not Selected": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未选择"
           }
         }
       }
     },
     "Not installed": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未インストール"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -993,78 +861,68 @@
         }
       }
     },
+    "OK": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好"
+          }
+        }
+      }
+    },
     "Off": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "オフ"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "关闭"
+            "value": "已关闭"
           }
         }
       }
     },
-    "On-device by design": {
+    "One Apps Studio": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "オンデバイスを前提に設計"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "专为设备端处理而设计"
+            "value": "One Apps Studio"
           }
         }
       }
     },
-    "OneVoice has no account or analytics SDK. When iCloud Sync is on, transcript text and dictionary replacements sync through your private Apple iCloud account; audio never uploads.": {
+    "OneVoice": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OneVoiceにアカウントや分析SDKはありません。iCloud同期をオンにすると、文字起こしと辞書の置換ルールだけがプライベートなApple iCloudアカウントで同期され、音声はアップロードされません。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "OneVoice 无需账号，也不包含分析 SDK。开启 iCloud 同步后，转写文字和词典替换规则会通过你的私有 Apple iCloud 账户同步；音频永不上传。"
+            "value": "OneVoice"
           }
         }
       }
     },
-    "OneVoice has no account, analytics SDK, or OneVoice server. Voice notes are stored locally and, when iCloud Sync is on, mirrored with their transcripts through your private Apple iCloud account.": {
+    "OneVoice %arg": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OneVoiceにはアカウント、分析SDK、独自サーバーがありません。音声メモはローカルに保存され、iCloud同期をオンにすると音声と文字起こしがプライベートなApple iCloudアカウントに同期されます。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "OneVoice 无需账号，不含分析 SDK，也没有 OneVoice 服务器。语音笔记保存在本地；开启 iCloud 同步后，音频与转写会同步到你的私有 Apple iCloud 账户。"
+            "value": "OneVoice %arg"
+          }
+        }
+      }
+    },
+    "OneVoice does not include an analytics SDK or third-party tracking.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OneVoice 不含分析 SDK 或第三方跟踪。"
           }
         }
       }
     },
     "OneVoice needs attention": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OneVoiceの確認が必要です"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1073,30 +931,8 @@
         }
       }
     },
-    "OneVoice only connects when you request the optional Qwen model. Apple may separately download and manage on-device speech assets. OneVoice has no account or analytics SDK.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OneVoiceが通信するのは任意のQwenモデルを要求したときだけです。Appleはオンデバイス音声アセットを別途ダウンロード・管理する場合があります。OneVoiceにアカウントや分析SDKはありません。"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "只有在你主动请求可选 Qwen 模型时，OneVoice 才会联网。Apple 可能会单独下载并管理设备端语音资源。OneVoice 无需账号，也不包含分析 SDK。"
-          }
-        }
-      }
-    },
     "OneVoice saves the recording, creates a searchable transcript automatically, and syncs both through your private iCloud library by default.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OneVoiceは録音を保存し、検索可能な文字起こしを自動作成して、デフォルトでプライベートなiCloudライブラリに同期します。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1105,30 +941,18 @@
         }
       }
     },
-    "Only transcript text and dictionary replacements sync through your private iCloud database. Audio, imported media, and downloaded models never sync.": {
+    "Open Source": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "文字起こしと辞書の置換ルールだけがプライベートなiCloudデータベースで同期されます。音声、読み込んだメディア、ダウンロード済みモデルは同期されません。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "仅转写文字和个人词典替换规则会通过你的私有 iCloud 数据库同步。音频、导入的媒体和已下载模型永不同步。"
+            "value": "开源项目"
           }
         }
       }
     },
     "Open the app and start talking.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "アプリを開いて、すぐに話し始められます。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1139,12 +963,6 @@
     },
     "Optional": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "任意"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1155,12 +973,6 @@
     },
     "Optional 0.6B model for more accurate offline text.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "より正確なオフライン文字起こしを行う任意の0.6Bモデルです。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1169,14 +981,28 @@
         }
       }
     },
-    "Play": {
+    "Optional high-accuracy offline final transcript": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "再生"
+            "value": "可选的高精度离线最终转写"
           }
-        },
+        }
+      }
+    },
+    "Pause": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂停"
+          }
+        }
+      }
+    },
+    "Play": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1185,14 +1011,58 @@
         }
       }
     },
-    "Preparing private recognition…": {
+    "Playback Position": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "プライベート認識を準備中…"
+            "value": "播放位置"
           }
-        },
+        }
+      }
+    },
+    "Playback Speed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "播放速度"
+          }
+        }
+      }
+    },
+    "Policy": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "政策"
+          }
+        }
+      }
+    },
+    "Preferences": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "偏好设置"
+          }
+        }
+      }
+    },
+    "Preparing download…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在准备下载…"
+          }
+        }
+      }
+    },
+    "Preparing private recognition…": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1201,30 +1071,28 @@
         }
       }
     },
-    "Privacy": {
+    "Privacy Policy": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "プライバシー"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "隐私"
+            "value": "隐私政策"
+          }
+        }
+      }
+    },
+    "Privacy Promise": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隐私承诺"
           }
         }
       }
     },
     "Private by design": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "プライバシー重視の設計"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1233,14 +1101,18 @@
         }
       }
     },
-    "Private · On-device": {
+    "Private iCloud": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "プライベート・オンデバイス"
+            "value": "私有 iCloud"
           }
-        },
+        }
+      }
+    },
+    "Private · On-device": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1249,14 +1121,18 @@
         }
       }
     },
-    "Quiet, focused, and neutral.": {
+    "Product Page": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "静かで集中しやすいニュートラルな配色です。"
+            "value": "产品页面"
           }
-        },
+        }
+      }
+    },
+    "Quiet, focused, and neutral.": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1267,12 +1143,6 @@
     },
     "Qwen final": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Qwen 最終結果"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1281,14 +1151,28 @@
         }
       }
     },
-    "Qwen3-ASR final pass": {
+    "Qwen3-ASR": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Qwen3-ASR 最終認識"
+            "value": "Qwen3-ASR"
           }
-        },
+        }
+      }
+    },
+    "Qwen3-ASR 0.6B": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qwen3-ASR 0.6B"
+          }
+        }
+      }
+    },
+    "Qwen3-ASR final pass": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1299,12 +1183,6 @@
     },
     "Ready": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "準備完了"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1315,12 +1193,6 @@
     },
     "Recognition": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声認識"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1329,46 +1201,28 @@
         }
       }
     },
-    "Record": {
+    "Recognition Language": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "录音"
+            "value": "识别语言"
           }
         }
       }
     },
-    "Record and transcribe on your device. Your audio is never uploaded to a OneVoice server.": {
+    "Record and transcribe on this device": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音と文字起こしはデバイス上で行い、音声がOneVoiceのサーバーへアップロードされることはありません。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "在设备上录音和转写。你的音频绝不会上传到 OneVoice 服务器。"
+            "value": "在此设备上录音并转写"
           }
         }
       }
     },
     "Record in the foreground or background, then transcribe on device. OneVoice has no audio server.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "フォアグラウンドでもバックグラウンドでも録音でき、その後デバイス上で文字起こしします。OneVoiceに音声サーバーはありません。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1377,14 +1231,28 @@
         }
       }
     },
-    "Recording and transcribing on this device": {
+    "Record, transcribe, remember": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "このデバイスで録音・文字起こし中"
+            "value": "录下来，转成文字，随时找到"
           }
-        },
+        }
+      }
+    },
+    "Recording": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音"
+          }
+        }
+      }
+    },
+    "Recording and transcribing on this device": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1395,12 +1263,6 @@
     },
     "Recording and transcript saved": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音と文字起こしを保存しました"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1409,14 +1271,18 @@
         }
       }
     },
-    "Recording continues when you lock your screen or use another app.": {
+    "Recording and transcription start on your device, without a OneVoice account.": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "画面をロックしたり別のアプリを使ったりしても録音は続きます。"
+            "value": "录音与转写从你的设备开始，无需 OneVoice 账号。"
           }
-        },
+        }
+      }
+    },
+    "Recording continues when you lock your screen or use another app.": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1425,14 +1291,28 @@
         }
       }
     },
-    "Recordings and transcripts stay local-first and can sync through your private iCloud account.": {
+    "Recording unavailable": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "録音と文字起こしはローカル優先で保存され、プライベートなiCloudアカウントで同期できます。"
+            "value": "录音不可用"
           }
-        },
+        }
+      }
+    },
+    "Recordings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音库"
+          }
+        }
+      }
+    },
+    "Recordings and transcripts stay local-first and can sync through your private iCloud account.": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1441,30 +1321,38 @@
         }
       }
     },
-    "Remove Download": {
+    "Recordings, transcripts, and dictionary": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ダウンロードを削除"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "移除已下载模型"
+            "value": "录音、转写与个人词典"
+          }
+        }
+      }
+    },
+    "Remove Download": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除下载"
+          }
+        }
+      }
+    },
+    "Rename Recording": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重命名录音"
           }
         }
       }
     },
     "Running accurate offline final pass…": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "高精度オフライン最終認識を実行中…"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1473,30 +1361,38 @@
         }
       }
     },
-    "Search transcripts": {
+    "Save": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "文字起こしを検索"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "搜索转写内容"
+            "value": "保存"
+          }
+        }
+      }
+    },
+    "Search recordings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索录音"
+          }
+        }
+      }
+    },
+    "Selected": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已选择"
           }
         }
       }
     },
     "Settings": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "設定"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1505,30 +1401,8 @@
         }
       }
     },
-    "Share": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "共有"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "分享"
-          }
-        }
-      }
-    },
     "Share Audio": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声を共有"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1539,12 +1413,6 @@
     },
     "Share Text": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "テキストを共有"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1555,28 +1423,16 @@
     },
     "Show Onboarding Again": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "オンボーディングをもう一度表示"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "再次显示使用引导"
+            "value": "再次查看新手引导"
           }
         }
       }
     },
     "Simplified Chinese": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "簡体字中国語"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1587,12 +1443,6 @@
     },
     "Skip": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "スキップ"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1603,12 +1453,6 @@
     },
     "Soft, calm, and close to the OneVoice icon.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "柔らかく落ち着いた、OneVoiceアイコンに近い配色です。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1619,12 +1463,6 @@
     },
     "Source Code": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ソースコード"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1635,12 +1473,6 @@
     },
     "Speak, Save, Share": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "話す、保存する、共有する"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1651,12 +1483,6 @@
     },
     "Speech Recognition permission is required.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声認識の許可が必要です。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1667,12 +1493,6 @@
     },
     "Start": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "始める"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1683,12 +1503,6 @@
     },
     "Start recording": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音を開始"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1699,12 +1513,6 @@
     },
     "Start speaking…": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "話し始めてください…"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1715,12 +1523,6 @@
     },
     "Status": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "状態"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1731,12 +1533,6 @@
     },
     "Stop": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1745,14 +1541,38 @@
         }
       }
     },
-    "Sync Now": {
+    "Studio": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "今すぐ同期"
+            "value": "工作室"
           }
-        },
+        }
+      }
+    },
+    "Support": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持"
+          }
+        }
+      }
+    },
+    "Sync Library": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步资料库"
+          }
+        }
+      }
+    },
+    "Sync Now": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1763,60 +1583,16 @@
     },
     "Sync error": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "同期エラー"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "同步出错"
-          }
-        }
-      }
-    },
-    "Sync recordings, transcripts, and dictionary": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音、文字起こし、辞書を同期"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "同步录音、转写与个人词典"
-          }
-        }
-      }
-    },
-    "Sync transcripts and dictionary": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "文字起こしと辞書を同期"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "同步转写与个人词典"
+            "value": "同步错误"
           }
         }
       }
     },
     "Synced": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "同期済み"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1827,12 +1603,6 @@
     },
     "Syncing…": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "同期中…"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1843,12 +1613,6 @@
     },
     "System": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "システム"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1859,12 +1623,6 @@
     },
     "Tap the microphone and speak naturally.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "マイクをタップして自然に話してください。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1875,12 +1633,6 @@
     },
     "Tap to record": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "タップして録音"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1891,12 +1643,6 @@
     },
     "Teach OneVoice a term": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OneVoiceに用語を登録"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1907,12 +1653,6 @@
     },
     "Teach your terms": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "用語を登録"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1921,14 +1661,38 @@
         }
       }
     },
-    "Theme & Appearance": {
+    "The audio and transcript will be removed from this device and your private iCloud library.": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "テーマと外観"
+            "value": "音频与转写将从此设备和你的私有 iCloud 资料库中删除。"
           }
-        },
+        }
+      }
+    },
+    "The optional Qwen model is downloaded only when you request it and never syncs.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只有在你主动请求时才会下载可选 Qwen 模型，且模型不会同步。"
+          }
+        }
+      }
+    },
+    "Theme": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主题"
+          }
+        }
+      }
+    },
+    "Theme & Appearance": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1937,14 +1701,18 @@
         }
       }
     },
-    "Transcribe audio or video": {
+    "Title": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "音声またはビデオを文字起こし"
+            "value": "标题"
           }
-        },
+        }
+      }
+    },
+    "Transcribe audio or video": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1953,46 +1721,28 @@
         }
       }
     },
-    "Transcript saved to History": {
+    "Transcript": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "文字起こしを履歴に保存しました"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "转写已保存到历史记录"
+            "value": "转写"
           }
         }
       }
     },
-    "Try a different search.": {
+    "Try another title or phrase from a transcript.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "別のキーワードで検索してください。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "尝试其他搜索词。"
+            "value": "试试其他标题或转写中的词语。"
           }
         }
       }
     },
     "Unfavorite": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "お気に入りを解除"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2001,14 +1751,18 @@
         }
       }
     },
-    "Use device language": {
+    "Untitled Recording": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "デバイスの言語を使用"
+            "value": "未命名录音"
           }
-        },
+        }
+      }
+    },
+    "Use device language": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2017,14 +1771,8 @@
         }
       }
     },
-    "Use for final transcript": {
+    "Use for Final Transcript": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "最終文字起こしに使用"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2035,12 +1783,6 @@
     },
     "Use it anywhere": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "どこでも使える"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2049,46 +1791,18 @@
         }
       }
     },
-    "Version": {
+    "Version %arg (%arg)": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "バージョン"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "版本"
-          }
-        }
-      }
-    },
-    "Voice-note audio, transcripts, and dictionary replacements sync through your private iCloud database. Imported media and downloaded models never sync.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "音声メモ、文字起こし、辞書の置換ルールはプライベートなiCloudデータベースで同期されます。読み込んだメディアとダウンロード済みモデルは同期されません。"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "语音笔记音频、转写和个人词典替换规则会通过你的私有 iCloud 数据库同步。导入的媒体和下载模型永不同步。"
+            "value": "版本 %arg（%arg）"
           }
         }
       }
     },
     "Warm Sand": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ウォームサンド"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2099,12 +1813,6 @@
     },
     "Warmer and more editorial.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "より温かく、エディトリアルな配色です。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2115,12 +1823,6 @@
     },
     "Watch words appear as you speak.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "話すそばから文字が表示されます。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2131,12 +1833,6 @@
     },
     "What OneVoice hears": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OneVoiceが聞き取る語句"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2147,12 +1843,6 @@
     },
     "What OneVoice should write": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OneVoiceが出力する語句"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2161,14 +1851,18 @@
         }
       }
     },
-    "Works offline": {
+    "When sync is on, voice-note audio, transcripts, and dictionary entries mirror through your private iCloud database.": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "オフラインで利用可能"
+            "value": "开启同步后，语音笔记音频、转写和词典条目会通过你的私有 iCloud 数据库镜像同步。"
           }
-        },
+        }
+      }
+    },
+    "Works offline": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2177,14 +1871,18 @@
         }
       }
     },
-    "Your Voice Stays Yours": {
+    "Your Apple Account": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "あなたの声は、あなたのもの"
+            "value": "你的 Apple 账户"
           }
-        },
+        }
+      }
+    },
+    "Your Voice Stays Yours": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2193,94 +1891,18 @@
         }
       }
     },
-    "Your final transcript is copied automatically, saved to History, and ready to paste anywhere.": {
+    "Your recordings and searchable transcripts will appear here.": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "最終文字起こしは自動でコピーされ、履歴に保存されるため、どこにでも貼り付けられます。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "最终转写会自动复制并保存到历史记录，可随时粘贴到任何地方。"
-          }
-        }
-      }
-    },
-    "Your private recordings and searchable transcripts will appear here.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "プライベートな録音と検索可能な文字起こしがここに表示されます。"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你的私密录音和可搜索转写会显示在这里。"
-          }
-        }
-      }
-    },
-    "Your private transcripts will appear here.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "プライベートな文字起こしがここに表示されます。"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你的私密转写会显示在这里。"
-          }
-        }
-      }
-    },
-    "Your recordings and history stay on this device.": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音と履歴はこのデバイス内に保存されます。"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你的录音和历史记录仅保存在此设备。"
-          }
-        }
-      }
-    },
-    "Your recordings stay private": {
-      "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "録音はプライベートに保たれます"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你的录音保持私密"
+            "value": "你的录音和可搜索的转写会显示在这里。"
           }
         }
       }
     },
     "Your replacements": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "置換ルール"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2289,14 +1911,18 @@
         }
       }
     },
-    "by OneApps.Studio": {
+    "Your voice is never uploaded to a server operated by OneVoice or One Apps Studio.": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "OneApps.Studio 制作"
+            "value": "你的语音绝不会上传到 OneVoice 或 One Apps Studio 运营的服务器。"
           }
-        },
+        }
+      }
+    },
+    "by OneApps.Studio": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2307,12 +1933,6 @@
     },
     "iCloud Sync": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud同期"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2323,12 +1943,6 @@
     },
     "iCloud unavailable": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloudを利用できません"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2337,14 +1951,18 @@
         }
       }
     },
-    "日本語": {
+    "·": {
       "localizations": {
-        "ja": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "日本語"
+            "value": "·"
           }
-        },
+        }
+      }
+    },
+    "日本語": {
+      "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2355,12 +1973,6 @@
     },
     "简体中文": {
       "localizations": {
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "簡体字中国語"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",

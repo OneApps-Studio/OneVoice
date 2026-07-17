@@ -4,61 +4,59 @@ struct SettingsThemeAppearanceView: View {
     @Binding var appAppearanceValue: String
     @Binding var appThemeValue: String
 
-    var body: some View {
-        Form {
-            Section("Appearance") {
-                ForEach(AppAppearance.allCases) { appearance in
-                    Button {
-                        appAppearanceValue = appearance.rawValue
-                    } label: {
-                        HStack {
-                            Label(appearance.title, systemImage: appearance.icon)
-                                .foregroundStyle(.primary)
-                            Spacer()
-                            if selectedAppearance == appearance {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.tint)
-                            }
-                        }
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-            Section("Color theme") {
-                ForEach(OneAppTheme.allCases) { theme in
-                    Button {
-                        appThemeValue = theme.rawValue
-                    } label: {
-                        HStack(spacing: 12) {
-                            HStack(spacing: -5) {
-                                ForEach(Array(theme.swatches.enumerated()), id: \.offset) { _, color in
-                                    Circle()
-                                        .fill(color)
-                                        .frame(width: 24, height: 24)
-                                        .overlay { Circle().stroke(.white.opacity(0.8), lineWidth: 1) }
+    private let columns = [
+        GridItem(.flexible(), spacing: 10),
+        GridItem(.flexible(), spacing: 10)
+    ]
+
+    var body: some View {
+        ZStack {
+            OnePageBackground()
+
+            ScrollView {
+                OneSectionStack(spacing: OneStyle.sectionSpacing) {
+                    OneSection(title: "Theme") {
+                        LazyVGrid(columns: columns, spacing: 10) {
+                            ForEach(OneAppTheme.allCases) { theme in
+                                SettingsThemeOptionRow(
+                                    appTheme: theme,
+                                    isSelected: selectedTheme == theme
+                                ) {
+                                    appThemeValue = theme.rawValue
                                 }
                             }
-                            .frame(width: 60, alignment: .leading)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(theme.title)
-                                    .foregroundStyle(.primary)
-                                Text(theme.subtitle)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                        }
+                        .padding(16)
+                    }
+
+                    OneSection(title: "Appearance") {
+                        ForEach(AppAppearance.allCases) { appearance in
+                            SettingsSelectionRow(
+                                systemImage: appearance.icon,
+                                iconColor: nil,
+                                title: appearance.title,
+                                isSelected: selectedAppearance == appearance
+                            ) {
+                                appAppearanceValue = appearance.rawValue
                             }
-                            Spacer()
-                            if selectedTheme == theme {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.tint)
+
+                            if appearance != AppAppearance.allCases.last {
+                                OneDivider()
                             }
                         }
                     }
-                    .buttonStyle(.plain)
                 }
+                .padding(.horizontal, OneStyle.screenHorizontalPadding)
+                .padding(.top, OneStyle.rootContentTopSpacing)
+                .padding(.bottom, 32)
+                .frame(maxWidth: OneStyle.readableContentMaxWidth(horizontalSizeClass: horizontalSizeClass))
+                .frame(maxWidth: .infinity)
             }
         }
         .navigationTitle("Theme & Appearance")
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     private var selectedAppearance: AppAppearance {

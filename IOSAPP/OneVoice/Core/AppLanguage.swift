@@ -4,7 +4,6 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     case system
     case english
     case simplifiedChinese
-    case japanese
 
     var id: String { rawValue }
 
@@ -16,8 +15,6 @@ enum AppLanguage: String, CaseIterable, Identifiable {
             return "English"
         case .simplifiedChinese:
             return "简体中文"
-        case .japanese:
-            return "日本語"
         }
     }
 
@@ -29,8 +26,6 @@ enum AppLanguage: String, CaseIterable, Identifiable {
             return "English"
         case .simplifiedChinese:
             return "Simplified Chinese"
-        case .japanese:
-            return "Japanese"
         }
     }
 
@@ -42,21 +37,17 @@ enum AppLanguage: String, CaseIterable, Identifiable {
             return Locale(identifier: "en-US")
         case .simplifiedChinese:
             return Locale(identifier: "zh-Hans")
-        case .japanese:
-            return Locale(identifier: "ja")
         }
     }
 
     var searchTokens: [String] {
         switch self {
         case .system:
-            return ["system", "default", "automatic", "device", "跟随系统", "系统", "自動", "端末"]
+            return ["system", "default", "automatic", "device", "跟随系统", "系统"]
         case .english:
-            return ["english", "en", "us", "英语", "英文", "英語"]
+            return ["english", "en", "us", "英语", "英文"]
         case .simplifiedChinese:
-            return ["simplified chinese", "chinese", "zh", "zh-hans", "mandarin", "简体中文", "中文", "中国語"]
-        case .japanese:
-            return ["japanese", "ja", "nihongo", "日语", "日文", "日本語"]
+            return ["simplified chinese", "chinese", "zh", "zh-hans", "mandarin", "简体中文", "中文"]
         }
     }
 

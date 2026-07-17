@@ -1,15 +1,15 @@
 [
   {
     "id": "79B80DA7-3201-4E21-A4CD-F6C121B1D901",
-    "rawTranscript": "OneVoice 1.1 要在锁屏之后继续录音，并让每一条录音都能在 Mac 上搜索。",
-    "transcript": "OneVoice 1.1 要在锁屏之后继续录音，并让每一条录音都能在 Mac 上搜索。",
+    "rawTranscript": "OneVoice 1.2 让每条录音都能轻松回放、搜索，并在 Mac 上继续使用。",
+    "transcript": "OneVoice 1.2 让每条录音都能轻松回放、搜索，并在 Mac 上继续使用。",
     "createdAt": "2026-07-10T08:41:00Z",
     "duration": 82,
     "localeIdentifier": "zh-Hans",
     "engineIdentifier": "apple-speech-analyzer",
     "source": "voiceNote",
     "isFavorite": true,
-    "title": "OneVoice 1.1 发布笔记",
+    "title": "OneVoice 1.2 发布笔记",
     "audioFileName": "79b80da7-3201-4e21-a4cd-f6c121b1d901.m4a",
     "audioByteCount": 8192
   },

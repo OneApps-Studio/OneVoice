@@ -38,11 +38,10 @@ OneVoice 是一款免费、开源、离线优先的全局语音输入工具。
 
 ## 统一行动按钮
 
-- Mac 免费下载：https://oneapps.studio/product/onevoice
+- Mac 免费下载：https://oneapps.studio/apps/onevoice
 - 开源项目：https://github.com/OneApps-Studio/OneVoice
 - iPhone：https://apps.apple.com/us/app/id6789639056
 
 ## 30 秒口播版
 
 你有没有发现，很多语音输入软件不仅要订阅，还要把你的声音上传到服务器？OneVoice 是一个免费、开源、离线优先的替代方案。在 Mac 上按住 Fn 就能对任意 App 说话，松开自动写入；在 iPhone 上，它还能后台录音、自动转写和搜索。没有 OneVoice 账号，没有广告，也没有我们的音频服务器。你的声音，应该留在你的设备里。
-

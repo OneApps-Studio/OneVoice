@@ -56,12 +56,24 @@ private struct DictationOverlayView: View {
                 .symbolEffect(.pulse, options: .repeating)
 
             VStack(alignment: .leading, spacing: 5) {
-                Text(model.isRecording ? "Listening…" : "Finishing…")
-                    .font(.headline)
-                Text(model.liveTranscript.isEmpty ? "Speak naturally" : model.liveTranscript)
-                    .font(.callout)
-                    .lineLimit(2)
-                    .foregroundStyle(.secondary)
+                if model.isRecording {
+                    Text("Listening…")
+                        .font(.headline)
+                } else {
+                    Text("Finishing…")
+                        .font(.headline)
+                }
+                if model.liveTranscript.isEmpty {
+                    Text("Speak naturally")
+                        .font(.callout)
+                        .lineLimit(2)
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text(model.liveTranscript)
+                        .font(.callout)
+                        .lineLimit(2)
+                        .foregroundStyle(.secondary)
+                }
             }
             Spacer(minLength: 0)
         }

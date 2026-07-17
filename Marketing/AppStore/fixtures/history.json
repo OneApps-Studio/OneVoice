@@ -1,15 +1,15 @@
 [
   {
     "id": "79B80DA7-3201-4E21-A4CD-F6C121B1D901",
-    "rawTranscript": "OneVoice 1.1 should keep recording when I lock the screen and make every note searchable on my Mac.",
-    "transcript": "OneVoice 1.1 should keep recording when I lock the screen and make every note searchable on my Mac.",
+    "rawTranscript": "OneVoice 1.2 makes every recording easy to replay, search, and continue on my Mac.",
+    "transcript": "OneVoice 1.2 makes every recording easy to replay, search, and continue on my Mac.",
     "createdAt": "2026-07-10T08:41:00Z",
     "duration": 82,
     "localeIdentifier": "en-US",
     "engineIdentifier": "apple-speech-analyzer",
     "source": "voiceNote",
     "isFavorite": true,
-    "title": "Launch notes for OneVoice 1.1",
+    "title": "Launch notes for OneVoice 1.2",
     "audioFileName": "79b80da7-3201-4e21-a4cd-f6c121b1d901.m4a",
     "audioByteCount": 8192
   },

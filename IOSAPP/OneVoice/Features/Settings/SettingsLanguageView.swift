@@ -3,32 +3,39 @@ import SwiftUI
 struct SettingsLanguageView: View {
     @Binding var appLanguageValue: String
 
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
     var body: some View {
-        List(AppLanguage.displayOptions) { language in
-            Button {
-                appLanguageValue = language.rawValue
-            } label: {
-                HStack(spacing: 12) {
-                    Image(systemName: "globe")
-                        .foregroundStyle(.tint)
-                        .frame(width: 28)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(language.title)
-                            .foregroundStyle(.primary)
-                        Text(language.subtitle)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer()
-                    if selectedLanguage == language {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundStyle(.tint)
+        ZStack {
+            OnePageBackground()
+
+            ScrollView {
+                OneSection(title: "App Language") {
+                    ForEach(AppLanguage.displayOptions) { language in
+                        SettingsSelectionRow(
+                            systemImage: "globe",
+                            iconColor: nil,
+                            title: language.title,
+                            subtitle: language.subtitle,
+                            isSelected: selectedLanguage == language
+                        ) {
+                            appLanguageValue = language.rawValue
+                        }
+
+                        if language != AppLanguage.displayOptions.last {
+                            OneDivider()
+                        }
                     }
                 }
+                .padding(.horizontal, OneStyle.screenHorizontalPadding)
+                .padding(.top, OneStyle.rootContentTopSpacing)
+                .padding(.bottom, 32)
+                .frame(maxWidth: OneStyle.readableContentMaxWidth(horizontalSizeClass: horizontalSizeClass))
+                .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.plain)
         }
         .navigationTitle("App Language")
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     private var selectedLanguage: AppLanguage {

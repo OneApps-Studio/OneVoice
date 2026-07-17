@@ -1,6 +1,36 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%arg×": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%arg×"
+          }
+        }
+      }
+    },
+    "About": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关于"
+          }
+        }
+      }
+    },
+    "About 0.7–1 GB. Downloaded once, then recognition works entirely offline.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "约 0.7–1 GB。只需下载一次，之后识别可完全离线运行。"
+          }
+        }
+      }
+    },
     "Accessibility": {
       "localizations": {
         "zh-Hans": {
@@ -21,22 +51,22 @@
         }
       }
     },
-    "Add a pronunciation correction": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "添加发音纠正规则"
-          }
-        }
-      }
-    },
     "Add Replacement": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "添加替换规则"
+          }
+        }
+      }
+    },
+    "Add a pronunciation correction": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加发音纠正规则"
           }
         }
       }
@@ -77,6 +107,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "音频已保存 · 暂无转写"
+          }
+        }
+      }
+    },
+    "Back 15 Seconds": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "后退 15 秒"
           }
         }
       }
@@ -161,6 +201,26 @@
         }
       }
     },
+    "Download failed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下载失败"
+          }
+        }
+      }
+    },
+    "Drop a media file here. OneVoice reads its audio track locally and saves only the transcript.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "把媒体文件拖到这里。OneVoice 会在本地读取音轨，只保存转写文本。"
+          }
+        }
+      }
+    },
     "English": {
       "localizations": {
         "zh-Hans": {
@@ -217,6 +277,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在结束…"
+          }
+        }
+      }
+    },
+    "Fn": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fn"
+          }
+        }
+      }
+    },
+    "Forward 15 Seconds": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前进 15 秒"
           }
         }
       }
@@ -321,6 +401,16 @@
         }
       }
     },
+    "Installed and ready": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安装，可以使用"
+          }
+        }
+      }
+    },
     "Keyboard": {
       "localizations": {
         "zh-Hans": {
@@ -341,16 +431,6 @@
         }
       }
     },
-    "Launch": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "登录时启动"
-          }
-        }
-      }
-    },
     "Launch at Login": {
       "localizations": {
         "zh-Hans": {
@@ -361,12 +441,52 @@
         }
       }
     },
+    "Left Command": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左 Command"
+          }
+        }
+      }
+    },
+    "Left Control": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左 Control"
+          }
+        }
+      }
+    },
+    "Left Option": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左 Option"
+          }
+        }
+      }
+    },
     "Library": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "录音库"
+          }
+        }
+      }
+    },
+    "Listening…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在聆听…"
           }
         }
       }
@@ -401,12 +521,42 @@
         }
       }
     },
+    "More From One Apps": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更多 One Apps"
+          }
+        }
+      }
+    },
     "No recordings or transcripts yet": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "还没有录音或转写"
+          }
+        }
+      }
+    },
+    "Not installed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未安装"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好"
           }
         }
       }
@@ -421,12 +571,22 @@
         }
       }
     },
-    "OK": {
+    "One Apps Studio": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "好"
+            "value": "One Apps Studio"
+          }
+        }
+      }
+    },
+    "OneVoice": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OneVoice"
           }
         }
       }
@@ -491,6 +651,16 @@
         }
       }
     },
+    "Pause": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂停"
+          }
+        }
+      }
+    },
     "Play": {
       "localizations": {
         "zh-Hans": {
@@ -501,12 +671,22 @@
         }
       }
     },
+    "Preparing download…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在准备下载…"
+          }
+        }
+      }
+    },
     "Preparing private recognition…": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "正在准备本地识别…"
+            "value": "正在准备私密识别…"
           }
         }
       }
@@ -521,22 +701,22 @@
         }
       }
     },
-    "Push to talk": {
+    "Privacy Policy": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "按住说话"
+            "value": "隐私政策"
           }
         }
       }
     },
-    "Qwen3-ASR 0.6B": {
+    "Product Page": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Qwen3-ASR 0.6B"
+            "value": "产品页面"
           }
         }
       }
@@ -551,12 +731,42 @@
         }
       }
     },
+    "Qwen3-ASR 0.6B": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qwen3-ASR 0.6B"
+          }
+        }
+      }
+    },
     "Recognition language": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "识别语言"
+          }
+        }
+      }
+    },
+    "Record, transcribe, remember": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录下来，转成文字，随时找到"
+          }
+        }
+      }
+    },
+    "Recordings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音库"
           }
         }
       }
@@ -601,36 +811,6 @@
         }
       }
     },
-    "Left Command": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "左 Command"
-          }
-        }
-      }
-    },
-    "Right Option": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "右 Option"
-          }
-        }
-      }
-    },
-    "Left Option": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "左 Option"
-          }
-        }
-      }
-    },
     "Right Control": {
       "localizations": {
         "zh-Hans": {
@@ -641,32 +821,12 @@
         }
       }
     },
-    "Left Control": {
+    "Right Option": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "左 Control"
-          }
-        }
-      }
-    },
-    "Fn": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fn"
-          }
-        }
-      }
-    },
-    "Search": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "搜索"
+            "value": "右 Option"
           }
         }
       }
@@ -721,22 +881,32 @@
         }
       }
     },
+    "Source Code": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "源代码"
+          }
+        }
+      }
+    },
+    "Speak naturally": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自然说话即可"
+          }
+        }
+      }
+    },
     "Speech Recognition": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "语音识别"
-          }
-        }
-      }
-    },
-    "Start / finish": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开始 / 结束"
           }
         }
       }
@@ -771,22 +941,12 @@
         }
       }
     },
-    "Stop": {
+    "Support": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "停止"
-          }
-        }
-      }
-    },
-    "Sync error": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "同步错误"
+            "value": "支持"
           }
         }
       }
@@ -797,6 +957,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "立即同步"
+          }
+        }
+      }
+    },
+    "Sync error": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同步错误"
           }
         }
       }
@@ -831,6 +1001,16 @@
         }
       }
     },
+    "System": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟随系统"
+          }
+        }
+      }
+    },
     "Tap": {
       "localizations": {
         "zh-Hans": {
@@ -861,22 +1041,12 @@
         }
       }
     },
-    "Transcript saved.": {
+    "Transcribe File": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "转写已保存。"
-          }
-        }
-      }
-    },
-    "Transcript saved to History": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "转写已保存到录音库"
+            "value": "文件转写"
           }
         }
       }
@@ -891,22 +1061,22 @@
         }
       }
     },
-    "Transcribe File": {
+    "Transcript saved to History": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "文件转写"
+            "value": "转写已保存到录音库"
           }
         }
       }
     },
-    "Drop a media file here. OneVoice reads its audio track locally and saves only the transcript.": {
+    "Transcript saved.": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "把媒体文件拖到这里。OneVoice 会在本地读取音轨，只保存转写文本。"
+            "value": "转写已保存。"
           }
         }
       }
@@ -917,6 +1087,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "使用 Qwen 生成更准确的最终结果"
+          }
+        }
+      }
+    },
+    "Version %arg (%arg)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "版本 %arg（%arg）"
           }
         }
       }
@@ -941,16 +1121,6 @@
         }
       }
     },
-    "When using Fn, set System Settings → Keyboard → Press fn key to → Do Nothing.": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用 Fn 时，请在“系统设置 → 键盘 → 按下 fn 键”中选择“不执行任何操作”。"
-          }
-        }
-      }
-    },
     "What OneVoice hears": {
       "localizations": {
         "zh-Hans": {
@@ -967,6 +1137,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "OneVoice 应写成"
+          }
+        }
+      }
+    },
+    "When using Fn, set System Settings → Keyboard → Press fn key to → Do Nothing.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 Fn 时，请在“系统设置 → 键盘 → 按下 fn 键”中选择“不执行任何操作”。"
           }
         }
       }
@@ -991,16 +1171,6 @@
         }
       }
     },
-    "at login": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": ""
-          }
-        }
-      }
-    },
     "seconds": {
       "localizations": {
         "zh-Hans": {
@@ -1011,22 +1181,12 @@
         }
       }
     },
-    "System": {
+    "·": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "跟随系统"
-          }
-        }
-      }
-    },
-    "简体中文": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "简体中文"
+            "value": "·"
           }
         }
       }
@@ -1041,62 +1201,12 @@
         }
       }
     },
-    "About 0.7–1 GB. Downloaded once, then recognition works entirely offline.": {
+    "简体中文": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "约 0.7–1 GB。只需下载一次，之后识别可完全离线运行。"
-          }
-        }
-      }
-    },
-    "Download failed": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下载失败"
-          }
-        }
-      }
-    },
-    "Installed and ready": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已安装，可以使用"
-          }
-        }
-      }
-    },
-    "Not installed": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未安装"
-          }
-        }
-      }
-    },
-    "Preparing download…": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在准备下载…"
-          }
-        }
-      }
-    },
-    "Use device language": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用系统语言"
+            "value": "简体中文"
           }
         }
       }

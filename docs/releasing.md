@@ -1,9 +1,12 @@
 # Releasing OneVoice
 
-OneVoice uses four release surfaces with separate responsibilities:
+> This document records the final standalone release process. Active releases now come from the private One Apps Studio monorepo; do not publish new versions from this archived repository.
 
-- GitHub repository `OneApps-Studio/OneVoice`: source, issues, tags, and release notes.
-- GitHub Releases: canonical version record and an additional binary download.
+OneVoice uses five release surfaces with separate responsibilities:
+
+- Private monorepo `OneApps-Studio/OneApps`: canonical development source, release configuration, and future history.
+- Archived public repository `OneApps-Studio/OneVoice`: the final standalone source snapshot and migration notice. It is not a development remote.
+- GitHub Releases on the standalone repository: frozen version record and an additional binary download for the final standalone release.
 - Cloudflare R2 bucket `oneapps-studio-assets`: primary binary mirror behind `downloads.oneapps.studio`.
 - App Store Connect: the signed iOS/iPadOS build, metadata, review, and phased release state.
 
@@ -11,9 +14,9 @@ The One Apps Studio product page is maintained separately and should link to the
 
 ## Versioning
 
-Use semantic versions and matching annotated Git tags: `v1.0.0`, `v1.0.1`, and `v1.1.0`.
+Use semantic versions and matching annotated Git tags: `v1.0.0`, `v1.1.0`, and `v1.2.0`.
 
-Create a tag only after the final app and DMG pass all release checks. Never move an existing release tag and never replace a versioned R2 object. If an artifact changes, increment the version.
+Create a tag only after the final app and DMG pass all release checks. Never move an existing release tag and never replace a versioned R2 object. If an artifact changes, increment the version. New development tags belong to the monorepo; the standalone repository is frozen after its final migration release.
 
 ## Required release checks
 
@@ -62,12 +65,13 @@ Publish the versioned objects first. Update `latest.json` only after every immut
 
 ## Publication order
 
-1. Push the release commit.
-2. Create and push the annotated tag.
-3. Create the GitHub Release and attach the DMG and checksum.
+1. Merge and push the release commit in `OneApps-Studio/OneApps`.
+2. For the final migration release only, export the matching `Apps/OneVoice` snapshot to `OneApps-Studio/OneVoice`, add the deprecation notice, and tag it.
+3. Create the GitHub Release and attach the DMG and checksum before archiving the standalone repository.
 4. Upload the same DMG, checksum, and release manifest to their versioned R2 keys.
 5. Verify the public objects by downloading and hashing the DMG.
 6. Update `latest.json`.
-7. Update the One Apps Studio product page and download button.
+7. Update and deploy the One Apps Studio product page and download button.
+8. Archive `OneApps-Studio/OneVoice` after the monorepo release, public artifacts, and migration notice are all verifiable.
 
 Signing certificates, App Store Connect keys, Cloudflare credentials, notarization profiles, model weights, and release artifacts must remain outside Git.

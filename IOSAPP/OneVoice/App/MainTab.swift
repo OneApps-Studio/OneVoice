@@ -1,8 +1,7 @@
 import Foundation
 
 enum MainTab: String {
-    case record
-    case history
+    case recordings
     case dictionary
     case settings
 
@@ -10,12 +9,13 @@ enum MainTab: String {
         #if DEBUG
         let environment = ProcessInfo.processInfo.environment
         let isUITest = environment["ONEVOICE_UI_TEST"] == "1" || argumentValue(for: "ONEVOICE_UI_TEST") == "1"
-        guard isUITest else { return .record }
+        guard isUITest else { return .recordings }
 
         let rawValue = environment["ONEVOICE_INITIAL_TAB"] ?? argumentValue(for: "ONEVOICE_INITIAL_TAB")
-        return rawValue.flatMap(MainTab.init(rawValue:)) ?? .record
+        if rawValue == "record" || rawValue == "history" { return .recordings }
+        return rawValue.flatMap(MainTab.init(rawValue:)) ?? .recordings
         #else
-        return .record
+        return .recordings
         #endif
     }
 

@@ -22,8 +22,12 @@ final class OneVoiceMobileModel {
     private(set) var mediaImportFileName = ""
     private(set) var currentDuration: TimeInterval = 0
     private(set) var history: [VoiceEntry] = []
+    private(set) var allHistory: [VoiceEntry] = []
     private(set) var audioURLs: [UUID: URL] = [:]
     private(set) var playingEntryID: UUID?
+    private(set) var playbackTime: TimeInterval = 0
+    private(set) var playbackDuration: TimeInterval = 0
+    private(set) var playbackRate: Float = 1
     private(set) var replacements: [DictionaryReplacement] = []
     private(set) var latestEntry: VoiceEntry?
     private(set) var qwenInstalled = false
@@ -45,6 +49,7 @@ final class OneVoiceMobileModel {
         didSet { UserDefaults.standard.set(iCloudSyncEnabled, forKey: "onevoice.iCloudSyncEnabled") }
     }
     var liveTranscript: String { session?.partialTranscript ?? "" }
+    var playbackIsActive: Bool { audioPlayer?.isPlaying == true }
 
     private let qwenManager: QwenModelManager
     private let speechEngine: HybridTranscriptionEngine
@@ -65,6 +70,7 @@ final class OneVoiceMobileModel {
     private var activeRecordingURL: URL?
     private var audioPlayer: AVAudioPlayer?
     private var playbackTask: Task<Void, Never>?
+    private var historyQuery = ""
 
     private init() {
         let qwenManager = QwenModelManager(cacheDirectory: Self.qwenModelDirectory)
@@ -444,13 +450,15 @@ final class OneVoiceMobileModel {
     }
 
     func refreshHistory(query: String = "") async {
+        historyQuery = query
+        allHistory = await store?.entries() ?? []
         history = await store?.entries(matching: query) ?? []
         guard let recordingStore else {
             audioURLs = [:]
             return
         }
         var urls: [UUID: URL] = [:]
-        for entry in history {
+        for entry in allHistory {
             if let url = await recordingStore.fileURL(for: entry) {
                 urls[entry.id] = url
             }
@@ -464,8 +472,8 @@ final class OneVoiceMobileModel {
             try await recordingStore?.deleteRecording(for: entry)
             try await store?.delete(id: entry.id)
             await cloudSync?.deleteEntry(id: entry.id)
-            await refreshHistory()
-            if latestEntry?.id == entry.id { latestEntry = history.first }
+            await refreshHistory(query: historyQuery)
+            if latestEntry?.id == entry.id { latestEntry = allHistory.first }
         } catch {
             lastError = error.localizedDescription
         }
@@ -478,7 +486,7 @@ final class OneVoiceMobileModel {
             try await store?.save(updated)
             await cloudSync?.save(updated)
             if latestEntry?.id == updated.id { latestEntry = updated }
-            await refreshHistory()
+            await refreshHistory(query: historyQuery)
         } catch {
             lastError = error.localizedDescription
         }
@@ -492,11 +500,63 @@ final class OneVoiceMobileModel {
         audioURLs[entry.id]
     }
 
+    func entry(id: UUID) -> VoiceEntry? {
+        allHistory.first { $0.id == id }
+    }
+
     func togglePlayback(_ entry: VoiceEntry) async {
         if playingEntryID == entry.id {
-            stopPlayback()
+            guard let audioPlayer else { return }
+            if audioPlayer.isPlaying {
+                audioPlayer.pause()
+                playbackTime = audioPlayer.currentTime
+            } else {
+                audioPlayer.rate = playbackRate
+                audioPlayer.play()
+            }
             return
         }
+        await preparePlayback(entry, autoplay: true)
+    }
+
+    func seekPlayback(to time: TimeInterval, entry: VoiceEntry) async {
+        if playingEntryID != entry.id {
+            await preparePlayback(entry, autoplay: false)
+        }
+        guard let audioPlayer, playingEntryID == entry.id else { return }
+        let clamped = min(max(time, 0), audioPlayer.duration)
+        audioPlayer.currentTime = clamped
+        playbackTime = clamped
+    }
+
+    func skipPlayback(by interval: TimeInterval, entry: VoiceEntry) async {
+        let current = playingEntryID == entry.id ? playbackTime : 0
+        await seekPlayback(to: current + interval, entry: entry)
+    }
+
+    func setPlaybackRate(_ rate: Float) {
+        let supportedRates: [Float] = [0.5, 1, 1.5, 2]
+        guard supportedRates.contains(rate) else { return }
+        playbackRate = rate
+        audioPlayer?.enableRate = true
+        audioPlayer?.rate = rate
+    }
+
+    func updateTitle(_ title: String, for entry: VoiceEntry) async {
+        var updated = entry
+        let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        updated.title = trimmed.isEmpty ? nil : trimmed
+        do {
+            try await store?.save(updated)
+            await cloudSync?.save(updated)
+            if latestEntry?.id == updated.id { latestEntry = updated }
+            await refreshHistory(query: historyQuery)
+        } catch {
+            lastError = error.localizedDescription
+        }
+    }
+
+    private func preparePlayback(_ entry: VoiceEntry, autoplay: Bool) async {
         let url: URL?
         if let cachedURL = audioURLs[entry.id] {
             url = cachedURL
@@ -513,8 +573,10 @@ final class OneVoiceMobileModel {
             try audioSession.setCategory(.playback, mode: .spokenAudio, options: [.duckOthers])
             try audioSession.setActive(true)
             let player = try AVAudioPlayer(contentsOf: url)
+            player.enableRate = true
+            player.rate = playbackRate
             player.prepareToPlay()
-            guard player.play() else {
+            if autoplay, !player.play() {
                 throw NSError(
                     domain: "OneVoicePlayback",
                     code: 1,
@@ -523,15 +585,30 @@ final class OneVoiceMobileModel {
             }
             audioPlayer = player
             playingEntryID = entry.id
-            let playbackID = entry.id
-            playbackTask = Task { [weak self] in
-                try? await Task.sleep(for: .seconds(player.duration + 0.2))
-                guard !Task.isCancelled, self?.playingEntryID == playbackID else { return }
-                self?.stopPlayback()
-            }
+            playbackTime = player.currentTime
+            playbackDuration = player.duration
+            startPlaybackUpdates(entryID: entry.id)
         } catch {
             stopPlayback()
             lastError = error.localizedDescription
+        }
+    }
+
+    private func startPlaybackUpdates(entryID: UUID) {
+        playbackTask?.cancel()
+        playbackTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .milliseconds(100))
+                guard let self,
+                      self.playingEntryID == entryID,
+                      let player = self.audioPlayer else { return }
+                self.playbackTime = player.currentTime
+                self.playbackDuration = player.duration
+                if !player.isPlaying, player.currentTime >= player.duration - 0.05 {
+                    self.stopPlayback()
+                    return
+                }
+            }
         }
     }
 
@@ -541,6 +618,8 @@ final class OneVoiceMobileModel {
         audioPlayer?.stop()
         audioPlayer = nil
         playingEntryID = nil
+        playbackTime = 0
+        playbackDuration = 0
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
     }
 
@@ -738,7 +817,12 @@ final class OneVoiceMobileModel {
     }
 
     private func fallbackRecordingTitle() -> String {
-        "Recording \(Date().formatted(date: .abbreviated, time: .shortened))"
+        let locale = AppLanguage.current.locale
+        let prefix = String(localized: "Recording", locale: locale)
+        let date = Date().formatted(
+            Date.FormatStyle(date: .abbreviated, time: .shortened).locale(locale)
+        )
+        return "\(prefix) \(date)"
     }
 
     private func validatedAudioDuration(at url: URL) throws -> TimeInterval {

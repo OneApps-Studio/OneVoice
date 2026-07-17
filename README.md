@@ -1,14 +1,17 @@
 # OneVoice
 
+> [!IMPORTANT]
+> This repository is archived. OneVoice development moved into the One Apps Studio monorepo after version 1.2.0. This repository preserves the final public source snapshot and release artifacts; issues and pull requests are no longer maintained here.
+
 OneVoice is a native Swift app for private, offline speech-to-text on macOS and iPhone.
 
 On macOS, hold **Fn** to talk or tap **Right Command** to start and stop recording. OneVoice shows a live transcript and inserts the final text into the focused field in most apps. On iPhone, it records voice notes, shows live transcription, and keeps searchable local history.
 
 ## Download
 
-- [Download OneVoice 1.1.0 for macOS](https://downloads.oneapps.studio/onevoice/releases/v1.1.0/OneVoice-1.1.0.dmg)
-- [Verify SHA-256](https://downloads.oneapps.studio/onevoice/releases/v1.1.0/OneVoice-1.1.0.sha256)
-- [Release metadata](https://downloads.oneapps.studio/onevoice/latest.json)
+- [Download OneVoice 1.2.0 for macOS](https://downloads.oneapps.studio/onevoice/releases/v1.2.0/OneVoice-1.2.0.dmg)
+- [Verify SHA-256](https://downloads.oneapps.studio/onevoice/releases/v1.2.0/OneVoice-1.2.0.dmg.sha256)
+- [Release metadata](https://downloads.oneapps.studio/onevoice/releases/v1.2.0/release.json)
 
 The downloadable macOS build is Developer ID signed, notarized by Apple, and distributed as an Apple-silicon DMG.
 
@@ -19,7 +22,7 @@ The downloadable macOS build is Developer ID signed, notarized by Apple, and dis
 - Global macOS Fn and Right Command gestures
 - Accessibility insertion with safe clipboard fallback
 - Searchable history and a personal pronunciation dictionary
-- English, Simplified Chinese, and Japanese UI on iOS
+- English and Simplified Chinese UI on iOS and macOS
 - Background voice-note recording on iPhone and iPad with automatic searchable transcripts
 - Private iCloud sync for voice-note audio, transcripts, and personal dictionary across Apple devices
 - No OneVoice account, analytics, proprietary audio server, or quick-dictation audio storage
@@ -35,7 +38,9 @@ The downloadable macOS build is Developer ID signed, notarized by Apple, and dis
 ## Build
 
 ```bash
+cd IOSAPP
 xcodegen generate
+cd ..
 
 # Shared package tests
 cd Packages/OneVoiceKit
@@ -43,13 +48,15 @@ swift test
 cd ../..
 
 # macOS
-xcodebuild -project OneVoice.xcodeproj -scheme OneVoiceMac \
+xcodebuild -project IOSAPP/OneVoice.xcodeproj -scheme OneVoiceMac \
   -destination 'platform=macOS,arch=arm64' build
 
 # iOS Simulator
-xcodebuild -project OneVoice.xcodeproj -scheme OneVoice \
+xcodebuild -project IOSAPP/OneVoice.xcodeproj -scheme OneVoice \
   -destination 'platform=iOS Simulator,name=iPhone 16 Pro' build
 ```
+
+This frozen snapshot keeps the monorepo-relative `OneAppsKit` dependency used by the 1.2.0 release. It is retained for source and history reference rather than ongoing standalone development.
 
 The Qwen model is not bundled in the repository or app. Users explicitly download the pinned 0.6B model from Hugging Face. Downloaded weights live under Application Support and are excluded from iCloud backup.
 

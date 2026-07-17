@@ -36,20 +36,20 @@ render_slide() {
     "$destination"
 }
 
-render_slide en-US 1 01-record.png $'Record beyond\nthe lock screen' \
-  'Private audio with automatic on-device transcripts.'
-render_slide en-US 2 02-history.png $'Every recording,\ninstantly searchable' \
-  'Keep the audio, read the transcript, find the moment.'
+render_slide en-US 1 01-library.png $'Record once,\nfind it anytime' \
+  'Private recordings with searchable on-device transcripts.'
+render_slide en-US 2 02-player.png $'Replay every detail,\nat your pace' \
+  'Scrub, skip, and change speed with a real audio waveform.'
 render_slide en-US 3 03-dictionary.png $'Teach it the words\nthat matter' \
   'Names, brands, and phrases come out the way you write them.'
-render_slide en-US 4 04-settings.png $'Private iCloud sync,\non by default' \
+render_slide en-US 4 04-settings.png $'Private sync,\nacross iPhone and Mac' \
   'Your recordings and transcripts stay in your private Apple database.'
 
-render_slide zh-Hans 1 01-record.png $'离开 App，\n录音也不中断' \
-  '音频私密保存，并在设备端自动生成转写。'
-render_slide zh-Hans 2 02-history.png $'每段录音，\n都能快速搜索' \
-  '保留音频、查看文本，随时找回关键内容。'
+render_slide zh-Hans 1 01-library.png $'录一次，\n以后随时找到' \
+  '录音私密保存，并在设备端生成可搜索的转写。'
+render_slide zh-Hans 2 02-player.png $'每个细节，\n都能按需回放' \
+  '真实波形、进度拖动、快进快退与倍速播放。'
 render_slide zh-Hans 3 03-dictionary.png $'自定义词典，\n写出正确名称' \
   '人名、品牌和专业词汇，都按你的习惯输出。'
-render_slide zh-Hans 4 04-settings.png $'默认私有\niCloud 同步' \
+render_slide zh-Hans 4 04-settings.png $'私有同步，\niPhone 与 Mac 随时接续' \
   '录音与文本只进入你自己的 Apple 私有数据库。'
